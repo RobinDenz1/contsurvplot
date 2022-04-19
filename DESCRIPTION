@@ -1,11 +1,24 @@
 Package: contsurvplot
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Visualize the Effect of a Continuous Variable on a Time-To-Event Outcome
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Authors@R: 
+    person("Robin", "Denz", , "robin.denz@rub.de", role = c("aut", "cre"))
+Maintainer: Robin Denz <robin.denz@rub.de>
+Description: A package containing multiple plot functions to graphically display the
+	effect of a continuous variable on a time-to-event outcome. Those functions
+	include a heatmap, survival time quantile plots, restricted mean survival
+	time plots and a color graded survival curve. Allows confounder-adjustment.
+License: GPL (>= 3)
+URL: https://github.com/RobinDenz1/contsurvplot
+BugReports: https://github.com/RobinDenz1/contsurvplot/issues
+Imports:
+	ggplot2 (>= 3.0.0),
+	riskRegression,
+	survival
+Suggests:
+	adjustedCurves
+Contact: <robin.denz@rub.de>
 Encoding: UTF-8
-LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2

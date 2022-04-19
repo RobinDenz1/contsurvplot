@@ -43,7 +43,6 @@ plot_surv_heatmap <- function(time, status, variable, data, model,
   if (!is.null(start_color) & !is.null(end_color)) {
     p <- p + ggplot2::scale_fill_gradient(low=start_color, high=end_color)
   }
-
   if (!panel_border) {
     p <- p + ggplot2::theme(panel.border=ggplot2::element_blank())
   }
