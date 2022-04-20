@@ -4,12 +4,28 @@
 #' @importFrom rlang .data
 #' @export
 plot_surv_quantiles <- function(time, status, variable, data, model,
+                                na.action=options()$na.action,
                                 p=0.5, horizon=NULL,
                                 size=1, linetype="solid", alpha=1,
+                                custom_colors=NULL, single_color=NULL,
                                 xlab=variable, ylab="Survival Time Quantile",
                                 title=NULL, subtitle=NULL,
                                 legend.title=variable, legend.position="right",
                                 gg_theme=ggplot2::theme_bw(), ...) {
+  requireNamespace("adjustedCurves")
+
+  check_inputs_plots(time=time, status=status, variable=variable,
+                     data=data, model=model, na.action=na.action,
+                     horizon=horizon, fixed_t=NULL, max_t=Inf,
+                     color_scale=TRUE, panel_border=TRUE, t=1, tau=1)
+
+  # perform na.action
+  if (is.function(na.action)) {
+    data <- na.action(data)
+  } else {
+    na.action <- get(na.action)
+    data <- na.action(data)
+  }
 
   if (is.null(horizon)) {
     horizon <- seq(min(data[, variable]), max(data[, variable]), length.out=100)
@@ -17,15 +33,17 @@ plot_surv_quantiles <- function(time, status, variable, data, model,
 
   # get plotdata
   fixed_t <- c(0, sort(unique(data[, time][data[, status]==1])))
-  plotdata <- surv_curve_cont(data=data,
-                              variable=variable,
-                              model=model,
-                              horizon=horizon,
-                              times=fixed_t,
-                              ...)
+  plotdata <- curve_cont(data=data,
+                         variable=variable,
+                         model=model,
+                         horizon=horizon,
+                         times=fixed_t,
+                         na.action="na.fail",
+                         ...)
 
   # use adjustedCurves package to calculate survival time quantiles
   plotdata$group <- as.factor(plotdata$cont)
+  plotdata$surv <- plotdata$est
   fake_adjsurv <- list(adjsurv=plotdata)
   class(fake_adjsurv) <- "adjustedsurv"
 
@@ -36,10 +54,17 @@ plot_surv_quantiles <- function(time, status, variable, data, model,
   surv_q$p <- as.factor(surv_q$p)
 
   # plot them
-  plt <- ggplot2::ggplot(surv_q, ggplot2::aes(x=group, y=q_surv, color=p))
+  if (!is.null(single_color)) {
+    plt <- ggplot2::ggplot(surv_q, ggplot2::aes(x=.data$group, y=.data$q_surv,
+                                                group=.data$p),
+                           color=single_color)
+  } else {
+    plt <- ggplot2::ggplot(surv_q, ggplot2::aes(x=.data$group, y=.data$q_surv,
+                                                color=.data$p))
 
-  if (length(p)==1) {
-    plt$mapping$colour <- NULL
+    if (length(p)==1) {
+      plt$mapping$colour <- NULL
+    }
   }
 
   plt <- plt + ggplot2::geom_step(size=size, linetype=linetype, alpha=alpha) +
@@ -47,6 +72,10 @@ plot_surv_quantiles <- function(time, status, variable, data, model,
                   fill=legend.title) +
     gg_theme +
     ggplot2::theme(legend.position=legend.position)
+
+  if (is.null(single_color) & !is.null(custom_colors)) {
+    p <- p + ggplot2::scale_colour_manual(values=custom_colors)
+  }
 
   return(plt)
 }

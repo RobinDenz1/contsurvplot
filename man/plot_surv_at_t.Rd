@@ -1,16 +1,16 @@
-\name{plot_surv_rmst}
-\alias{plot_surv_rmst}
+\name{plot_surv_at_t}
+\alias{plot_surv_at_t}
 
 \title{
-Plot the Effect of a Continuous Variable on the Restricted Mean Survival Time
+Plot the Survival Probability at a Fixed Point in Time as a Function of a Continuous Variable
 }
 \description{
-Using a previously fit time-to-event model, this function plots the restricted mean survival time (RMST) as a function of a continuous variable. Internally uses the \pkg{adjustedCurves} package to calculate the RMST.
+Using a previously fit time-to-event model, this function plots the survival probability at one or multiple user defined points at time as a function of a continuous variable.
 }
 \usage{
-plot_surv_rmst(time, status, variable, data, model,
-               na.action=options()$na.action,
-               tau, horizon=NULL,
+plot_surv_at_t(time, status, variable, data, model,
+               cif=FALSE, na.action=options()$na.action,
+               t, horizon=NULL,
                size=1, linetype="solid", alpha=1,
                xlab=variable, ylab="Restricted Mean Survival Time",
                title=NULL, subtitle=NULL,
@@ -33,11 +33,14 @@ A \code{data.frame} containing all required variables.
   \item{model}{
 A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{predictRisk} method. See \code{?predictRisk} for more details.
   }
+  \item{cif}{
+Whether to plot the cumulative incidence (CIF) instead of the survival probability. If multiple failure types are present, the survival probability cannot be estimated in an unbiased way. This function will always return CIF estimates in that case.
+  }
   \item{na.action}{
 How missing values should be handled. Can be one of: \code{na.fail}, \code{na.omit}, \code{na.pass}, \code{na.exclude} or a user-defined custom function. Also accepts strings of the function names. See \code{?na.action} for more details. By default it uses the na.action which is set in the global options by the respective user.
   }
-  \item{tau}{
-The point in time to which the RMST should be calculated. Corresponds to the \code{to} argument in the \code{adjusted_rmst} function of the \code{adjustedCurves} package. If multiple values are supplied, one curve is drawn for each of them.
+  \item{t}{
+The point in time at which the survival probability should be calculated. For example, by setting this parameter to 10, this function will display the survival probability at t = 10 over values of \code{variable}. If multiple values are supplied, one curve is drawn for each of them.
   }
   \item{horizon}{
 A numeric vector containing a range of values of \code{variable} for which the survival curves should be calculated or \code{NULL} (default). If \code{NULL}, the horizon is constructed as a sequence from the lowest to the highest value observed in \code{variable} with 100 equally spaced steps.

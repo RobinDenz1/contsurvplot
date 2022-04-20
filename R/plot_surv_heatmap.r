@@ -1,9 +1,10 @@
 
 ## A heatmap of time vs. continuous covariate with color grading
-## showing the survival probability
+## showing the survival or failure probability
 #' @importFrom rlang .data
 #' @export
 plot_surv_heatmap <- function(time, status, variable, data, model,
+                              cif=FALSE, na.action=options()$na.action,
                               horizon=NULL, fixed_t=NULL, max_t=Inf,
                               start_color=NULL, end_color=NULL,
                               size=0.1, alpha=1, xlab="Time", ylab=variable,
@@ -11,6 +12,20 @@ plot_surv_heatmap <- function(time, status, variable, data, model,
                               legend.title="S(t)", legend.position="right",
                               gg_theme=ggplot2::theme_bw(),
                               panel_border=FALSE, axis_dist=0, ...) {
+
+  check_inputs_plots(time=time, status=status, variable=variable,
+                     data=data, model=model, na.action=na.action,
+                     horizon=horizon, fixed_t=fixed_t, max_t=max_t,
+                     color_scale=TRUE, panel_border=panel_border, t=1, tau=1)
+
+  # perform na.action
+  if (is.function(na.action)) {
+    data <- na.action(data)
+  } else {
+    na.action <- get(na.action)
+    data <- na.action(data)
+  }
+
   if (is.null(fixed_t)) {
     fixed_t <- seq(min(data[, time]), max(data[, time]), length.out=100)
   }
@@ -22,16 +37,23 @@ plot_surv_heatmap <- function(time, status, variable, data, model,
   fixed_t <- fixed_t[fixed_t <= max_t]
 
   # get plotdata
-  plotdata <- surv_curve_cont(data=data,
-                              variable=variable,
-                              model=model,
-                              horizon=horizon,
-                              times=fixed_t,
-                              ...)
+  plotdata <- curve_cont(data=data,
+                         variable=variable,
+                         model=model,
+                         horizon=horizon,
+                         times=fixed_t,
+                         na.action="na.fail",
+                         cif=cif,
+                         ...)
+
+  # correct label
+  if (cif & legend.title=="S(t)") {
+    legend.title <- "F(t)"
+  }
 
   # plot it
   p <- ggplot2::ggplot(plotdata, ggplot2::aes(x=.data$time, y=.data$cont,
-                                              fill=.data$surv)) +
+                                              fill=.data$est)) +
     ggplot2::geom_tile(size=size, alpha=alpha) +
     ggplot2::labs(x=xlab, y=ylab, title=title, subtitle=subtitle,
                   fill=legend.title) +

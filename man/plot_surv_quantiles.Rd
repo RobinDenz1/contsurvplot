@@ -9,8 +9,10 @@ Using a previously fit time-to-event model, this function plots a heatmap with t
 }
 \usage{
 plot_surv_quantiles(time, status, variable, data, model,
+                    na.action=options()$na.action,
                     p=0.5, horizon=NULL,
                     size=1, linetype="solid", alpha=1,
+                    custom_colors=NULL, single_color=NULL,
                     xlab=variable, ylab="Survival Time Quantile",
                     title=NULL, subtitle=NULL,
                     legend.title=variable, legend.position="right",
@@ -18,10 +20,10 @@ plot_surv_quantiles(time, status, variable, data, model,
 }
 \arguments{
   \item{time}{
-A single character string specifying the time-to-event variable. Needs to be a valid column name of a variable in \code{data}.
+A single character string specifying the time-to-event variable. Needs to be a valid column name of a numeric variable in \code{data}.
   }
   \item{status}{
-A single character string specifying the status variable, indicating if a person has experienced an event or not. Needs to be a valid column name of a variable in \code{data}.
+A single character string specifying the status variable, indicating if a person has experienced an event or not. Needs to be a valid column name of a numeric or logical variable in \code{data}.
   }
   \item{variable}{
 A single character string specifying the continuous variable of interest, for which the survival curves should be estimated. This variable has to be contained in the \code{data.frame} that is supplied to the \code{data} argument.
@@ -29,47 +31,53 @@ A single character string specifying the continuous variable of interest, for wh
   \item{data}{
 A \code{data.frame} containing all required variables.
   }
+  \item{p}{
+A numeric vector containing the survival time quantiles of interest. For example, if the user is interested in plotting only the median survival time \code{p=0.5} should be used. When multiple values are supplied, one curve is drawn for each quantile.
+  }
   \item{model}{
 A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{predictRisk} method. See \code{?predictRisk} for more details.
   }
+  \item{na.action}{
+How missing values should be handled. Can be one of: \code{na.fail}, \code{na.omit}, \code{na.pass}, \code{na.exclude} or a user-defined custom function. Also accepts strings of the function names. See \code{?na.action} for more details. By default it uses the na.action which is set in the global options by the respective user.
+  }
   \item{horizon}{
-A numeric vector containing a range of values of \code{variable} for which the survival curves should be calculated.
+A numeric vector containing a range of values of \code{variable} for which the survival curves should be calculated or \code{NULL} (default). If \code{NULL}, the horizon is constructed as a sequence from the lowest to the highest value observed in \code{variable} with 100 equally spaced steps.
   }
-  \item{fixed_t}{
-A numeric vector containing points in time at which the survival probabilities should be calculated.
+  \item{size}{
+A single number specifying how thick the lines should be drawn.
   }
-  \item{max_t}{
-
-  }
-  \item{start_color}{
-
-  }
-  \item{end_color}{
-
+  \item{linetype}{
+The linetype of the drawn lines. See documentation of \pkg{ggplot2} for more details on allowed values.
   }
   \item{alpha}{
-
+The transparency level of the lines.
+  }
+  \item{custom_colors}{
+An optional character vector specifying the colors that should be used when multiple quantiles were supplied to the \code{p} argument. To set the whole plot or a single curve to one color only, use the \code{single_color} argument instead.
+  }
+  \item{single_color}{
+A single character string specifying the color of all drawn lines.
   }
   \item{xlab}{
-
+A character string used as the x-axis label of the plot.
   }
   \item{ylab}{
-
+A character string used as the y-axis label of the plot.
   }
   \item{title}{
-
+A character string used as the title of the plot.
   }
   \item{subtitle}{
-
+A character string used as the subtitle of the plot.
   }
   \item{legend.title}{
-
+A character string used as the legend title of the plot.
   }
   \item{legend.position}{
-
+Where to put the legend. See \code{?theme} for more details.
   }
   \item{gg_theme}{
-
+A \pkg{ggplot2} theme which is applied to the plot.
   }
   \item{...}{
 Further arguments passed to \code{predictRisk}.

@@ -1,22 +1,22 @@
-\name{plot_surv_heatmap}
-\alias{plot_surv_heatmap}
+\name{plot_surv_area}
+\alias{plot_surv_area}
 
 \title{
-Plot a Heatmap of the Effect of a Continuous Covariate on the Survival Probability
+Plot a Survival Curve Area Plot for the Effect of a Continuous Variable on Survival
 }
 \description{
-Using a previously fit time-to-event model, this function plots a heatmap with the continuous covariate on the y-axis and the time-to-event on the x-axis. The color is made in accordence with the corresponding survival probability at that point.
+Using a previously fit time-to-event model, this function plots a survival curve area plot. This is one way to graphically display the effect of a continuous covariate on the survival probability.
 }
 \usage{
-plot_surv_heatmap(time, status, variable, data, model,
-                  cif=FALSE, na.action=options()$na.action,
-                  horizon=NULL, fixed_t=NULL, max_t=Inf,
-                  start_color=NULL, end_color=NULL,
-                  size=0.1, alpha=1, xlab="Time", ylab=variable,
-                  title=NULL, subtitle=NULL,
-                  legend.title="S(t)", legend.position="right",
-                  gg_theme=ggplot2::theme_bw(),
-                  panel_border=FALSE, axis_dist=0, ...)
+plot_surv_area(time, status, variable, data, model,
+               cif=FALSE, na.action=options()$na.action,
+               horizon=NULL, fixed_t=NULL, max_t=Inf,
+               start_color="blue", end_color="red", alpha=1,
+               xlab="Time", ylab="Survival Probability",
+               title=NULL, subtitle=NULL,
+               legend.title=variable, legend.position="right",
+               gg_theme=ggplot2::theme_bw(),
+               ...)
 }
 \arguments{
   \item{time}{
@@ -44,7 +44,7 @@ How missing values should be handled. Can be one of: \code{na.fail}, \code{na.om
 A numeric vector containing a range of values of \code{variable} for which the survival curves should be calculated or \code{NULL} (default). If \code{NULL}, the horizon is constructed as a sequence from the lowest to the highest value observed in \code{variable} with 40 equally spaced steps.
   }
   \item{fixed_t}{
-A numeric vector containing points in time at which the survival probabilities should be calculated or \code{NULL} (default). If \code{NULL}, the survival probability is estimated at 100 equally spaced steps from 0 to the maximum observed event time.
+A numeric vector containing points in time at which the survival probabilities should be calculated or \code{NULL} (default). If \code{NULL}, the survival probability is estimated at every point in time at which an event occured.
   }
   \item{max_t}{
 A number indicating the latest survival time which is to be plotted.
@@ -54,9 +54,6 @@ The color used for the lowest value in \code{horizon}. This and the \code{end_co
   }
   \item{end_color}{
 The color used for the highest value in \code{horizon}. See argument \code{start_color}.
-  }
-  \item{size}{
-The size of the individual tiles plotted by the \code{geom_tile} function. Usually this option can be kept at 0.1 (default).
   }
   \item{alpha}{
 The transparency level of the plot.
@@ -81,12 +78,6 @@ Where to put the legend. See \code{?theme} for more details.
   }
   \item{gg_theme}{
 A \pkg{ggplot2} theme which is applied to the plot.
-  }
-  \item{panel_border}{
-Whether to draw a border around the heatmap or not. Is set to FALSE by default to mimic standard heatmaps.
-  }
-  \item{axis_dist}{
-The distance of the axis ticks to the colored heatmap. Is set to 0 by default to mimic standard heatmaps.
   }
   \item{...}{
 Further arguments passed to \code{predictRisk}.
