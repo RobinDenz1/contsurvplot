@@ -12,9 +12,9 @@ plot_surv_at_t(time, status, variable, data, model,
                cif=FALSE, na.action=options()$na.action,
                t, horizon=NULL,
                size=1, linetype="solid", alpha=1,
-               xlab=variable, ylab="Restricted Mean Survival Time",
+               xlab=variable, ylab="Survival Probability at t",
                title=NULL, subtitle=NULL,
-               legend.title=variable, legend.position="right",
+               legend.title="t", legend.position="right",
                gg_theme=ggplot2::theme_bw(), ...)
 }
 \arguments{

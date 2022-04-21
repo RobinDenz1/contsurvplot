@@ -20,7 +20,7 @@ check_horizon <- function(horizon, data, variable) {
 ## Check inputs of all plot functions
 check_inputs_plots <- function(time, status, variable, data, model,
                                na.action, horizon, fixed_t, max_t,
-                               color_scale, panel_border, t, tau) {
+                               discrete, panel_border, t, tau) {
   # correct data type
   if (!inherits(data, "data.frame")) {
     stop("'data' must be a data.frame object.")
@@ -97,9 +97,9 @@ check_inputs_plots <- function(time, status, variable, data, model,
   if (!(length(max_t)==1 && (is.infinite(max_t) | is.numeric(max_t)))) {
     stop("'max_t' must be a single number.")
   }
-  # color_scale
-  if (!(length(color_scale)==1 && is.logical(color_scale))) {
-    stop("'color_scale' must be either TRUE or FALSE.")
+  # discrete
+  if (!(length(discrete)==1 && is.logical(discrete))) {
+    stop("'discrete' must be either TRUE or FALSE.")
   }
   # panel_border
   if (!(length(panel_border)==1 && is.logical(panel_border))) {

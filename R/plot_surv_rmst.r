@@ -17,7 +17,7 @@ plot_surv_rmst <- function(time, status, variable, data, model,
   check_inputs_plots(time=time, status=status, variable=variable,
                      data=data, model=model, na.action=na.action,
                      horizon=horizon, fixed_t=NULL, max_t=Inf,
-                     color_scale=TRUE, panel_border=TRUE, t=1, tau=tau)
+                     discrete=TRUE, panel_border=TRUE, t=1, tau=tau)
 
   # perform na.action
   if (is.function(na.action)) {

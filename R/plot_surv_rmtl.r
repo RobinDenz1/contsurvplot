@@ -17,7 +17,7 @@ plot_surv_rmtl <- function(time, status, variable, data, model,
   check_inputs_plots(time=time, status=status, variable=variable,
                      data=data, model=model, na.action=na.action,
                      horizon=horizon, fixed_t=NULL, max_t=Inf,
-                     color_scale=TRUE, panel_border=TRUE, t=1, tau=tau)
+                     discrete=TRUE, panel_border=TRUE, t=1, tau=tau)
 
   # perform na.action
   if (is.function(na.action)) {
@@ -53,18 +53,18 @@ plot_surv_rmtl <- function(time, status, variable, data, model,
 
   out <- vector(mode="list", length=length(tau))
   for (i in seq_len(length(tau))) {
-    rmst <- adjustedCurves::adjusted_rmtl(fake_adjcif, from=0, to=tau[i],
+    rmtl <- adjustedCurves::adjusted_rmtl(fake_adjcif, from=0, to=tau[i],
                                           conf_int=FALSE)
-    rmst$group <- as.numeric(as.character(rmst$group))
-    rmst$tau <- tau[i]
+    rmtl$group <- as.numeric(as.character(rmtl$group))
+    rmtl$tau <- tau[i]
 
-    out[[i]] <- rmst
+    out[[i]] <- rmtl
   }
   out <- dplyr::bind_rows(out)
   out$tau <- as.factor(out$tau)
 
   # plot them
-  p <- ggplot2::ggplot(out, ggplot2::aes(x=.data$group, y=.data$rmst,
+  p <- ggplot2::ggplot(out, ggplot2::aes(x=.data$group, y=.data$rmtl,
                                          color=.data$tau))
 
   if (length(tau)==1) {

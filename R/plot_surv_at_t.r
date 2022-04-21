@@ -15,7 +15,7 @@ plot_surv_at_t <- function(time, status, variable, data, model,
   check_inputs_plots(time=time, status=status, variable=variable,
                      data=data, model=model, na.action=na.action,
                      horizon=horizon, fixed_t=NULL, max_t=Inf,
-                     color_scale=TRUE, panel_border=TRUE, t=t, tau=1)
+                     discrete=TRUE, panel_border=TRUE, t=t, tau=1)
 
   # perform na.action
   if (is.function(na.action)) {

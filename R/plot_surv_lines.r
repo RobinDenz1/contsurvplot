@@ -5,7 +5,7 @@
 plot_surv_lines <- function(time, status, variable, data, model,
                             cif=FALSE, na.action=options()$na.action,
                             horizon=NULL, fixed_t=NULL, max_t=Inf,
-                            color_scale=TRUE, custom_colors=NULL,
+                            discrete=TRUE, custom_colors=NULL,
                             start_color="blue", end_color="red",
                             size=0.5, linetype="solid", alpha=1,
                             xlab="Time", ylab="Survival Probability",
@@ -16,7 +16,7 @@ plot_surv_lines <- function(time, status, variable, data, model,
   check_inputs_plots(time=time, status=status, variable=variable,
                      data=data, model=model, na.action=na.action,
                      horizon=horizon, fixed_t=fixed_t, max_t=max_t,
-                     color_scale=color_scale, panel_border=TRUE, t=1, tau=1)
+                     discrete=discrete, panel_border=TRUE, t=1, tau=1)
 
   # perform na.action
   if (is.function(na.action)) {
@@ -46,7 +46,7 @@ plot_surv_lines <- function(time, status, variable, data, model,
                          cif=cif,
                          ...)
   # plot it
-  if (color_scale) {
+  if (!discrete) {
     # create enough colors
     colgrad_fun <- grDevices::colorRampPalette(c(start_color, end_color))
     colgrad <- colgrad_fun(length(horizon))
@@ -70,7 +70,7 @@ plot_surv_lines <- function(time, status, variable, data, model,
     ggplot2::theme(legend.position=legend.position)
 
   # add continuous of discrete color scale
-  if (color_scale) {
+  if (!discrete) {
     p <- p + ggplot2::scale_color_gradient(low=start_color, high=end_color)
   } else if (!is.null(custom_colors)) {
     p <- p + ggplot2::scale_colour_manual(values=custom_colors)

@@ -11,12 +11,15 @@ plot_surv_heatmap <- function(time, status, variable, data, model,
                               title=NULL, subtitle=NULL,
                               legend.title="S(t)", legend.position="right",
                               gg_theme=ggplot2::theme_bw(),
-                              panel_border=FALSE, axis_dist=0, ...) {
+                              panel_border=FALSE, axis_dist=0,
+                              contour_lines=FALSE, contour_color="white",
+                              contour_size=0.3, contour_linetype="dashed",
+                              ...) {
 
   check_inputs_plots(time=time, status=status, variable=variable,
                      data=data, model=model, na.action=na.action,
                      horizon=horizon, fixed_t=fixed_t, max_t=max_t,
-                     color_scale=TRUE, panel_border=panel_border, t=1, tau=1)
+                     discrete=TRUE, panel_border=panel_border, t=1, tau=1)
 
   # perform na.action
   if (is.function(na.action)) {
@@ -68,6 +71,12 @@ plot_surv_heatmap <- function(time, status, variable, data, model,
   if (!panel_border) {
     p <- p + ggplot2::theme(panel.border=ggplot2::element_blank())
   }
-
+  if (contour_lines) {
+    p <- p + ggplot2::geom_contour(ggplot2::aes(z=.data$est),
+                                   colour=contour_color,
+                                   size=contour_size,
+                                   linetype=contour_linetype,
+                                   alpha=alpha)
+  }
   return(p)
 }

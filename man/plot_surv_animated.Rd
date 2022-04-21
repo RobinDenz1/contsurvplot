@@ -1,23 +1,21 @@
-\name{plot_surv_area}
-\alias{plot_surv_area}
+\name{plot_surv_animated}
+\alias{plot_surv_animated}
 
 \title{
-Plot a Survival Curve Area Plot for the Effect of a Continuous Variable on Survival
+Create an Animated Plot of Survival Curves of CIFs as a Function of a Continuous Variable
 }
 \description{
-Using a previously fit time-to-event model, this function plots a survival curve area plot. This is one way to graphically display the effect of a continuous covariate on the survival probability.
+Using a previously fit time-to-event model, this function plots a single covariate-specific survival curve or CIF. Using either the \pkg{plotly} or the \pkg{gganimate} package, an animated plot is created that is either simply showing how the curve evolves over values of the continuous covariate, or includes a slide to let the user interact with it.
 }
 \usage{
-plot_surv_area(time, status, variable, data, model,
-               cif=FALSE, na.action=options()$na.action,
-               horizon=NULL, fixed_t=NULL, max_t=Inf,
-               start_color="blue", end_color="red",
-               discrete=FALSE, bins=ifelse(discrete, 10, 40),
-               alpha=1, xlab="Time", ylab="Survival Probability",
-               title=NULL, subtitle=NULL,
-               legend.title=variable, legend.position="right",
-               gg_theme=ggplot2::theme_bw(),
-               ...)
+plot_surv_animated(time, status, variable, data, model,
+                   cif=FALSE, na.action=options()$na.action,
+                   horizon=NULL, fixed_t=NULL, max_t=Inf,
+                   slider=TRUE, size=1, color="black",
+                   linetype="solid", alpha=1,
+                   xlab="Time", ylab="Survival Probability",
+                   title=NULL, subtitle=NULL,
+                   gg_theme=ggplot2::theme_bw(), ...)
 }
 \arguments{
   \item{time}{
@@ -50,17 +48,17 @@ A numeric vector containing points in time at which the survival probabilities s
   \item{max_t}{
 A number indicating the latest survival time which is to be plotted.
   }
-  \item{start_color}{
-The color used for the lowest value in \code{horizon}. This and the \code{end_color} argument can be used to specify custom continuous color scales used in the plot. For example, if a black and white plot is desired, the user can set \code{start_color="white"} and \code{end_color="black"}. See \code{?scale_color_gradient} for more information.
+  \item{slider}{
+Whether to include a slider that controls the value of the continuous covariate or not. If not, the plot simply cycles through the values in \code{horizon} at a constant speed.
   }
-  \item{end_color}{
-The color used for the highest value in \code{horizon}. See argument \code{start_color}.
+  \item{size}{
+A single number specifying the size of the drawn curve.
   }
-  \item{discrete}{
-Whether to plot the area as a single continuously shaded area (default) or as multiple discrete blocks. The blocks correspond to ranges (such as 5-10). This only really changes the style of the legend and decreases the default value of \code{bins} to make the discrete blocks visable.
+  \item{color}{
+A single character string specifying the color of the curve.
   }
-  \item{bins}{
-The number of bins the survival area should be divided into. In a nutshell, this function simply estimates a lot of covariate specific curves and colors the area between them on a graded scale. If many bins are used, this gives the appearance of a single shaded area, changing continuously. By using only a few bins however, the specific covariate values might be easier to read off the plot. See also the \code{discrete} argument.
+  \item{linetype}{
+A single character string specifying the linetype of the curve.
   }
   \item{alpha}{
 The transparency level of the plot.
@@ -72,16 +70,10 @@ A character string used as the x-axis label of the plot.
 A character string used as the y-axis label of the plot.
   }
   \item{title}{
-A character string used as the title of the plot.
+A character string used as the title of the plot. When \code{slider=FALSE} is used, the title is also used in a dynamic way to show which value the continuous variable currently has. The user-defined title is still shown, but the covariate level is also appended to it in that case.
   }
   \item{subtitle}{
 A character string used as the subtitle of the plot.
-  }
-  \item{legend.title}{
-A character string used as the legend title of the plot.
-  }
-  \item{legend.position}{
-Where to put the legend. See \code{?theme} for more details.
   }
   \item{gg_theme}{
 A \pkg{ggplot2} theme which is applied to the plot.

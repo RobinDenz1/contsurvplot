@@ -1,0 +1,333 @@
+---
+title: "Visualizing the Causal Effect of a Continuous Variable on a Time-To-Event Outcome"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Visualizing the Causal Effect of a Continuous Variable on a Time-To-Event Outcome}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  collapse=TRUE,
+  comment="#>"
+)
+```
+
+```{r setup, warning=FALSE, message=FALSE}
+library(contsurvplot)
+library(ggplot2)
+library(dplyr)
+library(rlang)
+library(riskRegression)
+library(survival)
+library(adjustedCurves)
+library(pammtools)
+library(gganimate)
+library(transformr)
+library(plotly)
+library(reshape2)
+library(knitr)
+library(rmarkdown)
+
+```
+
+# Introduction
+
+
+
+# Installation
+
+The package is currently not available on CRAN, but can be installed from github, using the following code:
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
+devtools::install_github("RobinDenz1/contsurvplot")
+```
+
+# Example Data and Setup
+
+Describe colon cancer dataset a little.
+
+We can obtain the `colon` data by using the `data()` function. Below are the first few rows of the dataset:
+
+```{r echo=TRUE}
+data(cancer)
+
+head(colon)
+```
+
+We need a model describing the time-to-event outcome in order to make any plots possible. Here, we will simply use a cox-regression model, including the covariates `age`, `sex` and `nodes` as independent variables:
+
+```{r echo=TRUE}
+model <- coxph(Surv(time, status) ~ age + sex + nodes, data=colon, x=TRUE)
+```
+
+It is important that we use `x=TRUE` in the function call, otherwise it won't be possible to create the needed estimates. For explanatory purposes, we are only interested in visualizing the effect of the number of affected lymph nodes (`nodes`) on the survival probability. By including `age` and `sex`, however, we also adjusted all graphics below for these variables.
+
+# Plots Based on Summary Statistics
+
+There are some plots based on summary statistics of survival curves as they evolve with the continuous covariate. The main idea here is to reduce the visualization to two dimensions by summarising the survival curves at specific values of the covariate in one value. This statistic can then be plotted as a single line.
+
+## Survival Probability at t
+
+The simplest of all is to plot the survival probability at a specific point in time as a function of the continuous covariate. This can be done in the `contsurvplot` package using the `plot_surv_at_t` function. For example, the following graph can be produced using $t = 1000$
+
+```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=5}
+plot_surv_at_t(time="time",
+               status="status",
+               variable="nodes",
+               data=colon,
+               model=model,
+               t=1000)
+```
+
+We can make this graph a little more interesting by plotting the survival probability at multiple points in time at once:
+
+```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=5}
+plot_surv_at_t(time="time",
+               status="status",
+               variable="nodes",
+               data=colon,
+               model=model,
+               t=c(100, 500, 1000, 1500, 2000))
+```
+
+Although this function is easy to produce and to understand, it lacks information about the survival probability at all other times not shown. It is best to use this method only when there are specific (possibly pre-specified) times of interest.
+
+## Survival Time Quantiles
+
+The same kind of graphic can be produced for survival time quantiles using the `plot_surv_quantiles` function. The following plot shows the effect of the `nodes` on the most popular survival time quantile - the median survival time:
+
+```{r echo=TRUE, warning=FALSE, fig.show=TRUE, fig.width=7, fig.height=5}
+plot_surv_quantiles(time="time",
+                    status="status",
+                    variable="nodes",
+                    data=colon,
+                    model=model,
+                    p=0.5)
+```
+
+We can also use this function to plot multiple survival time quantiles at once:
+
+```{r echo=TRUE, warning=FALSE, fig.show=TRUE, fig.width=7, fig.height=5}
+plot_surv_quantiles(time="time",
+                    status="status",
+                    variable="nodes",
+                    data=colon,
+                    model=model,
+                    p=c(0.1, 0.25, 0.5, 0.75, 0.9))
+```
+
+## Restricted Mean Survival Time
+
+A different kind of statistic is the restricted mean survival time (RMST). It is defined as the area under the survival curve up to a specific point $\tau$ and can be interpreted as the mean survival time of the cohort in the interval $[0, \tau]$. By taking the whole integral, this statistic technically takes the whole survival curve in the specific interval into account. However, it is still dependent on $\tau$.
+
+A graph similar to the ones above, but using the RSMT, can be produced using the `plot_surv_rmst` function:
+
+```{r echo=TRUE, warning=FALSE, fig.show=TRUE, fig.width=7, fig.height=5}
+plot_surv_rmst(time="time",
+               status="status",
+               variable="nodes",
+               data=colon,
+               model=model,
+               tau=1000)
+```
+
+To show how the estimates change with different values of $\tau$, we can also supply multiple values yet again to produce multiple curves:
+
+```{r echo=TRUE, warning=FALSE, fig.show=TRUE, fig.width=7, fig.height=5}
+plot_surv_rmst(time="time",
+               status="status",
+               variable="nodes",
+               data=colon,
+               model=model,
+               tau=c(500, 1000, 2000))
+```
+
+## Restricted Mean Time Lost
+
+The restricted mean time lost (RMTL) is very closely related to the RMST. Instead of integrating the area under the survival curve, the area under the cumulative incidence function (CIF) is calculated. This can be useful when there are multiple mutually ecclusive event types, in which case only the cause-specific CIF can be estimated, but not the cause-specific survival curve.
+
+The `plot_surv_rmtl` function can be used for this purpose. It has the same functionality and syntax as the `plot_rmst` function, so we will only show one plot with multiple $\tau$ values below:
+
+```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=5}
+plot_surv_rmtl(time="time",
+               status="status",
+               variable="nodes",
+               data=colon,
+               model=model,
+               tau=c(500, 1000, 2000))
+```
+
+Since this is a simple survival case with only one event type, the equation $F(t) = 1 - S(t)$ still holds, which is why the curves are simply inverted.
+
+# Plots Showing the Entire Survival Area
+
+In many cases it makes more sense to plot the entire survival curve dependent on the continuous covariate. There are a few options to do this. Each of them has different pros and cons, none is a solve-it-all magic bullet. The choice of plot is highly dependent on the data at hand.
+
+## Single Curves
+
+The simplest way to plot the entire survival curve is picking a few specific values of the covariates (in our case a few specific numbers of affected lymph nodes) and plotting the causal survival curve for each one. This can be done using the `plot_surv_lines` function. Here, we pick a few equally spaced values:
+
+```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=5}
+plot_surv_lines(time="time",
+                status="status",
+                variable="nodes",
+                data=colon,
+                model=model,
+                horizon=c(0, 5, 10, 15, 20, 25, 30))
+```
+
+## Survival Area
+
+The single survival curves do however tend to obscure the fact that there is a continuous transition between the covariate values. One way to make this a little more explicit is to use the `plot_surv_area` function, which is similar, but plots the area between those single curves as well.
+
+Using the default values, it gives us a continuously colored area for the whole range of possible lymph node values:
+
+```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=5}
+plot_surv_area(time="time",
+               status="status",
+               variable="nodes",
+               data=colon,
+               model=model)
+```
+
+It achieves this by plotting calculating a big amount of covariate (`nodes`) specific survival curves and filling the area between them continuously.
+
+We can take a step back and divide the area in discrete bins, coloring them similarly:
+
+```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=5}
+plot_surv_area(time="time",
+               status="status",
+               variable="nodes",
+               data=colon,
+               model=model,
+               discrete=TRUE)
+```
+
+Of course we can change the colors as well. Either by providing `start_color` and `end_color` values for a graded scale as used above, or by supplying a vector of specific colors using the `custom_color` argument. We will show only the first option here, using a black and white scale with a little fewer bins:
+
+```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=5}
+plot_surv_area(time="time",
+               status="status",
+               variable="nodes",
+               data=colon,
+               model=model,
+               discrete=TRUE,
+               bins=5,
+               start_color="lightgrey",
+               end_color="black")
+```
+
+By keeping the x-axis and y-axis as well as the shape of a normal survival curve, we think that this type of plot is very appropriate in many situations. It does, however, only work if the effect of the continuous covariate is linear or at least always increasing or decreasing. For example, using the Body-Mass-Index would not work with this type of plot, as the BMI usually has a curved relationship on survival.
+
+## Survival Heatmap
+
+One way around this is to use a heatmap instead, which can be created using the `plot_surv_heatmap` function:
+
+```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=5}
+plot_surv_heatmap(time="time",
+                  status="status",
+                  variable="nodes",
+                  data=colon,
+                  model=model)
+```
+
+In this plot the survival time is still on the x-axis, but the continuous covariate (here the lymph nodes) is on the y-axis and the survival probability at each point is shown using a continuous color scale. This works well if the covariate has a big effect on the survival, as is the case here. It does however tend to obscure small covariate effects.
+
+As a visual help, we can add some equally spaced contour lines to it using the `contour_lines` argument:
+
+```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=5}
+plot_surv_heatmap(time="time",
+                  status="status",
+                  variable="nodes",
+                  data=colon,
+                  model=model,
+                  contour_lines=TRUE)
+```
+
+## Survival Contours
+
+We can of course go a step further than the `plot_surv_heatmap` and plot an entire contour plot using the `plot_surv_contour` function:
+
+```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=5}
+plot_surv_contour(time="time",
+                  status="status",
+                  variable="nodes",
+                  data=colon,
+                  model=model)
+```
+
+We can of course also change the number of `bins` here:
+
+```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=5}
+plot_surv_contour(time="time",
+                  status="status",
+                  variable="nodes",
+                  data=colon,
+                  model=model,
+                  bins=5)
+```
+
+This type of plot is preferable to the heatmap in most cases. In case of a very smooth effect, the simple heatmap might be better though.
+
+## Survival 3D Surface
+
+Although frowned upon by many scientists, it almost feels natural to use a 3D surface plot here. All plots above are attempts at showing a three-dimensional surface in a two-dimensional plot using color scales. Why not actually show the three-dimensional surface? We can do this using the `plot_surv_3Dsurface` function:
+
+```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=5}
+plot_surv_3Dsurface(time="time",
+                    status="status",
+                    variable="nodes",
+                    data=colon,
+                    model=model)
+```
+
+In this particular case, the plot is not too bad. But the usual criticism of 3D plots still holds here. Identifying single points in this 3D plane is almost impossible. Without being able to rotate this figure interactively, this seems like a suboptimal visualization choice compared to the plot above.
+
+# Plots for Online Use Only
+
+If we are not forced to put the plot on paper however, there is no reason not to use the interactive nature of computers. There are two implemented methods for interactive survival plots in this package, both based on the `plotly` package. Another plot method based on a simple animation is also implemented.
+
+## Interactive 3D Surface Plots
+
+By setting the `interactive` argument to `TRUE` in the `plot_surv_3Dsurface` plot, we can overcome some difficulties of the 3D plot shown above:
+
+```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=5}
+plot_surv_3Dsurface(time="time",
+                    status="status",
+                    variable="nodes",
+                    data=colon,
+                    model=model,
+                    interactive=TRUE)
+```
+
+## Using a Slider
+
+A different way to create an interactive plot is using a slider. On the first look, this plot looks like a standard survival curve. Until you notice the slider. It can be used to specify different values of the continuous covariate dynamically. This type of plot can be created using the `plot_surv_animated` function, setting the `slider` argument to `TRUE`. For visual clarity, we also set the `horizon` argument to some reasonable values here:
+
+```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=5}
+plot_surv_animated(time="time",
+                   status="status",
+                   variable="nodes",
+                   data=colon,
+                   model=model,
+                   slider=TRUE,
+                   horizon=seq(0, 30, 1))
+```
+
+## Using Animation
+
+If we don't want the user to have to do anything, we can also create the same plot, but making it animated by default. It will cycle through the covariate values in `horizon` one at a time at an equal speed forever, showing what happens to the survival curve.
+
+This type of plot can be created using the `plot_surv_animated` function again, but setting `slider=FALSE` this time:
+
+```{r echo=TRUE, warning=FALSE, fig.show=TRUE, fig.width=7, fig.height=5}
+plot_surv_animated(time="time",
+                   status="status",
+                   variable="nodes",
+                   data=colon,
+                   model=model,
+                   slider=FALSE,
+                   horizon=seq(0, 30, 1))
+```

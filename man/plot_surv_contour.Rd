@@ -1,25 +1,24 @@
-\name{plot_surv_heatmap}
-\alias{plot_surv_heatmap}
+\name{plot_surv_contour}
+\alias{plot_surv_contour}
 
 \title{
-Plot a Heatmap of the Effect of a Continuous Covariate on the Survival Probability
+Create a Contour Plot of the Effect of a Continuous Covariate on the Survival Probability
 }
 \description{
-Using a previously fit time-to-event model, this function plots a heatmap with the continuous covariate on the y-axis and the time-to-event on the x-axis. The color is made in accordence with the corresponding survival probability at that point.
+Using a previously fit time-to-event model, this function creates a contour plot with the continuous covariate on the y-axis and the time-to-event on the x-axis. The color is made in accordence with the corresponding survival probability at that point, binned into separate categories. This is very similar to the \code{plot_surv_heatmap} plot, but using a categorical representation.
 }
 \usage{
-plot_surv_heatmap(time, status, variable, data, model,
+plot_surv_contour(time, status, variable, data, model,
                   cif=FALSE, na.action=options()$na.action,
                   horizon=NULL, fixed_t=NULL, max_t=Inf,
-                  start_color=NULL, end_color=NULL,
-                  size=0.1, alpha=1, xlab="Time", ylab=variable,
+                  size=0.1, linetype="solid", alpha=1,
+                  bins=NULL, binwidth=NULL, breaks=NULL,
+                  custom_colors=NULL,
+                  xlab="Time", ylab=variable,
                   title=NULL, subtitle=NULL,
                   legend.title="S(t)", legend.position="right",
                   gg_theme=ggplot2::theme_bw(),
-                  panel_border=FALSE, axis_dist=0,
-                  contour_lines=FALSE, contour_color="white",
-                  contour_size=0.3, contour_linetype="dashed",
-                  ...)
+                  panel_border=FALSE, axis_dist=0, ...)
 }
 \arguments{
   \item{time}{
@@ -52,17 +51,26 @@ A numeric vector containing points in time at which the survival probabilities s
   \item{max_t}{
 A number indicating the latest survival time which is to be plotted.
   }
-  \item{start_color}{
-The color used for the lowest value in \code{horizon}. This and the \code{end_color} argument can be used to specify custom continuous color scales used in the plot. For example, if a black and white plot is desired, the user can set \code{start_color="white"} and \code{end_color="black"}. See \code{?scale_color_gradient} for more information.
-  }
-  \item{end_color}{
-The color used for the highest value in \code{horizon}. See argument \code{start_color}.
-  }
   \item{size}{
-The size of the individual tiles plotted by the \code{geom_tile} function. Usually this option can be kept at 0.1 (default).
+The size of the individual lines plotted by the \code{geom_contour_filled} function. Usually this option can be kept at 0.1 (default).
+  }
+  \item{linetype}{
+The linetype of the contour lines.
   }
   \item{alpha}{
 The transparency level of the plot.
+  }
+  \item{bins}{
+A single number specifying how many categories the survival probability or CIF should be divided in, or \code{NULL} (default). If \code{NULL}, the defaults in \code{geom_contour_filled} are used.
+  }
+  \item{binwidth}{
+A single number specifying the width of the bins of the survival probability or CIF categories, or \code{NULL} (default). If \code{NULL}, the defaults in \code{geom_contour_filled} are used.
+  }
+  \item{breaks}{
+A vector of specific breaks to create the survival probability or CIF bins, or \code{NULL} (default). If \code{NULL}, the defaults in \code{geom_contour_filled} are used.
+  }
+  \item{custom_colors}{
+A character vector of custom colors that should be used for each contour area.
   }
   \item{xlab}{
 A character string used as the x-axis label of the plot.
@@ -90,18 +98,6 @@ Whether to draw a border around the heatmap or not. Is set to FALSE by default t
   }
   \item{axis_dist}{
 The distance of the axis ticks to the colored heatmap. Is set to 0 by default to mimic standard heatmaps.
-  }
-  \item{contour_lines}{
-Whether to add some contour lines to the heatmap. To get a proper contour plot, use the \code{plot_surv_contours} function instead.
-  }
-  \item{contour_color}{
-The color of the contour lines. Defaults to \code{"white"}. Ignored if \code{contour_lines=FALSE}.
-  }
-  \item{contour_size}{
-The size of the contour lines. Ignored if \code{contour_lines=FALSE}.
-  }
-  \item{contour_linetype}{
-The linetype of the contour lines. Defaults to \code{"dashed"}. Ignored if \code{contour_lines=FALSE}.
   }
   \item{...}{
 Further arguments passed to \code{predictRisk}.

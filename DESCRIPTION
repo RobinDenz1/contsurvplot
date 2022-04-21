@@ -1,5 +1,4 @@
 Package: contsurvplot
-Type: Package
 Title: Visualize the Effect of a Continuous Variable on a Time-To-Event Outcome
 Version: 0.1.0
 Authors@R: 
@@ -14,13 +13,22 @@ URL: https://github.com/RobinDenz1/contsurvplot
 BugReports: https://github.com/RobinDenz1/contsurvplot/issues
 Imports:
 	ggplot2 (>= 3.0.0),
+	dplyr,
 	rlang,
 	riskRegression,
 	survival
 Suggests:
-	adjustedCurves,
-	dplyr,
-	pammtools
+    adjustedCurves,
+    pammtools,
+    gganimate,
+    transformr,
+    plotly,
+    reshape2,
+    knitr,
+    rmarkdown
+VignetteBuilder: 
+    knitr
+Config/testthat/edition: 3
 Contact: <robin.denz@rub.de>
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

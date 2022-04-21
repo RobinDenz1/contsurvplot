@@ -11,7 +11,7 @@ Using a previously fit time-to-event model, this function plots survival curves 
 plot_surv_lines(time, status, variable, data, model,
                 cif=FALSE, na.action=options()$na.action,
                 horizon=NULL, fixed_t=NULL, max_t=Inf,
-                color_scale=TRUE, custom_colors=NULL,
+                discrete=TRUE, custom_colors=NULL,
                 start_color="blue", end_color="red",
                 size=0.5, linetype="solid", alpha=1,
                 xlab="Time", ylab="Survival Probability",
@@ -50,17 +50,23 @@ A numeric vector containing points in time at which the survival probabilities s
   \item{max_t}{
 A number indicating the latest survival time which is to be plotted.
   }
-  \item{color_scale}{
-Whether to use a continuous color scale (default) or a discrete one. If \code{FALSE}, the default \pkg{ggplot2} colors are used.
+  \item{discrete}{
+Whether to use a continuous color scale or a discrete one (default). If \code{FALSE}, the default \pkg{ggplot2} colors are used.
   }
   \item{custom_colors}{
-An optional character vector of colors to use when \code{color_scale=FALSE}. Ignored if \code{color_scale=TRUE}, in which case the color gradient can be defined using the \code{start_color} and \code{end_color} arguments.
+An optional character vector of colors to use when \code{discrete=FALSE}. Ignored if \code{discrete=TRUE}, in which case the color gradient can be defined using the \code{start_color} and \code{end_color} arguments.
   }
   \item{start_color}{
 The color used for the lowest value in \code{horizon}. This and the \code{end_color} argument can be used to specify custom continuous color scales used in the plot. For example, if a black and white plot is desired, the user can set \code{start_color="white"} and \code{end_color="black"}. See \code{?scale_color_gradient} for more information.
   }
   \item{end_color}{
 The color used for the highest value in \code{horizon}. See argument \code{start_color}.
+  }
+  \item{size}{
+A single number specifying the size of the drawn curves.
+  }
+  \item{linetype}{
+A single character string specifyinf the linetype of the curves.
   }
   \item{alpha}{
 The transparency level of the plot.
