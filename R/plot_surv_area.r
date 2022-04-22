@@ -8,7 +8,9 @@ plot_surv_area <- function(time, status, variable, data, model,
                            horizon=NULL, fixed_t=NULL, max_t=Inf,
                            start_color="blue", end_color="red",
                            discrete=FALSE, bins=ifelse(discrete, 10, 40),
-                           alpha=1, xlab="Time", ylab="Survival Probability",
+                           sep_lines=FALSE, sep_color="black", sep_size=0.1,
+                           sep_linetype="solid", alpha=1,
+                           xlab="Time", ylab="Survival Probability",
                            title=NULL, subtitle=NULL,
                            legend.title=variable, legend.position="right",
                            gg_theme=ggplot2::theme_bw(),
@@ -84,14 +86,24 @@ plot_surv_area <- function(time, status, variable, data, model,
                                 ymin=plotdata$est[plotdata$cont==horizon[i]],
                                 ymax=plotdata$est[plotdata$cont==horizon[i+1]])
 
-    p <- p + pammtools::geom_stepribbon(data=plotdata_temp,
-                                        ggplot2::aes(ymin=.data$ymin,
-                                                     ymax=.data$ymax,
-                                                     x=.data$time),
-                                        inherit.aes=FALSE,
-                                        alpha=alpha,
-                                        color=colgrad[i],
-                                        fill=colgrad[i])
+    surv_segment <- pammtools::geom_stepribbon(data=plotdata_temp,
+                                               ggplot2::aes(ymin=.data$ymin,
+                                                            ymax=.data$ymax,
+                                                            x=.data$time),
+                                               inherit.aes=FALSE,
+                                               alpha=alpha,
+                                               fill=colgrad[i])
+    if (!discrete & alpha==1) {
+      surv_segment$aes_params$colour <- colgrad[i]
+    }
+
+    p <- p + surv_segment
+  }
+
+  if (sep_lines) {
+    p <- p + ggplot2::geom_step(ggplot2::aes(group=as.factor(.data$cont)),
+                                size=sep_size, color=sep_color,
+                                alpha=alpha)
   }
 
   # correct label

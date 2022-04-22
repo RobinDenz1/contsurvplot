@@ -13,6 +13,8 @@ plot_surv_area(time, status, variable, data, model,
                horizon=NULL, fixed_t=NULL, max_t=Inf,
                start_color="blue", end_color="red",
                discrete=FALSE, bins=ifelse(discrete, 10, 40),
+               sep_lines=FALSE, sep_color="black",
+               sep_size=0.1, sep_linetype="solid",
                alpha=1, xlab="Time", ylab="Survival Probability",
                title=NULL, subtitle=NULL,
                legend.title=variable, legend.position="right",
@@ -62,8 +64,20 @@ Whether to plot the area as a single continuously shaded area (default) or as mu
   \item{bins}{
 The number of bins the survival area should be divided into. In a nutshell, this function simply estimates a lot of covariate specific curves and colors the area between them on a graded scale. If many bins are used, this gives the appearance of a single shaded area, changing continuously. By using only a few bins however, the specific covariate values might be easier to read off the plot. See also the \code{discrete} argument.
   }
+  \item{sep_lines}{
+Whether to draw lines between the individual area segments or not. When \code{discrete=TRUE} is used, this might be a good option to help visually separate the segments.
+  }
+  \item{sep_color}{
+The color of the separator lines. Ignored if \code{sep_lines=FALSE}.
+  }
+  \item{sep_size}{
+The size of the separator lines. Ignored if \code{sep_lines=FALSE}.
+  }
+  \item{sep_linetype}{
+The linetype of the separator lines. Ignored if \code{sep_lines=FALSE}.
+  }
   \item{alpha}{
-The transparency level of the plot.
+The transparency level of the whole plot.
   }
   \item{xlab}{
 A character string used as the x-axis label of the plot.
