@@ -51,6 +51,9 @@ It relies on the \code{predictRisk} function from the \pkg{riskRegression} packa
 \value{
 Returns a \code{data.frame} containing the columns \code{time} (the point in time), \code{surv} (the estimated survival probability) and \code{cont} (the specific value of \code{variable} used).
 }
+\references{
+Brice Ozenne, Anne Lyngholm Sorensen, Thomas Scheike, Christian Torp-Pedersen and Thomas Alexander Gerds. riskRegression: Predicting the Risk of an Event using Cox Regression Models. The R Journal (2017) 9:2, pages 440-460.
+}
 \author{
 Robin Denz
 }

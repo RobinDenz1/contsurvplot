@@ -96,7 +96,6 @@ plot_surv_area <- function(time, status, variable, data, model,
     if (!discrete & alpha==1) {
       surv_segment$aes_params$colour <- colgrad[i]
     }
-
     p <- p + surv_segment
   }
 
