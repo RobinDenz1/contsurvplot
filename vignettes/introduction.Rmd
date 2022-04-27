@@ -324,7 +324,8 @@ If we are not forced to put the plot on paper, however, there is no reason not t
 
 By setting the `interactive` argument to `TRUE` in the `plot_surv_3Dsurface` plot, we can overcome some difficulties of the 3D plot shown above:
 
-```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=5}
+```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=5, eval=FALSE}
+# NOT RUN, to keep the vignette size reasonable
 plot_surv_3Dsurface(time="time",
                     status="status",
                     variable="nodes",
@@ -337,7 +338,8 @@ plot_surv_3Dsurface(time="time",
 
 A different way to create an interactive plot is using a slider. On the first look, this plot looks like a standard survival curve. Until you notice the slider. It can be used to specify different values of the continuous variable dynamically. This type of plot can be created using the `plot_surv_animated` function, setting the `slider` argument to `TRUE`. For visual clarity, we also set the `horizon` argument to some reasonable values here:
 
-```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=5}
+```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=5, eval=FALSE}
+# NOT RUN, to keep the vignette size reasonable
 plot_surv_animated(time="time",
                    status="status",
                    variable="nodes",
@@ -353,7 +355,8 @@ If we don't want the user to have to do anything, we can also create the same pl
 
 This type of plot can be created using the `plot_surv_animated` function again, but setting `slider=FALSE` this time:
 
-```{r echo=TRUE, warning=FALSE, fig.show=TRUE, fig.width=7, fig.height=5}
+```{r echo=TRUE, warning=FALSE, fig.show=TRUE, fig.width=7, fig.height=5, eval=FALSE}
+# NOT RUN, to keep the vignette size reasonable
 plot_surv_animated(time="time",
                    status="status",
                    variable="nodes",

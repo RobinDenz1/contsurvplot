@@ -115,6 +115,7 @@ Returns a \code{ggplot2} object.
 Robin Denz
 }
 \examples{
+\dontrun{
 library(riskRegression)
 library(survival)
 library(ggplot2)
@@ -154,4 +155,5 @@ plot_surv_contour(time="futime",
                   variable="bmi",
                   data=nafld1,
                   model=model2)
+}
 }

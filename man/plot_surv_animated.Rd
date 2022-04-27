@@ -90,7 +90,7 @@ This type of plot is only usefull when visualizing the effect on a computer. It 
 An additional interactive plot can be created using the \code{plot_surv_3Dsurface} function with \code{interactive=TRUE}.
 }
 \value{
-Returns a \code{ggplot2} object.
+Returns a \code{plotly} object if \code{slider=TRUE} and a \code{gganim} object if \code{slider=FALSE}.
 }
 \author{
 Robin Denz

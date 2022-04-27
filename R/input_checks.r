@@ -2,8 +2,8 @@
 ## check if horizon is correctly specified
 check_horizon <- function(horizon, data, variable) {
 
-  if (!(is.null(horizon) | (length(horizon)>1 && is.numeric(horizon)))) {
-    stop("'horizon' must be a numeric vector with at least two values or NULL.")
+  if (!(is.null(horizon) | (length(horizon)>=1 && is.numeric(horizon)))) {
+    stop("'horizon' must be a numeric vector with at least one value or NULL.")
   } else if (!is.null(horizon) && anyNA(horizon)) {
     stop("Missing values in 'horizon' are not allowed.")
   } else if (!is.null(horizon) && min(horizon) < min(data[, variable],
