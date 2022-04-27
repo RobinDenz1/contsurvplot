@@ -2,10 +2,10 @@
 \alias{plot_surv_quantiles}
 
 \title{
-Plot a Heatmap of the Effect of a Continuous Covariate on the Survival Probability
+Plot Survival Time Quantiles as a Function of a Continuous Variable
 }
 \description{
-Using a previously fit time-to-event model, this function plots a heatmap with the continuous covariate on the y-axis and the time-to-event on the x-axis. The color is made in accordence with the corresponding survival probability at that point.
+Using a previously fit time-to-event model, this function plots one or multiple survival time quantiles (such as the median survival time) as a function of a continuous variable of interest.
 }
 \usage{
 plot_surv_quantiles(time, status, variable, data, model,
@@ -80,11 +80,15 @@ Where to put the legend. See \code{?theme} for more details.
 A \pkg{ggplot2} theme which is applied to the plot.
   }
   \item{...}{
-Further arguments passed to \code{predictRisk}.
+Further arguments passed to \code{curve_cont}.
   }
 }
 \details{
+Survival Time Quantiles are a single value summarizing the entire survival curve. For example, the most prominently used survival time quantile is the median survival time, which can be interpreted as the time at which half of the people in the sample are expected to have experienced the event of interest. This plot shows one or more of these quantiles as a function of a continuous variable of interest.
 
+To calculate the survival time quantiles, it first calls the \code{curve_cont} function to get estimates of the value-specific survival curves. Afterwards, it uses the \code{adjusted_surv_quantile} function from the \pkg{adjustedCurves} package to calculate the survival time quantiles using these curves.
+
+Although this is a simple way to plot the effect of a continuous covariate on the survival, it can give a misleading visualization of the relationship in some situations. Plots that do not use summary statistics, such as the \code{plot_surv_contour} and \code{plot_surv_area} plots, may be preferable.
 }
 \value{
 Returns a \code{ggplot2} object.
@@ -94,6 +98,46 @@ Robin Denz
 }
 \examples{
 \dontrun{
+library(riskRegression)
+library(survival)
+library(ggplot2)
+library(adjustedCurves)
+library(splines)
 
+# using data from the survival package
+data(nafld, package="survival")
+
+# fit cox-model with age
+model <- coxph(Surv(futime, status) ~ age, data=nafld1, x=TRUE)
+
+# plot effect of age on the median survival time
+plot_surv_quantiles(time="futime",
+                    status="status",
+                    variable="age",
+                    data=nafld1,
+                    model=model)
+
+# plot multiple survival time quantiles
+plot_surv_quantiles(time="futime",
+                    status="status",
+                    variable="age",
+                    data=nafld1,
+                    model=model,
+                    p=c(0.1, 0.25, 0.5, 0.75, 0.9))
+
+## showing non-linear effects
+
+# fit cox-model with bmi modelled using B-Splines,
+# adjusting for age and sex
+model2 <- coxph(Surv(futime, status) ~ age + male + bs(bmi, df=5),
+                data=nafld1, x=TRUE)
+
+# plot effect of bmi on survival
+plot_surv_quantiles(time="futime",
+                    status="status",
+                    variable="bmi",
+                    data=nafld1,
+                    model=model2,
+                    p=c(0.1, 0.25, 0.5, 0.75, 0.9))
 }
 }

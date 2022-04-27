@@ -2,10 +2,10 @@
 \alias{plot_surv_at_t}
 
 \title{
-Plot the Survival Probability at a Fixed Point in Time as a Function of a Continuous Variable
+Plot the Survival Probability or CIF at a Fixed Point in Time as a Function of a Continuous Variable
 }
 \description{
-Using a previously fit time-to-event model, this function plots the survival probability at one or multiple user defined points at time as a function of a continuous variable.
+Using a previously fit time-to-event model, this function plots the survival probability or CIF at one or multiple user defined points at time as a function of a continuous variable.
 }
 \usage{
 plot_surv_at_t(time, status, variable, data, model,
@@ -76,11 +76,15 @@ Where to put the legend. See \code{?theme} for more details.
 A \pkg{ggplot2} theme which is applied to the plot.
   }
   \item{...}{
-Further arguments passed to \code{predictRisk}.
+Further arguments passed to \code{curve_cont}.
   }
 }
 \details{
+By picking a single value of time, we can effectively reduce the dimensions of the plot by one, resulting in a simple curve plot of the survival probability or CIF at the specific point in time as it changes over values of the continuous covariate. By supplying a vector of times to the \code{t} argument, multiple such curves can be produced in the same plot.
 
+This can be a very effective plotting strategy if there are specific points in time of interest already (even better if those were pre-defined). It is however a poor strategy if a representation of the effect on the survival over time is desired.
+
+As all plot functions in this package, this plot relies on the \code{curve_cont} function to calculate the needed probability estimates.
 }
 \value{
 Returns a \code{ggplot2} object.
@@ -90,6 +94,30 @@ Robin Denz
 }
 \examples{
 \dontrun{
+library(riskRegression)
+library(survival)
+library(ggplot2)
 
+# using data from the survival package
+data(nafld, package="survival")
+
+# fit cox-model with age
+model <- coxph(Surv(futime, status) ~ age, data=nafld1, x=TRUE)
+
+# plot effect of age on survival at t=2000
+plot_surv_at_t(time="futime",
+               status="status",
+               variable="age",
+               data=nafld1,
+               model=model,
+               t=2000)
+
+# plot it for arbitrary multiple values of t
+plot_surv_at_t(time="futime",
+               status="status",
+               variable="age",
+               data=nafld1,
+               model=model,
+               t=c(1000, 2000, 3200, 5643))
 }
 }

@@ -2,10 +2,10 @@
 \alias{plot_surv_heatmap}
 
 \title{
-Plot a Heatmap of the Effect of a Continuous Covariate on the Survival Probability
+Plot a Heatmap of the Effect of a Continuous Covariate on a Time-To-Event Outcome
 }
 \description{
-Using a previously fit time-to-event model, this function plots a heatmap with the continuous covariate on the y-axis and the time-to-event on the x-axis. The color is made in accordence with the corresponding survival probability at that point.
+Using a previously fit time-to-event model, this function plots a heatmap with the continuous covariate on the y-axis and the time-to-event on the x-axis. The color is made in accordence with the corresponding survival probability or CIF at that point.
 }
 \usage{
 plot_surv_heatmap(time, status, variable, data, model,
@@ -104,11 +104,15 @@ The size of the contour lines. Ignored if \code{contour_lines=FALSE}.
 The linetype of the contour lines. Defaults to \code{"dashed"}. Ignored if \code{contour_lines=FALSE}.
   }
   \item{...}{
-Further arguments passed to \code{predictRisk}.
+Further arguments passed to \code{curve_cont}.
   }
 }
 \details{
+Heatmaps are a great tool to visualize a three dimensional surface in a two-dimensional plot. A continuous color scale is used to represent the probability of interest. Although this is fine theoretically, it is often hard to read specific information off these plots. Contour lines can be added to the plot in order to make this easier by using \code{contour_lines=TRUE} in the function call.
 
+In most cases, however, it is probably better to use a proper contour plot instead, which can be produced using the \code{plot_surv_contour} function. This is mostly a matter of taste, which is why both types of plots are included in this package.
+
+The main advantage of the heatmap and the contour plots is that they can visualize the effect of a continuous covariate regardless of how it was modelled. Non-linear relationships can be visualized just as well as linear ones. The major downside is, that the structure of the plot is not the same as that of a standard Kaplan-Meier plot. An alternative that is closer to the standard plot can be created using the \code{plot_surv_area} function.
 }
 \value{
 Returns a \code{ggplot2} object.
@@ -118,6 +122,52 @@ Robin Denz
 }
 \examples{
 \dontrun{
+library(riskRegression)
+library(survival)
+library(ggplot2)
+library(splines)
 
+# using data from the survival package
+data(nafld, package="survival")
+
+# fit cox-model with age
+model <- coxph(Surv(futime, status) ~ age, data=nafld1, x=TRUE)
+
+# plot effect of age on survival using defaults
+plot_surv_heatmap(time="futime",
+                  status="status",
+                  variable="age",
+                  data=nafld1,
+                  model=model)
+
+# plot it only for 60 to 80 year old people
+plot_surv_heatmap(time="futime",
+                  status="status",
+                  variable="age",
+                  data=nafld1,
+                  model=model,
+                  horizon=seq(60, 80, 0.5))
+
+## showing non-linear effects
+
+# fit cox-model with bmi modelled using B-Splines,
+# adjusting for age and sex
+model2 <- coxph(Surv(futime, status) ~ age + male + bs(bmi, df=5),
+                data=nafld1, x=TRUE)
+
+# plot effect of bmi on survival using defaults
+plot_surv_heatmap(time="futime",
+                  status="status",
+                  variable="bmi",
+                  data=nafld1,
+                  model=model2)
+
+# plot effect of bmi on survival with contour lines
+plot_surv_heatmap(time="futime",
+                  status="status",
+                  variable="bmi",
+                  data=nafld1,
+                  model=model2,
+                  contour_lines=TRUE)
 }
 }

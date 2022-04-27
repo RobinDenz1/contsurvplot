@@ -100,11 +100,13 @@ Whether to draw a border around the heatmap or not. Is set to FALSE by default t
 The distance of the axis ticks to the colored heatmap. Is set to 0 by default to mimic standard heatmaps.
   }
   \item{...}{
-Further arguments passed to \code{predictRisk}.
+Further arguments passed to \code{curve_cont}.
   }
 }
 \details{
+Contour plots are a great way to reduce three dimensions to a two-dimensional plot and therefore lend themselves easily to plot the effect of continuous variable on the survival probability or CIF over time. Heatmaps (as available in the \code{plot_surv_heatmap}) function are very similar, but are often less clear then contour plots. The major downside of these plots is that they do not have the survival probability (or CIF) on the y-axis, which is of course the standard in standard Kaplan-Meier plots. A very similar plot but with the probability of interest on the y-axis can be created using the \code{plot_surv_area} function.
 
+Internally, this function uses the \code{geom_contour_filled} function of the \pkg{ggplot2} package to create the plot, after estimating the required probabilities using the \code{curve_cont} function.
 }
 \value{
 Returns a \code{ggplot2} object.
@@ -113,7 +115,43 @@ Returns a \code{ggplot2} object.
 Robin Denz
 }
 \examples{
-\dontrun{
+library(riskRegression)
+library(survival)
+library(ggplot2)
+library(splines)
 
-}
+# using data from the survival package
+data(nafld, package="survival")
+
+# fit cox-model with age
+model <- coxph(Surv(futime, status) ~ age, data=nafld1, x=TRUE)
+
+# plot effect of age on survival using defaults
+plot_surv_contour(time="futime",
+                  status="status",
+                  variable="age",
+                  data=nafld1,
+                  model=model)
+
+# plot it only for 60 to 80 year old people
+plot_surv_contour(time="futime",
+                  status="status",
+                  variable="age",
+                  data=nafld1,
+                  model=model,
+                  horizon=seq(60, 80, 0.5))
+
+## showing non-linear effects
+
+# fit cox-model with bmi modelled using B-Splines,
+# adjusting for age and sex
+model2 <- coxph(Surv(futime, status) ~ age + male + bs(bmi, df=5),
+                data=nafld1, x=TRUE)
+
+# plot effect of bmi on survival using defaults
+plot_surv_contour(time="futime",
+                  status="status",
+                  variable="bmi",
+                  data=nafld1,
+                  model=model2)
 }

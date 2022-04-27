@@ -2,10 +2,10 @@
 \alias{plot_surv_area}
 
 \title{
-Plot a Survival Curve Area Plot for the Effect of a Continuous Variable on Survival
+Plot a Survival Area Plot for the Effect of a Continuous Variable on a Time-To-Event Outcome
 }
 \description{
-Using a previously fit time-to-event model, this function plots a survival curve area plot. This is one way to graphically display the effect of a continuous covariate on the survival probability.
+Using a previously fit time-to-event model, this function plots a survival curve or CIF area plot. Instead of plotting value-specific curves, the probability of interest is represented as an area as a function of time, where the color changes according to the continuous variable.
 }
 \usage{
 plot_surv_area(time, status, variable, data, model,
@@ -101,11 +101,15 @@ Where to put the legend. See \code{?theme} for more details.
 A \pkg{ggplot2} theme which is applied to the plot.
   }
   \item{...}{
-Further arguments passed to \code{predictRisk}.
+Further arguments passed to \code{curve_cont}.
   }
 }
 \details{
+This function is very similar to a contour plot (see \code{plot_surv_contour}), but with the probability of interest on the y-axis and the color representing the values of the continuous variable of interest. The main advantage of this type of plot is, that it has the same structure as a usual Kaplan-Meier plot. The only difference is that instead of single curves stratified by some variable, the curves are plotted as an area instead.
 
+This is achieved by estimating value-specific curves over the whole range of the continuous covariate using direct standardization and a previously fitted time-to-event model (see \code{curve_cont}). The area between those curves is then simply filled in (using the \code{geom_stepribbon} function from the \code{pammtools} package). By using a big number of individual curves, the appearance of a continuously shaded are is created. This is done by default when using the argument \code{discrete=TRUE}. By using \code{discrete=FALSE}, only a small number of value-specific curves are estimated, resulting in only a few discrete bins. When using only a few bins, the output is even closer to a contour plot.
+
+The major downside of this plotting method is that it only works if the effect of the continuous covariate was modelled as a linear effect or is montonically increasing or decreasing. Curved relationships between the variable and the survival time cannot be represented using this function. However, the \code{plot_surv_contour} and \code{plot_surv_heatmap} functions may be used instead in this case.
 }
 \value{
 Returns a \code{ggplot2} object.
@@ -115,6 +119,50 @@ Robin Denz
 }
 \examples{
 \dontrun{
+library(riskRegression)
+library(survival)
+library(ggplot2)
+library(pammtools)
 
+# using data from the survival package
+data(nafld, package="survival")
+
+# fit cox-model with age
+model <- coxph(Surv(futime, status) ~ age, data=nafld1, x=TRUE)
+
+# plot effect of age on survival using defaults
+plot_surv_area(time="futime",
+               status="status",
+               variable="age",
+               data=nafld1,
+               model=model)
+
+# plot it only for 60 to 80 year old people
+plot_surv_area(time="futime",
+               status="status",
+               variable="age",
+               data=nafld1,
+               model=model,
+               horizon=seq(60, 80, 0.5))
+
+# plot it only for 60 to 80 year old people,
+# and also use a black and white color scale
+plot_surv_area(time="futime",
+               status="status",
+               variable="age",
+               data=nafld1,
+               model=model,
+               horizon=seq(60, 80, 0.5),
+               start_color="grey",
+               end_color="black")
+
+# plot it only for 60 to 60 year old people, using discrete bins
+plot_surv_area(time="futime",
+               status="status",
+               variable="age",
+               data=nafld1,
+               model=model,
+               horizon=seq(60, 80, 5),
+               discrete=TRUE)
 }
 }

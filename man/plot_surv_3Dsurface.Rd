@@ -76,11 +76,11 @@ The color(s) of the surface facets. Transparent colours are ignored. This is rec
 The shade at a surface facet is computed as \code{((1+d)/2)^shade}, where d is the dot product of a unit vector normal to the facet and a unit vector in the direction of a light source. Values of shade close to one yield shading similar to a point light source model and values close to zero produce no shading. Values in the range 0.5 to 0.75 provide an approximation to daylight illumination. Passed to the \code{shade} argument in the \code{persp} function. Ignored if \code{interactive=TRUE}.
   }
   \item{...}{
-Further arguments passed to \code{predictRisk}.
+Further arguments passed to \code{curve_cont}.
   }
 }
 \details{
-The survival curve dependent on a continuous variable can be viewed as a 3D surface. All other plots in this package try to visualize this surface by reducing it to two dimenstions using color scales. This function on the other hand directly plots the 3D surface as such.
+The survival curve or CIF dependent on a continuous variable can be viewed as a 3D surface. All other plots in this package try to visualize this surface by reducing it to two dimensions using color scales or summary statistics. This function on the other hand directly plots the 3D surface as such.
 
 Although 3D plots are frowned upon by many scientists, it might be a good visualisation choice from time to time. Using the \code{interactive=TRUE} option makes the plot interactive, which lessens some of the valid criticism of 3D graphics.
 }
@@ -92,6 +92,57 @@ Robin Denz
 }
 \examples{
 \dontrun{
+library(riskRegression)
+library(survival)
+library(splines)
+library(ggplot2)
+library(plotly)
 
+# using data from the survival package
+data(nafld, package="survival")
+
+# fit cox-model with age
+model <- coxph(Surv(futime, status) ~ age, data=nafld1, x=TRUE)
+
+# plot effect of age on survival for ages 50 to 80
+plot_surv_3Dsurface(time="futime",
+                    status="status",
+                    variable="age",
+                    data=nafld1,
+                    model=model,
+                    horizon=seq(50, 80, 0.5),
+                    interactive=FALSE)
+
+# plot effect of age on survival using an interactive plot for ages 50 to 80
+plot_surv_3Dsurface(time="futime",
+                    status="status",
+                    variable="age",
+                    data=nafld1,
+                    model=model,
+                    horizon=seq(50, 80, 0.5),
+                    interactive=TRUE)
+
+## showing non-linear effects
+
+# fit cox-model with bmi modeled using B-Splines,
+# adjusting for age and sex
+model2 <- coxph(Surv(futime, status) ~ age + male + bs(bmi, df=5),
+                data=nafld1, x=TRUE)
+
+# plot effect of bmi on survival using normal plot
+plot_surv_3Dsurface(time="futime",
+                    status="status",
+                    variable="bmi",
+                    data=nafld1,
+                    model=model2,
+                    interactive=FALSE)
+
+# plot effect of bmi on survival using interactive plot
+plot_surv_3Dsurface(time="futime",
+                    status="status",
+                    variable="bmi",
+                    data=nafld1,
+                    model=model2,
+                    interactive=TRUE)
 }
 }

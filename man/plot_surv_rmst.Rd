@@ -73,11 +73,15 @@ Where to put the legend. See \code{?theme} for more details.
 A \pkg{ggplot2} theme which is applied to the plot.
   }
   \item{...}{
-Further arguments passed to \code{predictRisk}.
+Further arguments passed to \code{curve_cont}.
   }
 }
 \details{
+Similar to the \code{plot_surv_at_t} and \code{plot_surv_quantiles} plots, this function produces a plot of a survival curve summary statistic as a function of a continuous variable. The summary statistic in question is the restricted mean survival time (RMST), which is the area under a survival curve up to a specific point in time \code{tau}. It can be interpreted as the mean survival time of the population up to \code{tau}.
 
+First, a range of value-specific survival curves are estimated. The RMST is then calculated for each one using the \code{adjusted_rmst} function from the \code{adjustedCurves} package. This only works for survival curves, not for CIFs. If the area under the CIF should be used instead, the \code{plot_surv_rmtl} function can be used.
+
+An advantage of this method over the \code{plot_surv_at_t} and \code{plot_surv_quantiles} function is, that it does take the whole survival curve into account, kind of. Although it is the area under it, it is only calculated up to \code{tau} which makes the output dependent on the choice of \code{tau}. This, again, can result in deceiving plots in some cases. Plots visualizing the entire survival curves such as \code{plot_surv_contour} and \code{plot_surv_area} might be preferable.
 }
 \value{
 Returns a \code{ggplot2} object.
@@ -87,6 +91,49 @@ Robin Denz
 }
 \examples{
 \dontrun{
+library(riskRegression)
+library(survival)
+library(ggplot2)
+library(adjustedCurves)
+library(splines)
 
+# using data from the survival package
+data(nafld, package="survival")
+
+# fit cox-model with age
+model <- coxph(Surv(futime, status) ~ age, data=nafld1, x=TRUE)
+
+# plot effect of age on the RMST for ages 50 to 80
+plot_surv_rmst(time="futime",
+               status="status",
+               variable="age",
+               data=nafld1,
+               model=model,
+               horizon=seq(50, 80, 1),
+               tau=2500)
+
+# plot RMST for multiple tau values for ages 50 to 80
+plot_surv_rmst(time="futime",
+               status="status",
+               variable="age",
+               data=nafld1,
+               model=model,
+               horizon=seq(50, 80, 1),
+               tau=c(2000, 3000, 5000))
+
+## showing non-linear effects
+
+# fit cox-model with bmi modeled using B-Splines,
+# adjusting for age and sex
+model2 <- coxph(Surv(futime, status) ~ age + male + bs(bmi, df=5),
+                data=nafld1, x=TRUE)
+
+# plot effect of bmi on survival
+plot_surv_rmst(time="futime",
+               status="status",
+               variable="bmi",
+               data=nafld1,
+               model=model2,
+               tau=c(2000, 3000, 5000))
 }
 }

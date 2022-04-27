@@ -1,6 +1,7 @@
 
 ## A function to calculate g-formula probability estimates over
 ## a horizon of continuous values at multiple points in time
+# TODO: allow multicore processing
 #' @export
 curve_cont <- function(data, variable, model, horizon,
                        times, cause=1, cif=FALSE,
@@ -26,10 +27,10 @@ curve_cont <- function(data, variable, model, horizon,
     data_temp[, variable] <- horizon[i]
 
     est_x <- riskRegression::predictRisk(object=model,
-                                          newdata=data_temp,
-                                          times=times,
-                                          cause=cause,
-                                          ...)
+                                         newdata=data_temp,
+                                         times=times,
+                                         cause=cause,
+                                         ...)
     if (!cif) {
       est_x <- 1 - est_x
     }

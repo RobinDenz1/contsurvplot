@@ -2,10 +2,10 @@
 \alias{plot_surv_lines}
 
 \title{
-Plot Individual Survival Curves for Specific Values of a Continuous Covariate
+Plot Individual Survival Curves or CIFs for Specific Values of a Continuous Covariate
 }
 \description{
-Using a previously fit time-to-event model, this function plots survival curves that would have been observed if every individual in the dataset had been set to specific values of a continuous covariate.
+Using a previously fit time-to-event model, this function plots survival curves or CIFs that would have been observed if every individual in the dataset had been set to specific values of a continuous covariate.
 }
 \usage{
 plot_surv_lines(time, status, variable, data, model,
@@ -13,7 +13,7 @@ plot_surv_lines(time, status, variable, data, model,
                 horizon=NULL, fixed_t=NULL, max_t=Inf,
                 discrete=TRUE, custom_colors=NULL,
                 start_color="blue", end_color="red",
-                size=0.5, linetype="solid", alpha=1,
+                size=1, linetype="solid", alpha=1,
                 xlab="Time", ylab="Survival Probability",
                 title=NULL, subtitle=NULL,
                 legend.title=variable, legend.position="right",
@@ -93,11 +93,11 @@ Where to put the legend. See \code{?theme} for more details.
 A \pkg{ggplot2} theme which is applied to the plot.
   }
   \item{...}{
-Further arguments passed to \code{predictRisk}.
+Further arguments passed to \code{curve_cont}.
   }
 }
 \details{
-A simple plot of multiple covariate-specific survival curves. Internally, it uses the \code{surv_curve_cont} function to calculate the survival curves.
+A simple plot of multiple covariate-specific survival curves. Internally, it uses the \code{curve_cont} function to calculate the survival curves.
 }
 \value{
 Returns a \code{ggplot2} object.
@@ -107,6 +107,44 @@ Robin Denz
 }
 \examples{
 \dontrun{
+library(riskRegression)
+library(survival)
+library(ggplot2)
+library(splines)
 
+# using data from the survival package
+data(nafld, package="survival")
+
+# fit cox-model with age
+model <- coxph(Surv(futime, status) ~ age, data=nafld1, x=TRUE)
+
+# plot effect of age on survival using defaults
+plot_surv_lines(time="futime",
+                status="status",
+                variable="age",
+                data=nafld1,
+                model=model)
+
+# plot it only for some specific user-defined values
+plot_surv_lines(time="futime",
+                status="status",
+                variable="age",
+                data=nafld1,
+                model=model,
+                horizon=c(40, 52, 63, 81))
+
+## showing non-linear effects
+
+# fit cox-model with bmi modelled using B-Splines,
+# adjusting for age and sex
+model2 <- coxph(Surv(futime, status) ~ age + male + bs(bmi, df=5),
+                data=nafld1, x=TRUE)
+
+# plot effect of bmi on survival
+plot_surv_heatmap(time="futime",
+                status="status",
+                variable="bmi",
+                data=nafld1,
+                model=model2)
 }
 }

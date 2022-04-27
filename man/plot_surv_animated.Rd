@@ -79,11 +79,15 @@ A character string used as the subtitle of the plot.
 A \pkg{ggplot2} theme which is applied to the plot.
   }
   \item{...}{
-Further arguments passed to \code{predictRisk}.
+Further arguments passed to \code{curve_cont}.
   }
 }
 \details{
+When the plot doesn't have to be on paper, it is also possible to use animation to represent how the survival curve or CIF changes when different values of a continuous covariate are used. There are two options included in this function. The first one is creating a plot with a slider that can be interactively manipulated by the user (argument \code{slider=TRUE}). The second option creates a .gif file in which the continuous variable changes constantly over time (argument \code{slider=FALSE}).
 
+This type of plot is only usefull when visualizing the effect on a computer. It is also important to keep in mind that these plots might look slightly different to users with different hardware and or software.
+
+An additional interactive plot can be created using the \code{plot_surv_3Dsurface} function with \code{interactive=TRUE}.
 }
 \value{
 Returns a \code{ggplot2} object.
@@ -93,6 +97,59 @@ Robin Denz
 }
 \examples{
 \dontrun{
+library(riskRegression)
+library(survival)
+library(splines)
+library(ggplot2)
+library(gganimate)
+library(transformr)
+library(plotly)
 
+# using data from the survival package
+data(nafld, package="survival")
+
+# fit cox-model with age
+model <- coxph(Surv(futime, status) ~ age, data=nafld1, x=TRUE)
+
+# plot effect of age on survival for ages 50 to 80
+plot_surv_animated(time="futime",
+                   status="status",
+                   variable="age",
+                   data=nafld1,
+                   model=model,
+                   horizon=seq(50, 80, 1),
+                   slider=TRUE)
+
+# plot effect of age on survival using an interactive plot for ages 50 to 80
+plot_surv_animated(time="futime",
+                   status="status",
+                   variable="age",
+                   data=nafld1,
+                   model=model,
+                   horizon=seq(50, 80, 1),
+                   slider=FALSE)
+
+## showing non-linear effects
+
+# fit cox-model with bmi modeled using B-Splines,
+# adjusting for age and sex
+model2 <- coxph(Surv(futime, status) ~ age + male + bs(bmi, df=5),
+                data=nafld1, x=TRUE)
+
+# plot effect of bmi on survival using slider
+plot_surv_animated(time="futime",
+                   status="status",
+                   variable="bmi",
+                   data=nafld1,
+                   model=model2,
+                   slider=TRUE)
+
+# plot effect of bmi on survival using a .gif
+plot_surv_animated(time="futime",
+                   status="status",
+                   variable="bmi",
+                   data=nafld1,
+                   model=model2,
+                   slider=FALSE)
 }
 }
