@@ -55,20 +55,21 @@ plot_surv_quantiles <- function(time, status, variable, data, model,
   surv_q$p <- as.factor(surv_q$p)
 
   # plot them
-  if (!is.null(single_color)) {
-    plt <- ggplot2::ggplot(surv_q, ggplot2::aes(x=.data$group, y=.data$q_surv,
-                                                group=.data$p),
-                           color=single_color)
-  } else {
-    plt <- ggplot2::ggplot(surv_q, ggplot2::aes(x=.data$group, y=.data$q_surv,
-                                                color=.data$p))
+  plt <- ggplot2::ggplot(surv_q, ggplot2::aes(x=.data$group, y=.data$q_surv,
+                                              color=.data$p, group=.data$p))
 
-    if (length(p)==1) {
-      plt$mapping$colour <- NULL
-    }
+  if (length(p)==1) {
+    plt$mapping$colour <- NULL
   }
 
-  plt <- plt + ggplot2::geom_line(size=size, linetype=linetype, alpha=alpha) +
+  if (!is.null(single_color)) {
+    gg_lines <- ggplot2::geom_line(size=size, linetype=linetype, alpha=alpha,
+                                   color=single_color)
+  } else {
+    gg_lines <- ggplot2::geom_line(size=size, linetype=linetype, alpha=alpha)
+  }
+
+  plt <- plt + gg_lines +
     ggplot2::labs(x=xlab, y=ylab, title=title, subtitle=subtitle,
                   fill=legend.title) +
     gg_theme +

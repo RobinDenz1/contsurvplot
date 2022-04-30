@@ -2,7 +2,7 @@
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![](https://www.r-pkg.org/badges/version/contsurvplot?color=green)](https://cran.r-project.org/package=contsurvplot)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/contsurvplot?color=blue)](https://cran.r-project.org/package=contsurvplot)
-[![R-CMD-check](https://github.com/RobinDenz1/contsurvplot/workflows/R-CMD-check/badge.svg)](https://github.com/RobinDenz1//actions)
+[![R-CMD-check](https://github.com/RobinDenz1/contsurvplot/workflows/R-CMD-check/badge.svg)](https://github.com/RobinDenz1/contsurvplot/actions)
 <!-- badges: end -->
 
 # contsurvplot

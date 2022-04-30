@@ -6,10 +6,10 @@
 plot_surv_area <- function(time, status, variable, data, model,
                            cif=FALSE, na.action=options()$na.action,
                            horizon=NULL, fixed_t=NULL, max_t=Inf,
-                           start_color="blue", end_color="red",
+                           start_color="blue", end_color="red", alpha=1,
                            discrete=FALSE, bins=ifelse(discrete, 10, 40),
                            sep_lines=FALSE, sep_color="black", sep_size=0.1,
-                           sep_linetype="solid", alpha=1,
+                           sep_linetype="solid", sep_alpha=alpha,
                            xlab="Time", ylab="Survival Probability",
                            title=NULL, subtitle=NULL,
                            legend.title=variable, legend.position="right",
@@ -102,7 +102,7 @@ plot_surv_area <- function(time, status, variable, data, model,
   if (sep_lines) {
     p <- p + ggplot2::geom_step(ggplot2::aes(group=as.factor(.data$cont)),
                                 size=sep_size, color=sep_color,
-                                alpha=alpha)
+                                linetype=sep_linetype, alpha=sep_alpha)
   }
 
   # correct label

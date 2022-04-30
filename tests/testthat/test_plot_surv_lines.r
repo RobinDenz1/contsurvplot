@@ -1,0 +1,62 @@
+
+suppressMessages(requireNamespace("survival"))
+
+sim_dat <- readRDS(system.file("testdata", "sim150.Rds",
+                               package="contsurvplot"))
+
+model <- survival::coxph(survival::Surv(time, event) ~ x3, data=sim_dat, x=TRUE)
+
+test_that("plot, defaults", {
+  plt <- plot_surv_lines(time="time", status="event", variable="x3",
+                         data=sim_dat, model=model)
+  expect_s3_class(plt, "ggplot")
+  vdiffr::expect_doppelganger("plot, defaults", fig=plt)
+})
+
+test_that("plot, cif", {
+  plt <- plot_surv_lines(time="time", status="event", variable="x3",
+                         data=sim_dat, model=model, cif=TRUE)
+  expect_s3_class(plt, "ggplot")
+  vdiffr::expect_doppelganger("plot, cif", fig=plt)
+})
+
+test_that("plot, change horizon", {
+  plt <- plot_surv_lines(time="time", status="event", variable="x3",
+                         data=sim_dat, model=model,  horizon=seq(30, 60, 1))
+  expect_s3_class(plt, "ggplot")
+  vdiffr::expect_doppelganger("plot, change horizon", fig=plt)
+})
+
+test_that("plot, at t", {
+  plt <- plot_surv_lines(time="time", status="event", variable="x3",
+                         data=sim_dat, model=model, fixed_t=seq(0, 30, 1))
+  expect_s3_class(plt, "ggplot")
+  vdiffr::expect_doppelganger("plot, at t", fig=plt)
+})
+
+test_that("plot, custom colors", {
+  plt <- plot_surv_lines(time="time", status="event", variable="x3",
+                        data=sim_dat, model=model, horizon=c(7, 20, 45),
+                        custom_colors=c("black", "red", "green"),
+                        na.action=na.omit)
+  expect_s3_class(plt, "ggplot")
+  vdiffr::expect_doppelganger("plot, custom colors", fig=plt)
+})
+
+test_that("plot, cont color", {
+  plt <- plot_surv_lines(time="time", status="event", variable="x3",
+                         data=sim_dat, model=model, discrete=FALSE,
+                         start_color="red", end_color="green")
+  expect_s3_class(plt, "ggplot")
+  vdiffr::expect_doppelganger("plot, cont color", fig=plt)
+})
+
+test_that("plot, lots of stuff", {
+  plt <- plot_surv_lines(time="time", status="event", variable="x3",
+                         data=sim_dat, model=model, cif=TRUE, discrete=TRUE,
+                         linetype="dashed", alpha=0.8, title="Title",
+                         subtitle="Subtitle", xlab="x", ylab="y",
+                         gg_theme=ggplot2::theme_classic())
+  expect_s3_class(plt, "ggplot")
+  vdiffr::expect_doppelganger("plot, lots of stuff", fig=plt)
+})

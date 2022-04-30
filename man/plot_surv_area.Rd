@@ -11,13 +11,14 @@ Using a previously fit time-to-event model, this function plots a survival curve
 plot_surv_area(time, status, variable, data, model,
                cif=FALSE, na.action=options()$na.action,
                horizon=NULL, fixed_t=NULL, max_t=Inf,
-               start_color="blue", end_color="red",
+               start_color="blue", end_color="red", alpha=1,
                discrete=FALSE, bins=ifelse(discrete, 10, 40),
                sep_lines=FALSE, sep_color="black",
                sep_size=0.1, sep_linetype="solid",
-               alpha=1, xlab="Time", ylab="Survival Probability",
-               title=NULL, subtitle=NULL,
-               legend.title=variable, legend.position="right",
+               sep_alpha=alpha, xlab="Time",
+               ylab="Survival Probability", title=NULL,
+               subtitle=NULL, legend.title=variable,
+               legend.position="right",
                gg_theme=ggplot2::theme_bw(),
                ...)
 }
@@ -58,6 +59,9 @@ The color used for the lowest value in \code{horizon}. This and the \code{end_co
   \item{end_color}{
 The color used for the highest value in \code{horizon}. See argument \code{start_color}.
   }
+  \item{alpha}{
+The transparency level of the main plot.
+  }
   \item{discrete}{
 Whether to plot the area as a single continuously shaded area (default) or as multiple discrete blocks. The blocks correspond to ranges (such as 5-10). This only really changes the style of the legend and decreases the default value of \code{bins} to make the discrete blocks visable.
   }
@@ -76,8 +80,8 @@ The size of the separator lines. Ignored if \code{sep_lines=FALSE}.
   \item{sep_linetype}{
 The linetype of the separator lines. Ignored if \code{sep_lines=FALSE}.
   }
-  \item{alpha}{
-The transparency level of the whole plot.
+  \item{sep_alpha}{
+The transparency level of the separator lines. Ignored if \code{sep_lines=FALSE}.
   }
   \item{xlab}{
 A character string used as the x-axis label of the plot.
