@@ -82,13 +82,16 @@ Further arguments passed to \code{curve_cont}.
 \details{
 The survival curve or CIF dependent on a continuous variable can be viewed as a 3D surface. All other plots in this package try to visualize this surface by reducing it to two dimensions using color scales or summary statistics. This function on the other hand directly plots the 3D surface as such.
 
-Although 3D plots are frowned upon by many scientists, it might be a good visualisation choice from time to time. Using the \code{interactive=TRUE} option makes the plot interactive, which lessens some of the valid criticism of 3D graphics.
+Although 3D plots are frowned upon by many scientists, it might be a good visualisation choice from time to time. Using the \code{interactive=TRUE} option makes the plot interactive, which lessens some of the valid criticism of 3D graphics. Similar looking plots for the same purpose but using a likelihood-ratio approach have been proposed in Smith et al. (2019).
 }
 \value{
 Returns a \code{plotly} object if \code{interactive=TRUE} is used and a matrix when \code{interactive=FALSE} is used (still drawing the plot).
 }
 \author{
 Robin Denz
+}
+\references{
+Smith, A. M.; Christodouleas, J. P. & Hwang, W.-T. Understanding the Predictive Value of Continuous Markers for Censored Survival Data Using a Likelihood Ratio Approach BMC Medical Research Methodology, 2019, 19
 }
 \examples{
 \dontrun{

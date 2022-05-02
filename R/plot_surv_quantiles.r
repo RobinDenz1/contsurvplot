@@ -76,8 +76,7 @@ plot_surv_quantiles <- function(time, status, variable, data, model,
     ggplot2::theme(legend.position=legend.position)
 
   if (is.null(single_color) & !is.null(custom_colors)) {
-    p <- p + ggplot2::scale_colour_manual(values=custom_colors)
+    plt <- plt + ggplot2::scale_colour_manual(values=custom_colors)
   }
-
   return(plt)
 }

@@ -23,7 +23,7 @@ curve_cont <- function(data, variable, model, horizon,
   # using single core
   if (n_cores <= 1) {
     plotdata <- vector(mode="list", length=length(horizon))
-    for (i in 1:length(horizon)) {
+    for (i in seq_len(length(horizon))) {
 
       data_temp <- data
       data_temp[, variable] <- horizon[i]
@@ -51,7 +51,8 @@ curve_cont <- function(data, variable, model, horizon,
     doParallel::registerDoParallel(cl)
     pkgs <- (.packages())
 
-    plotdata <- foreach::foreach(i=1:length(horizon), .packages=pkgs) %dopar% {
+    plotdata <- foreach::foreach(i=seq_len(length(horizon)),
+                                 .packages=pkgs) %dopar% {
       data_temp <- data
       data_temp[, variable] <- horizon[i]
 

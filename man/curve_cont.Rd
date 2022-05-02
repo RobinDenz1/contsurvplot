@@ -29,10 +29,10 @@ A numeric vector containing a range of values of \code{variable} for which the s
 A numeric vector containing points in time at which the survival probabilities should be calculated.
   }
   \item{cause}{
-The cause of interest. In standard survival data with only one event type, this should be kept at 1.
+The cause of interest. In standard survival data with only one event type, this should be kept at 1. For data with multiple failure types, this argument should be specified. In addition, the \code{cif} argument should be set to \code{TRUE} in those cases.
   }
   \item{cif}{
-Whether to calculate the cumulative incidence (CIF) instead of the survival probability. If multiple failure types are present, the survival probability cannot be estimated in an unbiased way. This function will always return CIF estimates in that case.
+Whether to calculate the cumulative incidence (CIF) instead of the survival probability. If multiple failure types are present, the survival probability cannot be estimated in an unbiased way. In those cases, this argument should always be set to \code{TRUE}.
   }
   \item{n_cores}{
 The number of processor cores to use when performing the calculations. If \code{n_cores=1} (default), single threaded processing is used. If \code{n_cores > 1} the \pkg{foreach} package and the \pkg{doParallel} package are used to run the calculations on \code{n_cores} in parallel. This might speed up the runtime considerably when it is initially slow.
@@ -49,7 +49,7 @@ This function uses *Direct Standardizaion*, also known as the Corrected Group Pr
 
 If the model supplied to \code{model} is correct, the resulting estimates will be unbiased. By including relevant confounders as independent covariates in the \code{model}, the resulting estimates are adjusted for the confounders as well. This function is used internally in all plot functions included in this R-package and generally does not need to be called directly by the user. It can however be used to get specific values or as a basis to create custom plots not included in this package.
 
-It relies on the \code{predictRisk} function from the \pkg{riskRegression} package to create the covariate and time specific estimates of the probabilities.
+It relies on the \code{predictRisk} function from the \pkg{riskRegression} package to create the covariate and time specific estimates of the probabilities. If there are multiple failure types in the status variable of the time-to-event outcome, this should be directly modeled using a suitable model, such as a Cause-Specific-Cox model or a Fine & Gray model. In this case, only the cause-specific CIF can be estimated and \code{cif=TRUE} should always be used accordingly.
 }
 \value{
 Returns a \code{data.frame} containing the columns \code{time} (the point in time), \code{surv} (the estimated survival probability) and \code{cont} (the specific value of \code{variable} used).

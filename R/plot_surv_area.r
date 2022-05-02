@@ -13,7 +13,7 @@ plot_surv_area <- function(time, status, variable, data, model,
                            xlab="Time", ylab="Survival Probability",
                            title=NULL, subtitle=NULL,
                            legend.title=variable, legend.position="right",
-                           gg_theme=ggplot2::theme_bw(),
+                           gg_theme=ggplot2::theme_bw(), label_digits=NULL,
                            ...) {
 
   check_inputs_plots(time=time, status=status, variable=variable,
@@ -61,7 +61,7 @@ plot_surv_area <- function(time, status, variable, data, model,
   # # NOTE: Invisible lines/bars are added here just to get the correct legend
   if (discrete) {
     fake_horizon <- as.factor(horizon[seq_len(length(horizon)-1)])
-    levels(fake_horizon) <- get_bin_labels(horizon)
+    levels(fake_horizon) <- get_bin_labels(horizon, digits=label_digits)
 
     fake_dat <- data.frame(x=0, y=0, col=fake_horizon)
     p <- p + ggplot2::geom_bar(data=fake_dat,
@@ -119,11 +119,15 @@ plot_surv_area <- function(time, status, variable, data, model,
 }
 
 ## small helper function to create legend labels from horizon
-get_bin_labels <- function(vec) {
+get_bin_labels <- function(vec, digits) {
 
   bins <- character(length=length(vec)-1)
   for (i in seq_len(length(vec)-1)) {
-    label <- paste0(vec[i], " - ", vec[i+1])
+    if (is.null(digits)) {
+      label <- paste0(vec[i], " - ", vec[i+1])
+    } else {
+      label <- paste0(round(vec[i], digits), " - ", round(vec[i+1], digits))
+    }
     bins[i] <- label
   }
   return(bins)

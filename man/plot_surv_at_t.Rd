@@ -82,7 +82,7 @@ Further arguments passed to \code{curve_cont}.
 \details{
 By picking a single value of time, we can effectively reduce the dimensions of the plot by one, resulting in a simple curve plot of the survival probability or CIF at the specific point in time as it changes over values of the continuous covariate. By supplying a vector of times to the \code{t} argument, multiple such curves can be produced in the same plot.
 
-This can be a very effective plotting strategy if there are specific points in time of interest already (even better if those were pre-defined). It is however a poor strategy if a representation of the effect on the survival over time is desired.
+This can be a very effective plotting strategy if there are specific points in time of interest already (even better if those were pre-defined). It is however a poor strategy if a representation of the effect on the survival over time is desired. An empirical example of this strategy using the 5 year risk is given in Shen et al. (2017).
 
 As all plot functions in this package, this plot relies on the \code{curve_cont} function to calculate the needed probability estimates.
 }
@@ -91,6 +91,9 @@ Returns a \code{ggplot2} object.
 }
 \author{
 Robin Denz
+}
+\references{
+Shen, Y.-M.; Le, L. D.; Wilson, R. & Mansmann, U. Graphical Presentation of Patient-Treatment Interaction Elucidated by Continuous Biomarkers: Current Practice and Scope for Improvement Methods of Information in Medicine, 2017, 56, 13-27
 }
 \examples{
 \dontrun{

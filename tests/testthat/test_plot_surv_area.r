@@ -50,6 +50,14 @@ test_that("plot, discrete + bins", {
   vdiffr::expect_doppelganger("plot, discrete + bins", fig=plt)
 })
 
+test_that("plot, discrete round", {
+  plt <- plot_surv_area(time="time", status="event", variable="x3",
+                        data=sim_dat, model=model, discrete=TRUE, bins=4,
+                        label_digits=3)
+  expect_s3_class(plt, "ggplot")
+  vdiffr::expect_doppelganger("plot, discrete round", fig=plt)
+})
+
 test_that("plot, sep_lines", {
   plt <- plot_surv_area(time="time", status="event", variable="x3",
                         data=sim_dat, model=model, discrete=TRUE,

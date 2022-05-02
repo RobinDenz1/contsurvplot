@@ -89,6 +89,9 @@ Returns a \code{ggplot2} object.
 \author{
 Robin Denz
 }
+\references{
+Eng, K. H.; Schiller, E. & Morrell, K. On Representing the Prognostic Value of Continuous Gene Expression Biomarkers with the Restricted Mean Survival Curve. In: Oncotarget, 2015, 6, 36308-36318
+}
 \examples{
 \dontrun{
 library(riskRegression)

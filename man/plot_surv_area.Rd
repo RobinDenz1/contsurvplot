@@ -20,6 +20,7 @@ plot_surv_area(time, status, variable, data, model,
                subtitle=NULL, legend.title=variable,
                legend.position="right",
                gg_theme=ggplot2::theme_bw(),
+               label_digits=NULL,
                ...)
 }
 \arguments{
@@ -103,6 +104,9 @@ Where to put the legend. See \code{?theme} for more details.
   }
   \item{gg_theme}{
 A \pkg{ggplot2} theme which is applied to the plot.
+  }
+  \item{label_digits}{
+A single number specifying to how many digits the labels of the plot should be rounded or \code{NULL} (default). If \code{NULL}, no rounding is performed and the exact values are presented. This argument is only used when \code{discrete=TRUE} is used and ignored otherwise.
   }
   \item{...}{
 Further arguments passed to \code{curve_cont}.
