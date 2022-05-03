@@ -5,8 +5,8 @@
 #' @export
 plot_surv_rmst <- function(time, status, variable, data, model,
                            na.action=options()$na.action,
-                           tau, horizon=NULL,
-                           size=1, linetype="solid", alpha=1,
+                           tau, horizon=NULL, custom_colors=NULL,
+                           size=1, linetype="solid", alpha=1, color="black",
                            xlab=variable, ylab="Restricted Mean Survival Time",
                            title=NULL, subtitle=NULL,
                            legend.title=variable, legend.position="right",
@@ -68,13 +68,21 @@ plot_surv_rmst <- function(time, status, variable, data, model,
 
   if (length(tau)==1) {
     p$mapping$colour <- NULL
+    gg_line <- ggplot2::geom_line(size=size, linetype=linetype, alpha=alpha,
+                                  color=color)
+  } else {
+    gg_line <- ggplot2::geom_line(size=size, linetype=linetype, alpha=alpha)
   }
 
-  p <- p + ggplot2::geom_line(size=size, linetype=linetype, alpha=alpha) +
+  p <- p + gg_line +
     ggplot2::labs(x=xlab, y=ylab, title=title, subtitle=subtitle,
                   fill=legend.title) +
     gg_theme +
     ggplot2::theme(legend.position=legend.position)
+
+  if (length(tau) > 1 & !is.null(custom_colors)) {
+    p <- p + ggplot2::scale_colour_manual(values=custom_colors)
+  }
 
   return(p)
 }

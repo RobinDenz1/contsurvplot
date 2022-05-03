@@ -1,7 +1,6 @@
 
 ## function to plot survival time quantiles as they evolve over values of
 ## the continuous variable
-# TODO: is there a "full" curve and how would i get that?
 #' @importFrom rlang .data
 #' @export
 plot_surv_quantiles <- function(time, status, variable, data, model,
@@ -63,10 +62,10 @@ plot_surv_quantiles <- function(time, status, variable, data, model,
   }
 
   if (!is.null(single_color)) {
-    gg_lines <- ggplot2::geom_line(size=size, linetype=linetype, alpha=alpha,
+    gg_lines <- ggplot2::geom_step(size=size, linetype=linetype, alpha=alpha,
                                    color=single_color)
   } else {
-    gg_lines <- ggplot2::geom_line(size=size, linetype=linetype, alpha=alpha)
+    gg_lines <- ggplot2::geom_step(size=size, linetype=linetype, alpha=alpha)
   }
 
   plt <- plt + gg_lines +

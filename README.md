@@ -58,10 +58,10 @@ model <- coxph(Surv(time, status) ~ age + sex + nodes, data=colon, x=TRUE)
 
 # plot survival area
 plot_surv_area(time="time",
-		 status="status",
-		 variable="nodes",
-		 data=colon,
-		 model=model)
+		status="status",
+		variable="nodes",
+		data=colon,
+		model=model)
 
 ```
 <img src="man/figures/example_area.png" />
@@ -70,10 +70,10 @@ Alternatively, we can plot a contour plot to visualize the effect:
 
 ```R
 plot_surv_contour(time="time",
-		 status="status",
-		 variable="nodes",
-		 data=colon,
-		 model=model)
+		  status="status",
+		  variable="nodes",
+		  data=colon,
+		  model=model)
 ```
 <img src="man/figures/example_contour.png" />
 
@@ -81,11 +81,11 @@ Or we can use a simple plot of the median survival time as a function of `nodes`
 
 ```R
 plot_surv_quantiles(time="time",
-		  status="status",
-		  variable="nodes",
-		  data=colon,
-		  model=model,
-		  p=0.5)
+		   status="status",
+		   variable="nodes",
+		   data=colon,
+		   model=model,
+		   p=0.5)
 ```
 <img src="man/figures/example_quantiles.png" />
 

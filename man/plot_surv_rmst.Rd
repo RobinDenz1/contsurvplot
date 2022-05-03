@@ -10,8 +10,8 @@ Using a previously fit time-to-event model, this function plots the restricted m
 \usage{
 plot_surv_rmst(time, status, variable, data, model,
                na.action=options()$na.action,
-               tau, horizon=NULL,
-               size=1, linetype="solid", alpha=1,
+               tau, horizon=NULL, custom_colors=NULL,
+               size=1, linetype="solid", alpha=1, color="black",
                xlab=variable, ylab="Restricted Mean Survival Time",
                title=NULL, subtitle=NULL,
                legend.title=variable, legend.position="right",
@@ -42,6 +42,9 @@ The point in time to which the RMST should be calculated. Corresponds to the \co
   \item{horizon}{
 A numeric vector containing a range of values of \code{variable} for which the survival curves should be calculated or \code{NULL} (default). If \code{NULL}, the horizon is constructed as a sequence from the lowest to the highest value observed in \code{variable} with 100 equally spaced steps.
   }
+  \item{custom_colors}{
+An optional character vector of colors to use when there are multiple values in \code{tau}. Ignored if \code{length(tau)==1}, in which case the \code{color} argument can be used to specify the color of the single line.
+  }
   \item{size}{
 A single number specifying how thick the lines should be drawn.
   }
@@ -50,6 +53,9 @@ The linetype of the drawn lines. See documentation of \pkg{ggplot2} for more det
   }
   \item{alpha}{
 The transparency level of the lines.
+  }
+  \item{color}{
+The color of the curve if \code{tau} is a single value. If a numeric vector was supplied to \code{tau}, use the \code{custom_colors} argument to specify them instead.
   }
   \item{xlab}{
 A character string used as the x-axis label of the plot.

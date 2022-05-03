@@ -21,6 +21,14 @@ test_that("plot, change horizon", {
   vdiffr::expect_doppelganger("plot, change horizon", fig=plt)
 })
 
+test_that("plot, custom_colors", {
+  plt <- plot_surv_rmst(time="time", status="event", variable="x3",
+                        data=sim_dat, model=model, tau=c(20, 35),
+                        custom_colors=c("green", "grey"))
+  expect_s3_class(plt, "ggplot")
+  vdiffr::expect_doppelganger("plot, custom_colors", fig=plt)
+})
+
 test_that("plot, lots of stuff", {
   plt <- plot_surv_rmst(time="time", status="event", variable="x3",
                         data=sim_dat, model=model, tau=c(20, 37, 50),
