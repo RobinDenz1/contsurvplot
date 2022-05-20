@@ -7,17 +7,12 @@ curve_cont <- function(data, variable, model, horizon,
                        times, cause=1, cif=FALSE, n_cores=1,
                        na.action=options()$na.action, ...) {
 
+  data <- prepare_inputdata(data=data, time=variable, status=variable,
+                            variable=variable, model=model, na.action=na.action)
+
   check_inputs_curve_cont(data=data, variable=variable, model=model,
                           horizon=horizon, times=times, cause=cause,
                           cif=cif, na.action=na.action)
-
-  # perform na.action
-  if (is.function(na.action)) {
-    data <- na.action(data)
-  } else {
-    na.action <- get(na.action)
-    data <- na.action(data)
-  }
 
   ## calculate the needed data
   # using single core

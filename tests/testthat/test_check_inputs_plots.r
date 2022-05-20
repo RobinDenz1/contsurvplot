@@ -10,23 +10,6 @@ wrong_model <- survival::coxph(survival::Surv(time, event) ~ x1,
                                data=sim_dat, x=TRUE)
 wrong_model$coefficients[1] <- NA
 
-test_that("wrong data", {
-  expect_error(check_inputs_plots(time="time",
-                                  status="event",
-                                  variable="x3",
-                                  data="A",
-                                  model=model,
-                                  na.action="na.omit",
-                                  horizon=NULL,
-                                  fixed_t=NULL,
-                                  max_t=Inf,
-                                  discrete=FALSE,
-                                  panel_border=TRUE,
-                                  t=0.5,
-                                  tau=10),
-               "'data' must be a data.frame object.")
-})
-
 test_that("time format", {
   expect_error(check_inputs_plots(time=c("A", "B"),
                                   status="event",

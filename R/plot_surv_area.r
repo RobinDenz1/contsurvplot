@@ -16,18 +16,13 @@ plot_surv_area <- function(time, status, variable, data, model,
                            gg_theme=ggplot2::theme_bw(), label_digits=NULL,
                            ...) {
 
+  data <- prepare_inputdata(data=data, time=time, status=status,
+                            variable=variable, model=model, na.action=na.action)
+
   check_inputs_plots(time=time, status=status, variable=variable,
                      data=data, model=model, na.action=na.action,
                      horizon=horizon, fixed_t=fixed_t, max_t=max_t,
                      discrete=TRUE, panel_border=TRUE, t=1, tau=1)
-
-  # perform na.action
-  if (is.function(na.action)) {
-    data <- na.action(data)
-  } else {
-    na.action <- get(na.action)
-    data <- na.action(data)
-  }
 
   if (is.null(fixed_t)) {
     fixed_t <- c(0, sort(unique(data[, time][data[, status]==1])))

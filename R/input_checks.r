@@ -21,10 +21,6 @@ check_horizon <- function(horizon, data, variable) {
 check_inputs_plots <- function(time, status, variable, data, model,
                                na.action, horizon, fixed_t, max_t,
                                discrete, panel_border, t, tau) {
-  # correct data type
-  if (!inherits(data, "data.frame")) {
-    stop("'data' must be a data.frame object.")
-  }
 
   # correct input type in time, status, variable
   if (!(length(time)==1 && is.character(time))) {
@@ -118,11 +114,6 @@ check_inputs_plots <- function(time, status, variable, data, model,
 ## Check inputs for the curve_cont function
 check_inputs_curve_cont <- function(data, variable, model, horizon,
                                     times, cause, cif, na.action) {
-  # correct data type
-  if (!inherits(data, "data.frame")) {
-    stop("'data' must be a data.frame object.")
-  }
-
   # correct variable
   if (!(length(variable)==1 && is.character(variable))) {
     stop("'variable' must be a single character string specifying a",

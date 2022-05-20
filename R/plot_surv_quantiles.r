@@ -14,18 +14,13 @@ plot_surv_quantiles <- function(time, status, variable, data, model,
                                 gg_theme=ggplot2::theme_bw(), ...) {
   requireNamespace("adjustedCurves")
 
+  data <- prepare_inputdata(data=data, time=time, status=status,
+                            variable=variable, model=model, na.action=na.action)
+
   check_inputs_plots(time=time, status=status, variable=variable,
                      data=data, model=model, na.action=na.action,
                      horizon=horizon, fixed_t=NULL, max_t=Inf,
                      discrete=TRUE, panel_border=TRUE, t=1, tau=1)
-
-  # perform na.action
-  if (is.function(na.action)) {
-    data <- na.action(data)
-  } else {
-    na.action <- get(na.action)
-    data <- na.action(data)
-  }
 
   if (is.null(horizon)) {
     horizon <- seq(min(data[, variable]), max(data[, variable]), length.out=40)
