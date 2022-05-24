@@ -5,17 +5,18 @@
 Plot the Effect of a Continuous Variable on the Restricted Mean Time Lost
 }
 \description{
-Using a previously fit time-to-event model, this function plots the restricted mean time lost (RMTL) as a function of a continuous variable. Internally uses the \pkg{adjustedCurves} package to calculate the RMTL. Unlike the \code{plot_surv_rmst} function, this function can deal with multiple event types in the \code{status} variable.
+Using a previously fit time-to-event model, this function plots the restricted mean time lost (RMTL) as a function of a continuous variable. Internally uses the \pkg{adjustedCurves} package to calculate the RMTL. Unlike the \code{\link{plot_surv_rmst}} function, this function can deal with multiple event types in the \code{status} variable.
 }
 \usage{
-plot_surv_rmtl(time, status, variable, data, model,
-               na.action=options()$na.action,
+plot_surv_rmtl(time, status, variable, group=NULL,
+               data, model, na.action=options()$na.action,
                tau, horizon=NULL, custom_colors=NULL,
                size=1, linetype="solid", alpha=1, color="black",
                xlab=variable, ylab="Restricted Mean Time Lost",
                title=NULL, subtitle=NULL,
                legend.title=variable, legend.position="right",
-               gg_theme=ggplot2::theme_bw(), ...)
+               gg_theme=ggplot2::theme_bw(),
+               facet_args=list(), ...)
 }
 \arguments{
   \item{time}{
@@ -27,17 +28,20 @@ A single character string specifying the status variable, indicating if a person
   \item{variable}{
 A single character string specifying the continuous variable of interest, for which the CIFs should be estimated. This variable has to be contained in the \code{data.frame} that is supplied to the \code{data} argument.
   }
+  \item{group}{
+An optional single character string specifying a factor variable in \code{data}. When used, the plot is created conditional on this factor variable, meaning that a facetted plot is produced with one facet for each level of the factor variable. See \code{\link{curve_cont}} for a detailed description of the estimation strategy. Set to \code{NULL} (default) to use no grouping variable.
+  }
   \item{data}{
 A \code{data.frame} containing all required variables.
   }
   \item{model}{
-A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{predictRisk} method. See \code{?predictRisk} for more details.
+A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{\link[=riskRegression]{predictRisk}} method. See \code{?predictRisk} for more details.
   }
   \item{na.action}{
 How missing values should be handled. Can be one of: \code{na.fail}, \code{na.omit}, \code{na.pass}, \code{na.exclude} or a user-defined custom function. Also accepts strings of the function names. See \code{?na.action} for more details. By default it uses the na.action which is set in the global options by the respective user.
   }
   \item{tau}{
-The point in time to which the RMTL should be calculated. Corresponds to the \code{to} argument in the \code{adjusted_rmtl} function of the \code{adjustedCurves} package. If multiple values are supplied, one curve is drawn for each of them.
+The point in time to which the RMTL should be calculated. Corresponds to the \code{to} argument in the \code{\link[=adjustedCurves]{adjusted_rmtl}} function of the \code{adjustedCurves} package. If multiple values are supplied, one curve is drawn for each of them.
   }
   \item{horizon}{
 A numeric vector containing a range of values of \code{variable} for which the CIFs should be calculated or \code{NULL} (default). If \code{NULL}, the horizon is constructed as a sequence from the lowest to the highest value observed in \code{variable} with 100 equally spaced steps.
@@ -78,14 +82,17 @@ Where to put the legend. See \code{?theme} for more details.
   \item{gg_theme}{
 A \pkg{ggplot2} theme which is applied to the plot.
   }
+  \item{facet_args}{
+A named list of arguments that are passed to the \code{\link{facet_wrap}} function call when creating a plot separated by groups. Ignored if \code{group=NULL}. Any argument except the \code{facets} argument of the \code{\link{facet_wrap}} function can be used. For example, if the user wants to allow free y-scales, this argument could be set to \code{list(scales="free_y")}.
+  }
   \item{...}{
-Further arguments passed to \code{curve_cont}.
+Further arguments passed to \code{\link{curve_cont}}.
   }
 }
 \details{
-This function is essentially equal to the \code{plot_surv_rmtl} function. The only difference is that instead of using the restricted mean survival time (RMST), which is the area under the survival curve up to a specific point in time \code{tau}, this function uses the restricted mean time lost (RMTL), which is the area under the (cause-specific) CIF up to a specific point in time \code{tau}. It can be interpreted as the mean time it takes an individual to succumb to the event of interest before \code{tau}.
+This function is essentially equal to the \code{\link{plot_surv_rmtl}} function. The only difference is that instead of using the restricted mean survival time (RMST), which is the area under the survival curve up to a specific point in time \code{tau}, this function uses the restricted mean time lost (RMTL), which is the area under the (cause-specific) CIF up to a specific point in time \code{tau}. It can be interpreted as the mean time it takes an individual to succumb to the event of interest before \code{tau}.
 
-The reason this is split into two functions is, that the RMTL can be calculated when mutually exclusive competing events are present, while the RMST cannot. The basic pros and cons of the \code{plot_surv_rmst} function still apply here, however. For more information we suggest consulting the documentation page of the \code{plot_surv_rmst} function.
+The reason this is split into two functions is, that the RMTL can be calculated when mutually exclusive competing events are present, while the RMST cannot. The basic pros and cons of the \code{\link{plot_surv_rmst}} function still apply here, however. For more information we suggest consulting the documentation page of the \code{\link{plot_surv_rmst}} function.
 }
 \value{
 Returns a \code{ggplot2} object.

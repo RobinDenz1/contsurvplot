@@ -16,9 +16,9 @@ Imports:
 	dplyr,
 	rlang,
 	riskRegression,
-	survival,
 	foreach
 Suggests:
+	survival,
     adjustedCurves,
     pammtools,
     gganimate,

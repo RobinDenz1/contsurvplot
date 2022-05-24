@@ -5,11 +5,12 @@
 Create a Contour Plot of the Effect of a Continuous Covariate on the Survival Probability
 }
 \description{
-Using a previously fit time-to-event model, this function creates a contour plot with the continuous covariate on the y-axis and the time-to-event on the x-axis. The color is made in accordence with the corresponding survival probability at that point, binned into separate categories. This is very similar to the \code{plot_surv_heatmap} plot, but using a categorical representation.
+Using a previously fit time-to-event model, this function creates a contour plot with the continuous covariate on the y-axis and the time-to-event on the x-axis. The color is made in accordence with the corresponding survival probability at that point, binned into separate categories. This is very similar to the \code{\link{plot_surv_heatmap}} plot, but using a categorical representation.
 }
 \usage{
-plot_surv_contour(time, status, variable, data, model,
-                  cif=FALSE, na.action=options()$na.action,
+plot_surv_contour(time, status, variable, group=NULL,
+                  data, model, cif=FALSE,
+                  na.action=options()$na.action,
                   horizon=NULL, fixed_t=NULL, max_t=Inf,
                   size=0.1, linetype="solid", alpha=1,
                   bins=NULL, binwidth=NULL, breaks=NULL,
@@ -18,6 +19,7 @@ plot_surv_contour(time, status, variable, data, model,
                   title=NULL, subtitle=NULL,
                   legend.title="S(t)", legend.position="right",
                   gg_theme=ggplot2::theme_bw(),
+                  facet_args=list(),
                   panel_border=FALSE, axis_dist=0, ...)
 }
 \arguments{
@@ -30,11 +32,14 @@ A single character string specifying the status variable, indicating if a person
   \item{variable}{
 A single character string specifying the continuous variable of interest, for which the survival curves should be estimated. This variable has to be contained in the \code{data.frame} that is supplied to the \code{data} argument.
   }
+  \item{group}{
+An optional single character string specifying a factor variable in \code{data}. When used, the plot is created conditional on this factor variable, meaning that a facetted plot is produced with one facet for each level of the factor variable. See \code{\link{curve_cont}} for a detailed description of the estimation strategy. Set to \code{NULL} (default) to use no grouping variable.
+  }
   \item{data}{
 A \code{data.frame} containing all required variables.
   }
   \item{model}{
-A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{predictRisk} method. See \code{?predictRisk} for more details.
+A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{\link[=riskRegression]{predictRisk}} method. See \code{?predictRisk} for more details.
   }
   \item{cif}{
 Whether to plot the cumulative incidence (CIF) instead of the survival probability. If multiple failure types are present, the survival probability cannot be estimated in an unbiased way. This function will always return CIF estimates in that case.
@@ -52,7 +57,7 @@ A numeric vector containing points in time at which the survival probabilities s
 A number indicating the latest survival time which is to be plotted.
   }
   \item{size}{
-The size of the individual lines plotted by the \code{geom_contour_filled} function. Usually this option can be kept at 0.1 (default).
+The size of the individual lines plotted by the \code{\link[=ggplot2]{geom_contour_filled}} function. Usually this option can be kept at 0.1 (default).
   }
   \item{linetype}{
 The linetype of the contour lines.
@@ -61,13 +66,13 @@ The linetype of the contour lines.
 The transparency level of the plot.
   }
   \item{bins}{
-A single number specifying how many categories the survival probability or CIF should be divided in, or \code{NULL} (default). If \code{NULL}, the defaults in \code{geom_contour_filled} are used.
+A single number specifying how many categories the survival probability or CIF should be divided in, or \code{NULL} (default). If \code{NULL}, the defaults in \code{\link[=ggplot2]{geom_contour_filled}} are used.
   }
   \item{binwidth}{
-A single number specifying the width of the bins of the survival probability or CIF categories, or \code{NULL} (default). If \code{NULL}, the defaults in \code{geom_contour_filled} are used.
+A single number specifying the width of the bins of the survival probability or CIF categories, or \code{NULL} (default). If \code{NULL}, the defaults in \code{\link[=ggplot2]{geom_contour_filled}} are used.
   }
   \item{breaks}{
-A vector of specific breaks to create the survival probability or CIF bins, or \code{NULL} (default). If \code{NULL}, the defaults in \code{geom_contour_filled} are used.
+A vector of specific breaks to create the survival probability or CIF bins, or \code{NULL} (default). If \code{NULL}, the defaults in \code{\link[=ggplot2]{geom_contour_filled}} are used.
   }
   \item{custom_colors}{
 A character vector of custom colors that should be used for each contour area.
@@ -93,6 +98,9 @@ Where to put the legend. See \code{?theme} for more details.
   \item{gg_theme}{
 A \pkg{ggplot2} theme which is applied to the plot.
   }
+  \item{facet_args}{
+A named list of arguments that are passed to the \code{\link{facet_wrap}} function call when creating a plot separated by groups. Ignored if \code{group=NULL}. Any argument except the \code{facets} argument of the \code{\link{facet_wrap}} function can be used. For example, if the user wants to allow free y-scales, this argument could be set to \code{list(scales="free_y")}.
+  }
   \item{panel_border}{
 Whether to draw a border around the heatmap or not. Is set to FALSE by default to mimic standard heatmaps.
   }
@@ -100,15 +108,15 @@ Whether to draw a border around the heatmap or not. Is set to FALSE by default t
 The distance of the axis ticks to the colored heatmap. Is set to 0 by default to mimic standard heatmaps.
   }
   \item{...}{
-Further arguments passed to \code{curve_cont}.
+Further arguments passed to \code{\link{curve_cont}}.
   }
 }
 \details{
-Contour plots are a great way to reduce three dimensions to a two-dimensional plot and therefore lend themselves easily to plot the effect of continuous variable on the survival probability or CIF over time. Heatmaps (as available in the \code{plot_surv_heatmap}) function are very similar, but are often less clear then contour plots. The major downside of these plots is that they do not have the survival probability (or CIF) on the y-axis, which is of course the standard in standard Kaplan-Meier plots. A very similar plot but with the probability of interest on the y-axis can be created using the \code{plot_surv_area} function.
+Contour plots are a great way to reduce three dimensions to a two-dimensional plot and therefore lend themselves easily to plot the effect of continuous variable on the survival probability or CIF over time. Heatmaps (as available in the \code{\link{plot_surv_heatmap}}) function are very similar, but are often less clear then contour plots. The major downside of these plots is that they do not have the survival probability (or CIF) on the y-axis, which is of course the standard in standard Kaplan-Meier plots. A very similar plot but with the probability of interest on the y-axis can be created using the \code{\link{plot_surv_area}} function.
 
 This type of plot has been described in Jackson & Cox (2021). However, the authors of that article propose a different method to estimate the needed data for the plot.
 
-Internally, this function uses the \code{geom_contour_filled} function of the \pkg{ggplot2} package to create the plot, after estimating the required probabilities using the \code{curve_cont} function.
+Internally, this function uses the \code{\link[=ggplot2]{geom_contour_filled}} function of the \pkg{ggplot2} package to create the plot, after estimating the required probabilities using the \code{\link{curve_cont}} function.
 }
 \value{
 Returns a \code{ggplot2} object.

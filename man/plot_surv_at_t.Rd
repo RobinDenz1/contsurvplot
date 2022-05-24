@@ -8,14 +8,15 @@ Plot the Survival Probability or CIF at a Fixed Point in Time as a Function of a
 Using a previously fit time-to-event model, this function plots the survival probability or CIF at one or multiple user defined points at time as a function of a continuous variable.
 }
 \usage{
-plot_surv_at_t(time, status, variable, data, model,
-               cif=FALSE, na.action=options()$na.action,
-               t, horizon=NULL,
+plot_surv_at_t(time, status, variable, group=NULL,
+               data, model, cif=FALSE,
+               na.action=options()$na.action, t, horizon=NULL,
                size=1, linetype="solid", alpha=1,
                xlab=variable, ylab="Survival Probability at t",
                title=NULL, subtitle=NULL,
                legend.title="t", legend.position="right",
-               gg_theme=ggplot2::theme_bw(), ...)
+               gg_theme=ggplot2::theme_bw(),
+               facet_args=list(), ...)
 }
 \arguments{
   \item{time}{
@@ -27,11 +28,14 @@ A single character string specifying the status variable, indicating if a person
   \item{variable}{
 A single character string specifying the continuous variable of interest, for which the survival curves should be estimated. This variable has to be contained in the \code{data.frame} that is supplied to the \code{data} argument.
   }
+  \item{group}{
+An optional single character string specifying a factor variable in \code{data}. When used, the plot is created conditional on this factor variable, meaning that a facetted plot is produced with one facet for each level of the factor variable. See \code{\link{curve_cont}} for a detailed description of the estimation strategy. Set to \code{NULL} (default) to use no grouping variable.
+  }
   \item{data}{
 A \code{data.frame} containing all required variables.
   }
   \item{model}{
-A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{predictRisk} method. See \code{?predictRisk} for more details.
+A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{\link[=riskRegression]{predictRisk}} method. See \code{?predictRisk} for more details.
   }
   \item{cif}{
 Whether to plot the cumulative incidence (CIF) instead of the survival probability. If multiple failure types are present, the survival probability cannot be estimated in an unbiased way. This function will always return CIF estimates in that case.
@@ -75,8 +79,11 @@ Where to put the legend. See \code{?theme} for more details.
   \item{gg_theme}{
 A \pkg{ggplot2} theme which is applied to the plot.
   }
+  \item{facet_args}{
+A named list of arguments that are passed to the \code{\link{facet_wrap}} function call when creating a plot separated by groups. Ignored if \code{group=NULL}. Any argument except the \code{facets} argument of the \code{\link{facet_wrap}} function can be used. For example, if the user wants to allow free y-scales, this argument could be set to \code{list(scales="free_y")}.
+  }
   \item{...}{
-Further arguments passed to \code{curve_cont}.
+Further arguments passed to \code{\link{curve_cont}}.
   }
 }
 \details{
@@ -84,7 +91,7 @@ By picking a single value of time, we can effectively reduce the dimensions of t
 
 This can be a very effective plotting strategy if there are specific points in time of interest already (even better if those were pre-defined). It is however a poor strategy if a representation of the effect on the survival over time is desired. An empirical example of this strategy using the 5 year risk is given in Shen et al. (2017).
 
-As all plot functions in this package, this plot relies on the \code{curve_cont} function to calculate the needed probability estimates.
+As all plot functions in this package, this plot relies on the \code{\link{curve_cont}} function to calculate the needed probability estimates.
 }
 \value{
 Returns a \code{ggplot2} object.

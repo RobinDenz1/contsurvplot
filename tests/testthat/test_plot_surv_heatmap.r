@@ -3,14 +3,23 @@ suppressMessages(requireNamespace("survival"))
 
 sim_dat <- readRDS(system.file("testdata", "sim150.Rds",
                                package="contsurvplot"))
+sim_dat$group <- factor(sim_dat$group)
 
-model <- survival::coxph(survival::Surv(time, event) ~ x3, data=sim_dat, x=TRUE)
+model <- survival::coxph(survival::Surv(time, event) ~ x3 + group,
+                         data=sim_dat, x=TRUE)
 
 test_that("plot, defaults", {
   plt <- plot_surv_heatmap(time="time", status="event", variable="x3",
                            data=sim_dat, model=model)
   expect_s3_class(plt, "ggplot")
   vdiffr::expect_doppelganger("plot, defaults", fig=plt)
+})
+
+test_that("plot, with group", {
+  plt <- plot_surv_heatmap(time="time", status="event", variable="x3",
+                           group="group", data=sim_dat, model=model)
+  expect_s3_class(plt, "ggplot")
+  vdiffr::expect_doppelganger("plot, with group", fig=plt)
 })
 
 test_that("plot, cif", {

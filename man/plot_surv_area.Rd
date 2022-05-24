@@ -8,8 +8,9 @@ Plot a Survival Area Plot for the Effect of a Continuous Variable on a Time-To-E
 Using a previously fit time-to-event model, this function plots a survival curve or CIF area plot. Instead of plotting value-specific curves, the probability of interest is represented as an area as a function of time, where the color changes according to the continuous variable.
 }
 \usage{
-plot_surv_area(time, status, variable, data, model,
-               cif=FALSE, na.action=options()$na.action,
+plot_surv_area(time, status, variable, group=NULL,
+               data, model, cif=FALSE,
+               na.action=options()$na.action,
                horizon=NULL, fixed_t=NULL, max_t=Inf,
                start_color="blue", end_color="red", alpha=1,
                discrete=FALSE, bins=ifelse(discrete, 10, 40),
@@ -20,6 +21,7 @@ plot_surv_area(time, status, variable, data, model,
                subtitle=NULL, legend.title=variable,
                legend.position="right",
                gg_theme=ggplot2::theme_bw(),
+               facet_args=list(),
                label_digits=NULL,
                ...)
 }
@@ -33,11 +35,14 @@ A single character string specifying the status variable, indicating if a person
   \item{variable}{
 A single character string specifying the continuous variable of interest, for which the survival curves should be estimated. This variable has to be contained in the \code{data.frame} that is supplied to the \code{data} argument.
   }
+  \item{group}{
+An optional single character string specifying a factor variable in \code{data}. When used, the plot is created conditional on this factor variable, meaning that a facetted plot is produced with one facet for each level of the factor variable. See \code{\link{curve_cont}} for a detailed description of the estimation strategy. Set to \code{NULL} (default) to use no grouping variable.
+  }
   \item{data}{
 A \code{data.frame} containing all required variables.
   }
   \item{model}{
-A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{predictRisk} method. See \code{?predictRisk} for more details.
+A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{\link[=riskRegression]{predictRisk}} method. See \code{?predictRisk} for more details.
   }
   \item{cif}{
 Whether to plot the cumulative incidence (CIF) instead of the survival probability. If multiple failure types are present, the survival probability cannot be estimated in an unbiased way. This function will always return CIF estimates in that case.
@@ -105,19 +110,22 @@ Where to put the legend. See \code{?theme} for more details.
   \item{gg_theme}{
 A \pkg{ggplot2} theme which is applied to the plot.
   }
+  \item{facet_args}{
+A named list of arguments that are passed to the \code{\link{facet_wrap}} function call when creating a plot separated by groups. Ignored if \code{group=NULL}. Any argument except the \code{facets} argument of the \code{\link{facet_wrap}} function can be used. For example, if the user wants to allow free y-scales, this argument could be set to \code{list(scales="free_y")}.
+  }
   \item{label_digits}{
 A single number specifying to how many digits the labels of the plot should be rounded or \code{NULL} (default). If \code{NULL}, no rounding is performed and the exact values are presented. This argument is only used when \code{discrete=TRUE} is used and ignored otherwise.
   }
   \item{...}{
-Further arguments passed to \code{curve_cont}.
+Further arguments passed to \code{\link{curve_cont}}.
   }
 }
 \details{
-This function is very similar to a contour plot (see \code{plot_surv_contour}), but with the probability of interest on the y-axis and the color representing the values of the continuous variable of interest. The main advantage of this type of plot is, that it has the same structure as a usual Kaplan-Meier plot. The only difference is that instead of single curves stratified by some variable, the curves are plotted as an area instead.
+This function is very similar to a contour plot (see \code{\link{plot_surv_contour}}), but with the probability of interest on the y-axis and the color representing the values of the continuous variable of interest. The main advantage of this type of plot is, that it has the same structure as a usual Kaplan-Meier plot. The only difference is that instead of single curves stratified by some variable, the curves are plotted as an area instead.
 
-This is achieved by estimating value-specific curves over the whole range of the continuous covariate using direct standardization and a previously fitted time-to-event model (see \code{curve_cont}). The area between those curves is then simply filled in (using the \code{geom_stepribbon} function from the \code{pammtools} package). By using a big number of individual curves, the appearance of a continuously shaded are is created. This is done by default when using the argument \code{discrete=TRUE}. By using \code{discrete=FALSE}, only a small number of value-specific curves are estimated, resulting in only a few discrete bins. When using only a few bins, the output is even closer to a contour plot.
+This is achieved by estimating value-specific curves over the whole range of the continuous covariate using direct standardization and a previously fitted time-to-event model (see \code{\link{curve_cont}}). The area between those curves is then simply filled in (using the \code{geom_stepribbon} function from the \pkg{pammtools} package). By using a big number of individual curves, the appearance of a continuously shaded area is created. This is done by default when using the argument \code{discrete=FALSE}. By using \code{discrete=TRUE}, only a small number of value-specific curves are estimated, resulting in only a few discrete bins. When using only a few bins, the output is therefore even closer to a contour plot.
 
-The major downside of this plotting method is that it only works if the effect of the continuous covariate was modelled as a linear effect or is montonically increasing or decreasing. Curved relationships between the variable and the survival time cannot be represented using this function. However, the \code{plot_surv_contour} and \code{plot_surv_heatmap} functions may be used instead in this case.
+The major downside of this plotting method is that it only works if the effect of the continuous covariate was modelled as a monotone effect, meaning that it either only increases or only decreases with higher values. Curved relationships between the variable and the survival time cannot be represented using this function, because the areas would be plotted on top of each other in that case. However, the \code{\link{plot_surv_contour}} and \code{\link{plot_surv_heatmap}} functions may be used instead in this case.
 }
 \value{
 Returns a \code{ggplot2} object.

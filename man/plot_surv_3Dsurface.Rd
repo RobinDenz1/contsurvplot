@@ -5,7 +5,7 @@
 Plot the Survival Curve or CIF Dependent on a Continuous Variable as a 3D Surface
 }
 \description{
-Using a previously fit time-to-event model, this function plots the survival curve as a function of a continuous variable using a 3D surface representation. This function can produce interactive plots using the \pkg{plotly} package, or a static image using the \code{persp} function of the \pkg{graphics} package.
+Using a previously fit time-to-event model, this function plots the survival curve as a function of a continuous variable using a 3D surface representation. This function can produce interactive plots using the \pkg{plotly} package, or a static image using the \code{\link[=graphics]{persp}} function of the \pkg{graphics} package.
 }
 \usage{
 plot_surv_3Dsurface(time, status, variable, data, model,
@@ -31,7 +31,7 @@ A single character string specifying the continuous variable of interest, for wh
 A \code{data.frame} containing all required variables.
   }
   \item{model}{
-A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{predictRisk} method. See \code{?predictRisk} for more details.
+A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{\link[=riskRegression]{predictRisk}} method. See \code{?predictRisk} for more details.
   }
   \item{cif}{
 Whether to plot the cumulative incidence (CIF) instead of the survival probability. If multiple failure types are present, the survival probability cannot be estimated in an unbiased way. This function will always return CIF estimates in that case.
@@ -76,7 +76,7 @@ The color(s) of the surface facets. Transparent colours are ignored. This is rec
 The shade at a surface facet is computed as \code{((1+d)/2)^shade}, where d is the dot product of a unit vector normal to the facet and a unit vector in the direction of a light source. Values of shade close to one yield shading similar to a point light source model and values close to zero produce no shading. Values in the range 0.5 to 0.75 provide an approximation to daylight illumination. Passed to the \code{shade} argument in the \code{persp} function. Ignored if \code{interactive=TRUE}.
   }
   \item{...}{
-Further arguments passed to \code{curve_cont}.
+Further arguments passed to \code{\link{curve_cont}}.
   }
 }
 \details{

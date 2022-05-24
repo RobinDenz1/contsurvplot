@@ -8,14 +8,16 @@ Create an Animated Plot of Survival Curves of CIFs as a Function of a Continuous
 Using a previously fit time-to-event model, this function plots a single covariate-specific survival curve or CIF. Using either the \pkg{plotly} or the \pkg{gganimate} package, an animated plot is created that is either simply showing how the curve evolves over values of the continuous covariate, or includes a slide to let the user interact with it.
 }
 \usage{
-plot_surv_animated(time, status, variable, data, model,
-                   cif=FALSE, na.action=options()$na.action,
+plot_surv_animated(time, status, variable, group=NULL,
+                   data, model, cif=FALSE,
+                   na.action=options()$na.action,
                    horizon=NULL, fixed_t=NULL, max_t=Inf,
                    slider=TRUE, size=1, color="black",
                    linetype="solid", alpha=1,
                    xlab="Time", ylab="Survival Probability",
                    title=NULL, subtitle=NULL,
-                   gg_theme=ggplot2::theme_bw(), ...)
+                   gg_theme=ggplot2::theme_bw(),
+                   facet_args=list(), ...)
 }
 \arguments{
   \item{time}{
@@ -27,11 +29,14 @@ A single character string specifying the status variable, indicating if a person
   \item{variable}{
 A single character string specifying the continuous variable of interest, for which the survival curves should be estimated. This variable has to be contained in the \code{data.frame} that is supplied to the \code{data} argument.
   }
+  \item{group}{
+An optional single character string specifying a factor variable in \code{data}. When used, the plot is created conditional on this factor variable, meaning that a facetted plot is produced with one facet for each level of the factor variable. See \code{\link{curve_cont}} for a detailed description of the estimation strategy. Set to \code{NULL} (default) to use no grouping variable.
+  }
   \item{data}{
 A \code{data.frame} containing all required variables.
   }
   \item{model}{
-A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{predictRisk} method. See \code{?predictRisk} for more details.
+A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{\link[=riskRegression]{predictRisk}} method. See \code{?predictRisk} for more details.
   }
   \item{cif}{
 Whether to plot the cumulative incidence (CIF) instead of the survival probability. If multiple failure types are present, the survival probability cannot be estimated in an unbiased way. This function will always return CIF estimates in that case.
@@ -78,8 +83,11 @@ A character string used as the subtitle of the plot.
   \item{gg_theme}{
 A \pkg{ggplot2} theme which is applied to the plot.
   }
+  \item{facet_args}{
+A named list of arguments that are passed to the \code{\link{facet_wrap}} function call when creating a plot separated by groups. Ignored if \code{group=NULL}. Any argument except the \code{facets} argument of the \code{\link{facet_wrap}} function can be used. For example, if the user wants to allow free y-scales, this argument could be set to \code{list(scales="free_y")}.
+  }
   \item{...}{
-Further arguments passed to \code{curve_cont}.
+Further arguments passed to \code{\link{curve_cont}}.
   }
 }
 \details{
@@ -87,7 +95,7 @@ When the plot doesn't have to be on paper, it is also possible to use animation 
 
 This type of plot is only usefull when visualizing the effect on a computer. It is also important to keep in mind that these plots might look slightly different to users with different hardware and or software.
 
-An additional interactive plot can be created using the \code{plot_surv_3Dsurface} function with \code{interactive=TRUE}.
+An additional interactive plot can be created using the \code{\link{plot_surv_3Dsurface}} function with \code{interactive=TRUE}.
 }
 \value{
 Returns a \code{plotly} object if \code{slider=TRUE} and a \code{gganim} object if \code{slider=FALSE}.

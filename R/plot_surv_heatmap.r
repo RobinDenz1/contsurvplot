@@ -3,21 +3,23 @@
 ## showing the survival or failure probability
 #' @importFrom rlang .data
 #' @export
-plot_surv_heatmap <- function(time, status, variable, data, model,
+plot_surv_heatmap <- function(time, status, variable, group=NULL, data, model,
                               cif=FALSE, na.action=options()$na.action,
                               horizon=NULL, fixed_t=NULL, max_t=Inf,
                               start_color=NULL, end_color=NULL,
-                              size=0.1, alpha=1, xlab="Time", ylab=variable,
+                              alpha=1, xlab="Time", ylab=variable,
                               title=NULL, subtitle=NULL,
                               legend.title="S(t)", legend.position="right",
-                              gg_theme=ggplot2::theme_bw(),
+                              gg_theme=ggplot2::theme_bw(), facet_args=list(),
                               panel_border=FALSE, axis_dist=0,
+                              interpolate=TRUE,
                               contour_lines=FALSE, contour_color="white",
                               contour_size=0.3, contour_linetype="dashed",
                               ...) {
 
   data <- prepare_inputdata(data=data, time=time, status=status,
-                            variable=variable, model=model, na.action=na.action)
+                            variable=variable, model=model,
+                            group=group, na.action=na.action)
 
   check_inputs_plots(time=time, status=status, variable=variable,
                      data=data, model=model, na.action=na.action,
@@ -38,6 +40,7 @@ plot_surv_heatmap <- function(time, status, variable, data, model,
   plotdata <- curve_cont(data=data,
                          variable=variable,
                          model=model,
+                         group=group,
                          horizon=horizon,
                          times=fixed_t,
                          na.action="na.fail",
@@ -52,7 +55,7 @@ plot_surv_heatmap <- function(time, status, variable, data, model,
   # plot it
   p <- ggplot2::ggplot(plotdata, ggplot2::aes(x=.data$time, y=.data$cont,
                                               fill=.data$est)) +
-    ggplot2::geom_tile(size=size, alpha=alpha) +
+    ggplot2::geom_raster(alpha=alpha, interpolate=interpolate) +
     ggplot2::labs(x=xlab, y=ylab, title=title, subtitle=subtitle,
                   fill=legend.title) +
     gg_theme +
@@ -72,6 +75,12 @@ plot_surv_heatmap <- function(time, status, variable, data, model,
                                    size=contour_size,
                                    linetype=contour_linetype,
                                    alpha=alpha)
+  }
+  # facet plot by factor variable
+  if (!is.null(group)) {
+    facet_args$facets <- stats::as.formula("~ group")
+    facet_obj <- do.call(ggplot2::facet_wrap, facet_args)
+    p <- p + facet_obj
   }
   return(p)
 }

@@ -13,7 +13,8 @@ plot_surv_3Dsurface <- function(time, status, variable, data, model,
   requireNamespace("reshape2")
 
   data <- prepare_inputdata(data=data, time=time, status=status,
-                            variable=variable, model=model, na.action=na.action)
+                            variable=variable, model=model,
+                            group=NULL, na.action=na.action)
 
   check_inputs_plots(time=time, status=status, variable=variable,
                      data=data, model=model, na.action=na.action,
@@ -33,6 +34,7 @@ plot_surv_3Dsurface <- function(time, status, variable, data, model,
   # get plotdata
   plotdata <- curve_cont(data=data,
                          variable=variable,
+                         group=NULL,
                          model=model,
                          horizon=horizon,
                          times=fixed_t,

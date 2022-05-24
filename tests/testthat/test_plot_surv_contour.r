@@ -3,14 +3,23 @@ suppressMessages(requireNamespace("survival"))
 
 sim_dat <- readRDS(system.file("testdata", "sim150.Rds",
                                package="contsurvplot"))
+sim_dat$group <- factor(sim_dat$group)
 
-model <- survival::coxph(survival::Surv(time, event) ~ x3, data=sim_dat, x=TRUE)
+model <- survival::coxph(survival::Surv(time, event) ~ x3 + group,
+                         data=sim_dat, x=TRUE)
 
 test_that("plot, defaults", {
   plt <- plot_surv_contour(time="time", status="event", variable="x3",
                            data=sim_dat, model=model)
   expect_s3_class(plt, "ggplot")
   vdiffr::expect_doppelganger("plot, defaults", fig=plt)
+})
+
+test_that("plot, with group", {
+  plt <- plot_surv_contour(time="time", status="event", variable="x3",
+                           group="group", data=sim_dat, model=model)
+  expect_s3_class(plt, "ggplot")
+  vdiffr::expect_doppelganger("plot, with group", fig=plt)
 })
 
 test_that("plot, cif", {
@@ -52,7 +61,7 @@ test_that("plot, panel_border / axis_dist", {
 })
 
 test_that("plot, lots of stuff", {
-  plt <- plot_surv_heatmap(time="time", status="event", variable="x3",
+  plt <- plot_surv_contour(time="time", status="event", variable="x3",
                            data=sim_dat, model=model, start_color="grey",
                            end_color="black", cif=TRUE, contour_lines=TRUE,
                            contour_size=1, contour_linetype="dotdash",

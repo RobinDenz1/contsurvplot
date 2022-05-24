@@ -19,6 +19,7 @@ test_that("glm model", {
                                  time="time",
                                  status="event",
                                  variable="x3",
+                                 group=NULL,
                                  model=model_glm,
                                  na.action="na.omit")
   expect_true(nrow(sim_dat)==nrow(dat_clean))
@@ -30,6 +31,7 @@ test_that("pecRpart model", {
                                  time="time",
                                  status="event",
                                  variable="x3",
+                                 group=NULL,
                                  model=model_pecRpart,
                                  na.action="na.omit")
   expect_true(nrow(sim_dat)==nrow(dat_clean))
@@ -41,6 +43,7 @@ test_that("ranger model", {
                                  time="time",
                                  status="event",
                                  variable="x3",
+                                 group=NULL,
                                  model=model_ranger,
                                  na.action="na.omit")
   expect_true(nrow(sim_dat)==nrow(dat_clean))
@@ -52,6 +55,7 @@ test_that("NULL model", {
                                  time="time",
                                  status="event",
                                  variable="x3",
+                                 group=NULL,
                                  model="A",
                                  na.action="na.omit")
   expect_true(nrow(sim_dat)==nrow(dat_clean))
@@ -63,6 +67,7 @@ test_that("wrong data", {
                                  time="time",
                                  status="event",
                                  variable="x3",
+                                 group=NULL,
                                  model=model,
                                  na.action="na.omit"),
                "'data' must be a data.frame object.")
@@ -75,9 +80,8 @@ test_that("no data left after na.action", {
                                  time="time",
                                  status="event",
                                  variable="x3",
+                                 group=NULL,
                                  model=model,
                                  na.action="na.omit"),
                "There is no data left after removing the missing values.")
 })
-
-

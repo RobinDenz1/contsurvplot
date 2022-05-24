@@ -3,17 +3,19 @@
 ## variable either as a gif or a slider
 #' @importFrom rlang .data
 #' @export
-plot_surv_animated <- function(time, status, variable, data, model,
+plot_surv_animated <- function(time, status, variable, group=NULL, data, model,
                                cif=FALSE, na.action=options()$na.action,
                                horizon=NULL, fixed_t=NULL, max_t=Inf,
                                slider=TRUE,
                                size=1, color="black", linetype="solid", alpha=1,
                                xlab="Time", ylab="Survival Probability",
                                title=NULL, subtitle=NULL,
-                               gg_theme=ggplot2::theme_bw(), ...) {
+                               gg_theme=ggplot2::theme_bw(),
+                               facet_args=list(), ...) {
 
   data <- prepare_inputdata(data=data, time=time, status=status,
-                            variable=variable, model=model, na.action=na.action)
+                            variable=variable, model=model,
+                            group=group, na.action=na.action)
 
   check_inputs_plots(time=time, status=status, variable=variable,
                      data=data, model=model, na.action=na.action,
@@ -33,6 +35,7 @@ plot_surv_animated <- function(time, status, variable, data, model,
   # get plotdata
   plotdata <- curve_cont(data=data,
                          variable=variable,
+                         group=group,
                          model=model,
                          horizon=horizon,
                          times=fixed_t,
@@ -57,6 +60,13 @@ plot_surv_animated <- function(time, status, variable, data, model,
                               alpha=alpha) +
     ggplot2::labs(x=xlab, y=ylab, title=title, subtitle=subtitle) +
     gg_theme
+
+  # facet plot by factor variable
+  if (!is.null(group)) {
+    facet_args$facets <- stats::as.formula("~ group")
+    facet_obj <- do.call(ggplot2::facet_wrap, facet_args)
+    p <- p + facet_obj
+  }
 
   if (slider) {
     requireNamespace("plotly")

@@ -3,7 +3,7 @@
 ## showing the survival or failure probability
 #' @importFrom rlang .data
 #' @export
-plot_surv_contour <- function(time, status, variable, data, model,
+plot_surv_contour <- function(time, status, variable, group=NULL, data, model,
                               cif=FALSE, na.action=options()$na.action,
                               horizon=NULL, fixed_t=NULL, max_t=Inf,
                               size=0.1, linetype="solid", alpha=1,
@@ -12,12 +12,13 @@ plot_surv_contour <- function(time, status, variable, data, model,
                               xlab="Time", ylab=variable,
                               title=NULL, subtitle=NULL,
                               legend.title="S(t)", legend.position="right",
-                              gg_theme=ggplot2::theme_bw(),
+                              gg_theme=ggplot2::theme_bw(), facet_args=list(),
                               panel_border=FALSE, axis_dist=0,
                               ...) {
 
   data <- prepare_inputdata(data=data, time=time, status=status,
-                            variable=variable, model=model, na.action=na.action)
+                            variable=variable, model=model,
+                            group=group, na.action=na.action)
 
   check_inputs_plots(time=time, status=status, variable=variable,
                      data=data, model=model, na.action=na.action,
@@ -38,6 +39,7 @@ plot_surv_contour <- function(time, status, variable, data, model,
   plotdata <- curve_cont(data=data,
                          variable=variable,
                          model=model,
+                         group=group,
                          horizon=horizon,
                          times=fixed_t,
                          na.action="na.fail",
@@ -66,6 +68,12 @@ plot_surv_contour <- function(time, status, variable, data, model,
   }
   if (!is.null(custom_colors)) {
     p <- p + ggplot2::scale_fill_manual(values=custom_colors)
+  }
+  # facet plot by factor variable
+  if (!is.null(group)) {
+    facet_args$facets <- stats::as.formula("~ group")
+    facet_obj <- do.call(ggplot2::facet_wrap, facet_args)
+    p <- p + facet_obj
   }
   return(p)
 }

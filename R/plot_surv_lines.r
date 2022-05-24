@@ -2,7 +2,7 @@
 ## function to simply draw many survival curves or CIFs, one for each x-value
 #' @importFrom rlang .data
 #' @export
-plot_surv_lines <- function(time, status, variable, data, model,
+plot_surv_lines <- function(time, status, variable, group=NULL, data, model,
                             cif=FALSE, na.action=options()$na.action,
                             horizon=NULL, fixed_t=NULL, max_t=Inf,
                             discrete=TRUE, custom_colors=NULL,
@@ -11,10 +11,12 @@ plot_surv_lines <- function(time, status, variable, data, model,
                             xlab="Time", ylab="Survival Probability",
                             title=NULL, subtitle=NULL,
                             legend.title=variable, legend.position="right",
-                            gg_theme=ggplot2::theme_bw(), ...) {
+                            gg_theme=ggplot2::theme_bw(), facet_args=list(),
+                            ...) {
 
   data <- prepare_inputdata(data=data, time=time, status=status,
-                            variable=variable, model=model, na.action=na.action)
+                            variable=variable, model=model,
+                            group=group, na.action=na.action)
 
   check_inputs_plots(time=time, status=status, variable=variable,
                      data=data, model=model, na.action=na.action,
@@ -35,6 +37,7 @@ plot_surv_lines <- function(time, status, variable, data, model,
   plotdata <- curve_cont(data=data,
                          variable=variable,
                          model=model,
+                         group=group,
                          horizon=horizon,
                          times=fixed_t,
                          na.action="na.fail",
@@ -69,6 +72,12 @@ plot_surv_lines <- function(time, status, variable, data, model,
     p <- p + ggplot2::scale_color_gradient(low=start_color, high=end_color)
   } else if (!is.null(custom_colors)) {
     p <- p + ggplot2::scale_colour_manual(values=custom_colors)
+  }
+  # facet plot by factor variable
+  if (!is.null(group)) {
+    facet_args$facets <- stats::as.formula("~ group")
+    facet_obj <- do.call(ggplot2::facet_wrap, facet_args)
+    p <- p + facet_obj
   }
 
   return(p)

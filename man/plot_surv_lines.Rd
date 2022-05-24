@@ -8,8 +8,9 @@ Plot Individual Survival Curves or CIFs for Specific Values of a Continuous Cova
 Using a previously fit time-to-event model, this function plots survival curves or CIFs that would have been observed if every individual in the dataset had been set to specific values of a continuous covariate.
 }
 \usage{
-plot_surv_lines(time, status, variable, data, model,
-                cif=FALSE, na.action=options()$na.action,
+plot_surv_lines(time, status, variable, group=NULL,
+                data, model, cif=FALSE,
+                na.action=options()$na.action,
                 horizon=NULL, fixed_t=NULL, max_t=Inf,
                 discrete=TRUE, custom_colors=NULL,
                 start_color="blue", end_color="red",
@@ -17,7 +18,8 @@ plot_surv_lines(time, status, variable, data, model,
                 xlab="Time", ylab="Survival Probability",
                 title=NULL, subtitle=NULL,
                 legend.title=variable, legend.position="right",
-                gg_theme=ggplot2::theme_bw(), ...)
+                gg_theme=ggplot2::theme_bw(),
+                facet_args=list(), ...)
 }
 \arguments{
   \item{time}{
@@ -29,11 +31,14 @@ A single character string specifying the status variable, indicating if a person
   \item{variable}{
 A single character string specifying the continuous variable of interest, for which the survival curves should be estimated. This variable has to be contained in the \code{data.frame} that is supplied to the \code{data} argument.
   }
+  \item{group}{
+An optional single character string specifying a factor variable in \code{data}. When used, the plot is created conditional on this factor variable, meaning that a facetted plot is produced with one facet for each level of the factor variable. See \code{\link{curve_cont}} for a detailed description of the estimation strategy. Set to \code{NULL} (default) to use no grouping variable.
+  }
   \item{data}{
 A \code{data.frame} containing all required variables.
   }
   \item{model}{
-A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{predictRisk} method. See \code{?predictRisk} for more details.
+A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{\link[=riskRegression]{predictRisk}} method. See \code{?predictRisk} for more details.
   }
   \item{cif}{
 Whether to plot the cumulative incidence (CIF) instead of the survival probability. If multiple failure types are present, the survival probability cannot be estimated in an unbiased way. This function will always return CIF estimates in that case.
@@ -92,12 +97,15 @@ Where to put the legend. See \code{?theme} for more details.
   \item{gg_theme}{
 A \pkg{ggplot2} theme which is applied to the plot.
   }
+  \item{facet_args}{
+A named list of arguments that are passed to the \code{\link{facet_wrap}} function call when creating a plot separated by groups. Ignored if \code{group=NULL}. Any argument except the \code{facets} argument of the \code{\link{facet_wrap}} function can be used. For example, if the user wants to allow free y-scales, this argument could be set to \code{list(scales="free_y")}.
+  }
   \item{...}{
-Further arguments passed to \code{curve_cont}.
+Further arguments passed to \code{\link{curve_cont}}.
   }
 }
 \details{
-A simple plot of multiple covariate-specific survival curves. Internally, it uses the \code{curve_cont} function to calculate the survival curves.
+A simple plot of multiple covariate-specific survival curves. Internally, it uses the \code{\link{curve_cont}} function to calculate the survival curves.
 }
 \value{
 Returns a \code{ggplot2} object.

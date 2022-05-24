@@ -2,14 +2,14 @@
 \alias{curve_cont}
 
 \title{
-Calculate Causal or Failure Probabilities for Levels of a Continuous Variable
+Calculate Causal Survival or Failure Probabilities for Levels of a Continuous Variable
 }
 \description{
 This function can be utilized to calculate survival curves or cumulative incidence functions (CIF) for specific values of a continuous covariate.
 }
 \usage{
 curve_cont(data, variable, model, horizon,
-           times, cause=1, cif=FALSE, n_cores=1,
+           times, group=NULL, cause=1, cif=FALSE, n_cores=1,
            na.action=options()$na.action, ...)
 }
 \arguments{
@@ -28,6 +28,9 @@ A numeric vector containing a range of values of \code{variable} for which the s
   \item{times}{
 A numeric vector containing points in time at which the survival probabilities should be calculated.
   }
+  \item{group}{
+An optional single character string specifying a factor variable in \code{data}. When used, the regression standardization is performed conditional on this factor variable, meaning that one estimate is returned for each level of the factor variable. See details for a better description. Set to \code{NULL} (default) to use no grouping variable.
+  }
   \item{cause}{
 The cause of interest. In standard survival data with only one event type, this should be kept at 1. For data with multiple failure types, this argument should be specified. In addition, the \code{cif} argument should be set to \code{TRUE} in those cases.
   }
@@ -41,7 +44,7 @@ The number of processor cores to use when performing the calculations. If \code{
 How missing values should be handled. Can be one of: \code{na.fail}, \code{na.omit}, \code{na.pass}, \code{na.exclude} or a user-defined custom function. Also accepts strings of the function names. See \code{?na.action} for more details. By default it uses the na.action which is set in the global options by the respective user.
   }
   \item{...}{
-Further arguments passed to \code{predictRisk}.
+Further arguments passed to \code{\link[=riskRegression]{predictRisk}}.
   }
 }
 \details{
@@ -49,10 +52,12 @@ This function uses *Direct Standardizaion*, also known as the Corrected Group Pr
 
 If the model supplied to \code{model} is correct, the resulting estimates will be unbiased. By including relevant confounders as independent covariates in the \code{model}, the resulting estimates are adjusted for the confounders as well. This function is used internally in all plot functions included in this R-package and generally does not need to be called directly by the user. It can however be used to get specific values or as a basis to create custom plots not included in this package.
 
-It relies on the \code{predictRisk} function from the \pkg{riskRegression} package to create the covariate and time specific estimates of the probabilities. If there are multiple failure types in the status variable of the time-to-event outcome, this should be directly modeled using a suitable model, such as a Cause-Specific-Cox model or a Fine & Gray model. In this case, only the cause-specific CIF can be estimated and \code{cif=TRUE} should always be used accordingly.
+It relies on the \code{\link[=riskRegression]{predictRisk}} function from the \pkg{riskRegression} package to create the covariate and time specific estimates of the probabilities. If there are multiple failure types in the status variable of the time-to-event outcome, this should be directly modeled using a suitable model, such as a Cause-Specific-Cox model or a Fine & Gray model. In this case, only the cause-specific CIF can be estimated and \code{cif=TRUE} should always be used accordingly.
+
+If \code{group} is not \code{NULL}, the whole estimation will be performed once for each of the factor levels of \code{group}. This means that in addition to fixing the level of the continuous covariate at a certain value for the entire dataset, the grouping variable is fixed as well. The results can be interpreted similarly to the usual estimate, only that they are also conditional on the level of \code{group} used. All plots that support this argument will be facetted according to the \code{group} variable.
 }
 \value{
-Returns a \code{data.frame} containing the columns \code{time} (the point in time), \code{surv} (the estimated survival probability) and \code{cont} (the specific value of \code{variable} used).
+Returns a \code{data.frame} containing the columns \code{time} (the point in time), \code{surv} (the estimated survival probability) and \code{cont} (the specific value of \code{variable} used). If \code{group} was used, it includes the additional \code{group} column, specifying the level of the grouping variable.
 }
 \references{
 Brice Ozenne, Anne Lyngholm Sorensen, Thomas Scheike, Christian Torp-Pedersen and Thomas Alexander Gerds. riskRegression: Predicting the Risk of an Event using Cox Regression Models. The R Journal (2017) 9:2, pages 440-460.

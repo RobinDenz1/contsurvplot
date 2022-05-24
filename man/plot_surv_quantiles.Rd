@@ -8,15 +8,16 @@ Plot Survival Time Quantiles as a Function of a Continuous Variable
 Using a previously fit time-to-event model, this function plots one or multiple survival time quantiles (such as the median survival time) as a function of a continuous variable of interest.
 }
 \usage{
-plot_surv_quantiles(time, status, variable, data, model,
-                    na.action=options()$na.action,
+plot_surv_quantiles(time, status, variable, group=NULL,
+                    data, model, na.action=options()$na.action,
                     p=0.5, horizon=NULL,
                     size=1, linetype="solid", alpha=1,
                     custom_colors=NULL, single_color=NULL,
                     xlab=variable, ylab="Survival Time Quantile",
                     title=NULL, subtitle=NULL,
                     legend.title=variable, legend.position="right",
-                    gg_theme=ggplot2::theme_bw(), ...)
+                    gg_theme=ggplot2::theme_bw(),
+                    facet_args=list(), ...)
 }
 \arguments{
   \item{time}{
@@ -28,6 +29,9 @@ A single character string specifying the status variable, indicating if a person
   \item{variable}{
 A single character string specifying the continuous variable of interest, for which the survival curves should be estimated. This variable has to be contained in the \code{data.frame} that is supplied to the \code{data} argument.
   }
+  \item{group}{
+An optional single character string specifying a factor variable in \code{data}. When used, the plot is created conditional on this factor variable, meaning that a facetted plot is produced with one facet for each level of the factor variable. See \code{\link{curve_cont}} for a detailed description of the estimation strategy. Set to \code{NULL} (default) to use no grouping variable.
+  }
   \item{data}{
 A \code{data.frame} containing all required variables.
   }
@@ -35,7 +39,7 @@ A \code{data.frame} containing all required variables.
 A numeric vector containing the survival time quantiles of interest. For example, if the user is interested in plotting only the median survival time \code{p=0.5} should be used. When multiple values are supplied, one curve is drawn for each quantile.
   }
   \item{model}{
-A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{predictRisk} method. See \code{?predictRisk} for more details.
+A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{\link[=riskRegression]{predictRisk}} method. See \code{?predictRisk} for more details.
   }
   \item{na.action}{
 How missing values should be handled. Can be one of: \code{na.fail}, \code{na.omit}, \code{na.pass}, \code{na.exclude} or a user-defined custom function. Also accepts strings of the function names. See \code{?na.action} for more details. By default it uses the na.action which is set in the global options by the respective user.
@@ -79,16 +83,19 @@ Where to put the legend. See \code{?theme} for more details.
   \item{gg_theme}{
 A \pkg{ggplot2} theme which is applied to the plot.
   }
+  \item{facet_args}{
+A named list of arguments that are passed to the \code{\link{facet_wrap}} function call when creating a plot separated by groups. Ignored if \code{group=NULL}. Any argument except the \code{facets} argument of the \code{\link{facet_wrap}} function can be used. For example, if the user wants to allow free y-scales, this argument could be set to \code{list(scales="free_y")}.
+  }
   \item{...}{
-Further arguments passed to \code{curve_cont}.
+Further arguments passed to \code{\link{curve_cont}}.
   }
 }
 \details{
 Survival Time Quantiles are a single value summarizing the entire survival curve. For example, the most prominently used survival time quantile is the median survival time, which can be interpreted as the time at which half of the people in the sample are expected to have experienced the event of interest. This plot shows one or more of these quantiles as a function of a continuous variable of interest.
 
-To calculate the survival time quantiles, it first calls the \code{curve_cont} function to get estimates of the value-specific survival curves. Afterwards, it uses the \code{adjusted_surv_quantile} function from the \pkg{adjustedCurves} package to calculate the survival time quantiles using these curves.
+To calculate the survival time quantiles, it first calls the \code{curve_cont} function to get estimates of the value-specific survival curves. Afterwards, it uses the \code{\link[=adjustedCurves]{adjusted_surv_quantile}} function from the \pkg{adjustedCurves} package to calculate the survival time quantiles using these curves.
 
-Although this is a simple way to plot the effect of a continuous covariate on the survival, it can give a misleading visualization of the relationship in some situations. Plots that do not use summary statistics, such as the \code{plot_surv_contour} and \code{plot_surv_area} plots, may be preferable.
+Although this is a simple way to plot the effect of a continuous covariate on the survival, it can give a misleading visualization of the relationship in some situations. Plots that do not use summary statistics, such as the \code{\link{plot_surv_contour}} and \code{\link{plot_surv_area}} plots, may be preferable.
 }
 \value{
 Returns a \code{ggplot2} object.

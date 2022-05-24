@@ -3,17 +3,19 @@
 ## as a function of a continuous variable
 #' @importFrom rlang .data
 #' @export
-plot_surv_at_t <- function(time, status, variable, data, model,
+plot_surv_at_t <- function(time, status, variable, group=NULL, data, model,
                            cif=FALSE, na.action=options()$na.action,
                            t, horizon=NULL,
                            size=1, linetype="solid", alpha=1,
                            xlab=variable, ylab="Survival Probability at t",
                            title=NULL, subtitle=NULL,
                            legend.title="t", legend.position="right",
-                           gg_theme=ggplot2::theme_bw(), ...) {
+                           gg_theme=ggplot2::theme_bw(),
+                           facet_args=list(), ...) {
 
   data <- prepare_inputdata(data=data, time=time, status=status,
-                            variable=variable, model=model, na.action=na.action)
+                            variable=variable, model=model,
+                            group=group, na.action=na.action)
 
   check_inputs_plots(time=time, status=status, variable=variable,
                      data=data, model=model, na.action=na.action,
@@ -28,6 +30,7 @@ plot_surv_at_t <- function(time, status, variable, data, model,
   # get plotdata
   plotdata <- curve_cont(data=data,
                          variable=variable,
+                         group=group,
                          model=model,
                          horizon=horizon,
                          times=t,
@@ -54,6 +57,13 @@ plot_surv_at_t <- function(time, status, variable, data, model,
                   fill=legend.title, color=legend.title) +
     gg_theme +
     ggplot2::theme(legend.position=legend.position)
+
+  # facet plot by factor variable
+  if (!is.null(group)) {
+    facet_args$facets <- stats::as.formula("~ group")
+    facet_obj <- do.call(ggplot2::facet_wrap, facet_args)
+    p <- p + facet_obj
+  }
 
   return(p)
 }

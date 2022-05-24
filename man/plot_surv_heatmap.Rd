@@ -8,15 +8,17 @@ Plot a Heatmap of the Effect of a Continuous Covariate on a Time-To-Event Outcom
 Using a previously fit time-to-event model, this function plots a heatmap with the continuous covariate on the y-axis and the time-to-event on the x-axis. The color is made in accordence with the corresponding survival probability or CIF at that point.
 }
 \usage{
-plot_surv_heatmap(time, status, variable, data, model,
-                  cif=FALSE, na.action=options()$na.action,
+plot_surv_heatmap(time, status, variable, group=NULL,
+                  data, model, cif=FALSE,
+                  na.action=options()$na.action,
                   horizon=NULL, fixed_t=NULL, max_t=Inf,
                   start_color=NULL, end_color=NULL,
-                  size=0.1, alpha=1, xlab="Time", ylab=variable,
+                  alpha=1, xlab="Time", ylab=variable,
                   title=NULL, subtitle=NULL,
                   legend.title="S(t)", legend.position="right",
                   gg_theme=ggplot2::theme_bw(),
-                  panel_border=FALSE, axis_dist=0,
+                  facet_args=list(), panel_border=FALSE,
+                  axis_dist=0, interpolate=TRUE,
                   contour_lines=FALSE, contour_color="white",
                   contour_size=0.3, contour_linetype="dashed",
                   ...)
@@ -31,11 +33,14 @@ A single character string specifying the status variable, indicating if a person
   \item{variable}{
 A single character string specifying the continuous variable of interest, for which the survival curves should be estimated. This variable has to be contained in the \code{data.frame} that is supplied to the \code{data} argument.
   }
+  \item{group}{
+An optional single character string specifying a factor variable in \code{data}. When used, the plot is created conditional on this factor variable, meaning that a facetted plot is produced with one facet for each level of the factor variable. See \code{\link{curve_cont}} for a detailed description of the estimation strategy. Set to \code{NULL} (default) to use no grouping variable.
+  }
   \item{data}{
 A \code{data.frame} containing all required variables.
   }
   \item{model}{
-A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{predictRisk} method. See \code{?predictRisk} for more details.
+A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{\link[=riskRegression]{predictRisk}} method. See \code{?predictRisk} for more details.
   }
   \item{cif}{
 Whether to plot the cumulative incidence (CIF) instead of the survival probability. If multiple failure types are present, the survival probability cannot be estimated in an unbiased way. This function will always return CIF estimates in that case.
@@ -57,9 +62,6 @@ The color used for the lowest value in \code{horizon}. This and the \code{end_co
   }
   \item{end_color}{
 The color used for the highest value in \code{horizon}. See argument \code{start_color}.
-  }
-  \item{size}{
-The size of the individual tiles plotted by the \code{geom_tile} function. Usually this option can be kept at 0.1 (default).
   }
   \item{alpha}{
 The transparency level of the plot.
@@ -85,14 +87,20 @@ Where to put the legend. See \code{?theme} for more details.
   \item{gg_theme}{
 A \pkg{ggplot2} theme which is applied to the plot.
   }
+  \item{facet_args}{
+A named list of arguments that are passed to the \code{\link{facet_wrap}} function call when creating a plot separated by groups. Ignored if \code{group=NULL}. Any argument except the \code{facets} argument of the \code{\link{facet_wrap}} function can be used. For example, if the user wants to allow free y-scales, this argument could be set to \code{list(scales="free_y")}.
+  }
   \item{panel_border}{
 Whether to draw a border around the heatmap or not. Is set to FALSE by default to mimic standard heatmaps.
   }
   \item{axis_dist}{
 The distance of the axis ticks to the colored heatmap. Is set to 0 by default to mimic standard heatmaps.
   }
+  \item{interpolate}{
+Whether to linearly interpolate the colors or not. Set to \code{TRUE} by default, which results in a smooth surface being plotted. Corresponds to the \code{interpolate} argument in the \code{geom_raster} function, which is used internally.
+  }
   \item{contour_lines}{
-Whether to add some contour lines to the heatmap. To get a proper contour plot, use the \code{plot_surv_contours} function instead.
+Whether to add some contour lines to the heatmap. To get a proper contour plot, use the \code{\link{plot_surv_contour}} function instead.
   }
   \item{contour_color}{
 The color of the contour lines. Defaults to \code{"white"}. Ignored if \code{contour_lines=FALSE}.
@@ -104,15 +112,15 @@ The size of the contour lines. Ignored if \code{contour_lines=FALSE}.
 The linetype of the contour lines. Defaults to \code{"dashed"}. Ignored if \code{contour_lines=FALSE}.
   }
   \item{...}{
-Further arguments passed to \code{curve_cont}.
+Further arguments passed to \code{\link{curve_cont}}.
   }
 }
 \details{
 Heatmaps are a great tool to visualize a three dimensional surface in a two-dimensional plot. A continuous color scale is used to represent the probability of interest. Although this is fine theoretically, it is often hard to read specific information off these plots. Contour lines can be added to the plot in order to make this easier by using \code{contour_lines=TRUE} in the function call.
 
-In most cases, however, it is probably better to use a proper contour plot instead, which can be produced using the \code{plot_surv_contour} function. This is mostly a matter of taste, which is why both types of plots are included in this package.
+In most cases, however, it is probably better to use a proper contour plot instead, which can be produced using the \code{\link{plot_surv_contour}} function. This is mostly a matter of taste, which is why both types of plots are included in this package.
 
-The main advantage of the heatmap and the contour plots is that they can visualize the effect of a continuous covariate regardless of how it was modelled. Non-linear relationships can be visualized just as well as linear ones. The major downside is, that the structure of the plot is not the same as that of a standard Kaplan-Meier plot. An alternative that is closer to the standard plot can be created using the \code{plot_surv_area} function.
+The main advantage of the heatmap and the contour plots is that they can visualize the effect of a continuous covariate regardless of how it was modelled. Non-linear relationships can be visualized just as well as linear ones. The major downside is, that the structure of the plot is not the same as that of a standard Kaplan-Meier plot. An alternative that is closer to the standard plot can be created using the \code{\link{plot_surv_area}} function.
 }
 \value{
 Returns a \code{ggplot2} object.
