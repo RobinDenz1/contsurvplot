@@ -34,13 +34,15 @@ curve_cont <- function(data, variable, model, horizon,
                        times, group=NULL, cause=1, cif=FALSE, n_cores=1,
                        na.action=options()$na.action, ...) {
 
-  data <- prepare_inputdata(data=data, time=variable, status=variable,
-                            variable=variable, model=model, group=group,
-                            na.action=na.action)
+  data <- use_data.frame(data)
 
-  check_inputs_curve_cont(data=data, variable=variable, model=model,
-                          horizon=horizon, times=times, cause=cause,
-                          cif=cif, na.action=na.action)
+  check_inputs_curve_cont(data=data, variable=variable, group=group,
+                          model=model, horizon=horizon, times=times,
+                          cause=cause, cif=cif, na.action=na.action)
+
+  data <- prepare_inputdata(data=data, time=variable, status=variable,
+                            variable=variable, group=group, model=model,
+                            na.action=na.action)
 
   if (is.null(group)) {
     group_levs <- NA

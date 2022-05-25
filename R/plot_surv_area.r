@@ -16,14 +16,17 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
                            gg_theme=ggplot2::theme_bw(), facet_args=list(),
                            label_digits=NULL, ...) {
 
-  data <- prepare_inputdata(data=data, time=time, status=status,
-                            variable=variable, model=model,
-                            group=group, na.action=na.action)
+  data <- use_data.frame(data)
 
   check_inputs_plots(time=time, status=status, variable=variable,
                      data=data, model=model, na.action=na.action,
                      horizon=horizon, fixed_t=fixed_t, max_t=max_t,
-                     discrete=TRUE, panel_border=TRUE, t=1, tau=1)
+                     discrete=TRUE, panel_border=TRUE, t=1, tau=1,
+                     group=group)
+
+  data <- prepare_inputdata(data=data, time=time, status=status,
+                            variable=variable, model=model,
+                            group=group, na.action=na.action)
 
   if (is.null(fixed_t)) {
     fixed_t <- c(0, sort(unique(data[, time][data[, status]==1])))

@@ -18,11 +18,11 @@ check_horizon <- function(horizon, data, variable) {
 }
 
 ## Check inputs of all plot functions
-check_inputs_plots <- function(time, status, variable, data, model,
+check_inputs_plots <- function(time, status, variable, group, data, model,
                                na.action, horizon, fixed_t, max_t,
                                discrete, panel_border, t, tau) {
 
-  # correct input type in time, status, variable
+  # correct input type in time, status, variable, group
   if (!(length(time)==1 && is.character(time))) {
     stop("'time' must be a single character string specifying a",
          " variable in 'data'.")
@@ -32,18 +32,23 @@ check_inputs_plots <- function(time, status, variable, data, model,
   } else if (!(length(variable)==1 && is.character(variable))) {
     stop("'variable' must be a single character string specifying a",
          " variable in 'data'.")
+  } else if (!is.null(group) & !(length(group)==1 && is.character(group))) {
+    stop("'group' must be a single character string specifying a",
+         " factor variable in 'data' or NULL.")
   }
 
-  # time, status, variable in data
+  # time, status, variable, group in data
   if (!time %in% colnames(data)) {
     stop(time, " is not a valid column name in 'data'.")
   } else if (!status %in% colnames(data)) {
     stop(status, " is not a valid column name in 'data'.")
   } else if (!variable %in% colnames(data)) {
     stop(variable, " is not a valid column name in 'data'.")
+  } else if (!is.null(group) && !group %in% colnames(data)) {
+    stop(group, " is not a valid column name in 'data'.")
   }
 
-  # time, status, variable correct type in data
+  # time, status, variable, group correct type in data
   if (!is.numeric(data[, time])) {
     stop("The column specified by the 'time' argument must be numeric.")
   } else if (!(is.numeric(data[, status]) | is.logical(data[, status]))) {
@@ -51,6 +56,8 @@ check_inputs_plots <- function(time, status, variable, data, model,
          " logical.")
   } else if (!is.numeric(data[, variable])) {
     stop("The column specified by the 'variable' argument must be numeric.")
+  } else if (!is.null(group) && !is.factor(data[, group])) {
+    stop("The column specified by the 'group' argument must be a factor.")
   }
 
   # a few more checks for the most popular case: coxph
@@ -112,7 +119,7 @@ check_inputs_plots <- function(time, status, variable, data, model,
 }
 
 ## Check inputs for the curve_cont function
-check_inputs_curve_cont <- function(data, variable, model, horizon,
+check_inputs_curve_cont <- function(data, variable, group, model, horizon,
                                     times, cause, cif, na.action) {
   # correct variable
   if (!(length(variable)==1 && is.character(variable))) {
@@ -122,6 +129,15 @@ check_inputs_curve_cont <- function(data, variable, model, horizon,
     stop(variable, " is not a valid column name in 'data'.")
   } else if (!is.numeric(data[, variable])) {
     stop("The column specified by the 'variable' argument must be numeric.")
+  }
+  # correct group
+  if (!is.null(group) && !(length(group)==1 && is.character(group))) {
+    stop("'group' must be a single character string specifying a",
+         " factor variable in 'data' or NULL.")
+  } else if (!is.null(group) && !group %in% colnames(data)) {
+    stop(group, " is not a valid column name in 'data'.")
+  } else if (!is.null(group) && !is.factor(data[, group])) {
+    stop("The column specified by the 'group' argument must be a factor.")
   }
 
   # horizon
@@ -140,8 +156,13 @@ check_inputs_curve_cont <- function(data, variable, model, horizon,
   if (inherits(model, "coxph")) {
     # variable in formula
     if (!variable %in% all.vars(model$formula)) {
-      stop("The 'variable' argument needs to be included as independent",
-           " variable in the coxph model.")
+      stop("The column specified by the 'variable' argument needs to be",
+           " included as independent variable in the coxph model.")
+    }
+    # group in formula, if used
+    if (!is.null(group) && !group %in% all.vars(model$formula)) {
+      stop("The variable specified by 'group' needs to be included as",
+           " independent variable in the coxph model.")
     }
     # no missing coefficients
     if (anyNA(model$coefficients)) {
