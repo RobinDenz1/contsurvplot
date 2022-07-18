@@ -5,7 +5,8 @@ sim_dat <- readRDS(system.file("testdata", "sim150.Rds",
                                package="contsurvplot"))
 sim_dat$group <- factor(sim_dat$group)
 
-model <- coxph(Surv(time, event) ~ x3 + group, data=sim_dat, x=TRUE)
+model <- survival::coxph(survival::Surv(time, event) ~ x3 + group,
+                         data=sim_dat, x=TRUE)
 
 test_that("defaults, 1 time, 1 cont", {
   out <- curve_cont(data=sim_dat, variable="x3", model=model,

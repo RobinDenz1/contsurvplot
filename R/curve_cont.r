@@ -40,7 +40,7 @@ curve_cont <- function(data, variable, model, horizon,
 
   check_inputs_curve_cont(data=data, variable=variable, model=model,
                           horizon=horizon, times=times, cause=cause,
-                          cif=cif, na.action=na.action)
+                          cif=cif, na.action=na.action, group=group)
 
   if (is.null(group)) {
     group_levs <- NA

@@ -19,17 +19,17 @@ test_that("NA in horizon", {
 })
 
 test_that("too small", {
-  expect_error(check_horizon(horizon=c(-100, 2),
+  expect_warning(check_horizon(horizon=c(-100, 2),
                              data=sim_dat,
                              variable="x2"),
                paste0("Some values in 'horizon' are smaller than the",
-                      " minimum observed in 'data', which is not allowed."))
+                  " minimum observed in 'data', which might lead to problems."))
 })
 
-test_that("too small", {
-  expect_error(check_horizon(horizon=c(100, 2),
+test_that("too big", {
+  expect_warning(check_horizon(horizon=c(100, 2),
                              data=sim_dat,
                              variable="x2"),
                paste0("Some values in 'horizon' are bigger than the",
-                      " maximum observed in 'data', which is not allowed."))
+                  " maximum observed in 'data', which might lead to problems."))
 })

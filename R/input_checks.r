@@ -8,12 +8,12 @@ check_horizon <- function(horizon, data, variable) {
     stop("Missing values in 'horizon' are not allowed.")
   } else if (!is.null(horizon) && min(horizon) < min(data[, variable],
                                                      na.rm=TRUE)) {
-    stop("Some values in 'horizon' are smaller than the minimum observed",
-         " in 'data', which is not allowed.")
+    warning("Some values in 'horizon' are smaller than the minimum observed",
+            " in 'data', which might lead to problems.")
   } else if (!is.null(horizon) && max(horizon) > max(data[, variable],
                                                      na.rm=TRUE)) {
-    stop("Some values in 'horizon' are bigger than the maximum observed",
-         " in 'data', which is not allowed.")
+    warning("Some values in 'horizon' are bigger than the maximum observed",
+            " in 'data', which might lead to problems.")
   }
 }
 
@@ -113,7 +113,7 @@ check_inputs_plots <- function(time, status, variable, data, model,
 
 ## Check inputs for the curve_cont function
 check_inputs_curve_cont <- function(data, variable, model, horizon,
-                                    times, cause, cif, na.action) {
+                                    times, cause, cif, na.action, group) {
   # correct variable
   if (!(length(variable)==1 && is.character(variable))) {
     stop("'variable' must be a single character string specifying a",
@@ -122,6 +122,16 @@ check_inputs_curve_cont <- function(data, variable, model, horizon,
     stop(variable, " is not a valid column name in 'data'.")
   } else if (!is.numeric(data[, variable])) {
     stop("The column specified by the 'variable' argument must be numeric.")
+  }
+
+  # correct group
+  if (!is.null(group) && !(length(group)==1 && is.character(group))) {
+    stop("'group' must be a single character string specifying a factor",
+         " variable in 'data' or NULL.")
+  } else if (!is.null(group) && !group %in% colnames(data)) {
+    stop(group, " is not a valid column name in 'data'.")
+  } else if (!is.null(group) && !is.factor(data[, group])) {
+    stop("The column specified by the 'group' argument must be a factor.")
   }
 
   # horizon
@@ -138,15 +148,24 @@ check_inputs_curve_cont <- function(data, variable, model, horizon,
 
   # a few more checks for the most popular case: coxph
   if (inherits(model, "coxph")) {
-    # variable in formula
-    if (!variable %in% all.vars(model$formula)) {
-      stop("The 'variable' argument needs to be included as independent",
-           " variable in the coxph model.")
-    }
     # no missing coefficients
     if (anyNA(model$coefficients)) {
       stop("Estimation impossible due to missing or infinite coefficients",
            " in the coxph model.")
+    }
+  }
+
+  # check if needed variables were used in model
+  if (!is.null(model$formula)) {
+    all_vars <- all.vars(model$formula)
+    # variable in formula
+    if (!variable %in% all_vars) {
+      stop("The 'variable' argument needs to be included as independent",
+           " variable in the 'model' object.")
+    # group in formula
+    } else if (!is.null(group) && !group %in% all_vars) {
+      stop("The 'group' argument needs to be included as independent",
+           " variable in the 'model' object.")
     }
   }
 }
