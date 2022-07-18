@@ -12,14 +12,17 @@ plot_surv_3Dsurface <- function(time, status, variable, data, model,
                                 ...) {
   requireNamespace("reshape2")
 
-  data <- prepare_inputdata(data=data, time=time, status=status,
-                            variable=variable, model=model,
-                            group=NULL, na.action=na.action)
+  data <- use_data.frame(data)
 
   check_inputs_plots(time=time, status=status, variable=variable,
                      data=data, model=model, na.action=na.action,
                      horizon=horizon, fixed_t=fixed_t, max_t=max_t,
-                     discrete=TRUE, panel_border=TRUE, t=1, tau=1)
+                     discrete=TRUE, panel_border=TRUE, t=1, tau=1,
+                     group=NULL)
+
+  data <- prepare_inputdata(data=data, time=time, status=status,
+                            variable=variable, model=model,
+                            group=NULL, na.action=na.action)
 
   if (is.null(fixed_t)) {
     fixed_t <- seq(min(data[, time]), max(data[, time]), length.out=100)

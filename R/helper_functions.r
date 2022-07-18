@@ -41,14 +41,6 @@ remove_unnecessary_covars <- function(data, time, status, variable,
 prepare_inputdata <- function(data, time, status, variable, group, model,
                               na.action) {
 
-  # correct data type
-  if (!inherits(data, "data.frame")) {
-    stop("'data' must be a data.frame object.")
-  }
-
-  # only data.frame methods, no tibbles etc.
-  data <- as.data.frame(data)
-
   # keep only needed columns
   data <- remove_unnecessary_covars(data=data, time=time, status=status,
                                     variable=variable, model=model,
@@ -66,5 +58,16 @@ prepare_inputdata <- function(data, time, status, variable, group, model,
     stop("There is no data left after removing the missing values.")
   }
 
+  return(data)
+}
+
+## use only data.frame methods, no tibbles etc.
+use_data.frame <- function(data) {
+  # correct data type
+  if (!inherits(data, "data.frame")) {
+    stop("'data' must be a data.frame object.")
+  } else {
+    data <- as.data.frame(data)
+  }
   return(data)
 }

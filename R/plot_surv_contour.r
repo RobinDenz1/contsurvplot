@@ -16,14 +16,17 @@ plot_surv_contour <- function(time, status, variable, group=NULL, data, model,
                               panel_border=FALSE, axis_dist=0,
                               ...) {
 
-  data <- prepare_inputdata(data=data, time=time, status=status,
-                            variable=variable, model=model,
-                            group=group, na.action=na.action)
+  data <- use_data.frame(data)
 
   check_inputs_plots(time=time, status=status, variable=variable,
                      data=data, model=model, na.action=na.action,
                      horizon=horizon, fixed_t=fixed_t, max_t=max_t,
-                     discrete=TRUE, panel_border=panel_border, t=1, tau=1)
+                     discrete=TRUE, panel_border=panel_border, t=1, tau=1,
+                     group=group)
+
+  data <- prepare_inputdata(data=data, time=time, status=status,
+                            variable=variable, model=model,
+                            group=group, na.action=na.action)
 
   if (is.null(fixed_t)) {
     fixed_t <- seq(min(data[, time]), max(data[, time]), length.out=100)

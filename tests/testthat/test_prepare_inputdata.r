@@ -63,13 +63,7 @@ test_that("NULL model", {
 })
 
 test_that("wrong data", {
-  expect_error(prepare_inputdata(data="wrong",
-                                 time="time",
-                                 status="event",
-                                 variable="x3",
-                                 group=NULL,
-                                 model=model,
-                                 na.action="na.omit"),
+  expect_error(use_data.frame("A"),
                "'data' must be a data.frame object.")
 })
 

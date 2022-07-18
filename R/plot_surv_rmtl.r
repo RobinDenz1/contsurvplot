@@ -39,14 +39,17 @@ plot_surv_rmtl <- function(time, status, variable, group=NULL,
   requireNamespace("adjustedCurves")
   requireNamespace("dplyr")
 
-  data <- prepare_inputdata(data=data, time=time, status=status,
-                            variable=variable, model=model,
-                            group=group, na.action=na.action)
+  data <- use_data.frame(data)
 
   check_inputs_plots(time=time, status=status, variable=variable,
                      data=data, model=model, na.action=na.action,
                      horizon=horizon, fixed_t=NULL, max_t=Inf,
-                     discrete=TRUE, panel_border=TRUE, t=1, tau=tau)
+                     discrete=TRUE, panel_border=TRUE, t=1, tau=tau,
+                     group=group)
+
+  data <- prepare_inputdata(data=data, time=time, status=status,
+                            variable=variable, model=model,
+                            group=group, na.action=na.action)
 
   if (is.null(horizon)) {
     horizon <- seq(min(data[, variable]), max(data[, variable]),
