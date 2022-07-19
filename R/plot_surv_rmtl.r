@@ -1,28 +1,4 @@
 
-## small function to estimate rmtl from plotdata
-cont_surv_rmtl <- function(plotdata, tau) {
-  plotdata$group <- as.factor(plotdata$cont)
-  plotdata$cif <- plotdata$est
-  plotdata$est <- NULL
-  plotdata$cont <- NULL
-  fake_adjcif <- list(adjcif=plotdata)
-  class(fake_adjcif) <- "adjustedcif"
-
-  out <- vector(mode="list", length=length(tau))
-  for (i in seq_len(length(tau))) {
-    rmtl <- adjustedCurves::adjusted_rmtl(fake_adjcif, from=0, to=tau[i],
-                                          conf_int=FALSE)
-    rmtl$group <- as.numeric(as.character(rmtl$group))
-    rmtl$tau <- tau[i]
-
-    out[[i]] <- rmtl
-  }
-  out <- dplyr::bind_rows(out)
-  out$tau <- as.factor(out$tau)
-
-  return(out)
-}
-
 ## function to plot the restricted mean time lost as it evolves over values of
 ## the continuous variable
 #' @importFrom rlang .data
@@ -36,7 +12,6 @@ plot_surv_rmtl <- function(time, status, variable, group=NULL,
                            legend.title=variable, legend.position="right",
                            gg_theme=ggplot2::theme_bw(),
                            facet_args=list(), ...) {
-  requireNamespace("adjustedCurves")
   requireNamespace("dplyr")
 
   data <- use_data.frame(data)
@@ -68,15 +43,15 @@ plot_surv_rmtl <- function(time, status, variable, group=NULL,
                          cif=TRUE,
                          ...)
 
-  # use adjustedCurves package to calculate RMTL values
+  # calculate RMTL values
   if (is.null(group)) {
-    out <- cont_surv_rmtl(plotdata=plotdata, tau=tau)
+    out <- cont_surv_auc(plotdata=plotdata, tau=tau)
   } else {
     group_levs <- levels(plotdata$group)
     out <- vector(mode="list", length=length(group_levs))
     for (i in seq_len(length(group_levs))) {
       temp <- plotdata[plotdata$group==group_levs[i], ]
-      out_i <- cont_surv_rmtl(plotdata=temp, tau=tau)
+      out_i <- cont_surv_auc(plotdata=temp, tau=tau)
       out_i$facet_var <- group_levs[i]
       out[[i]] <- out_i
     }
@@ -84,7 +59,7 @@ plot_surv_rmtl <- function(time, status, variable, group=NULL,
   }
 
   # plot them
-  p <- ggplot2::ggplot(out, ggplot2::aes(x=.data$group, y=.data$rmtl,
+  p <- ggplot2::ggplot(out, ggplot2::aes(x=.data$group, y=.data$rmst,
                                          color=.data$tau))
 
   if (length(tau)==1) {

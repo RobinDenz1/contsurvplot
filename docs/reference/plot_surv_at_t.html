@@ -17,7 +17,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-3">
+    <div id="navbar" class="collapse navbar-collapse ms-2">
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
@@ -54,85 +54,63 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_surv_at_t</span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span>, <span class="va">variable</span>, group<span class="op">=</span><span class="cn">NULL</span>,</span>
-<span>               <span class="va">data</span>, <span class="va">model</span>, cif<span class="op">=</span><span class="cn">FALSE</span>,</span>
-<span>               na.action<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">na.action</span>, <span class="va">t</span>, horizon<span class="op">=</span><span class="cn">NULL</span>,</span>
-<span>               size<span class="op">=</span><span class="fl">1</span>, linetype<span class="op">=</span><span class="st">"solid"</span>, alpha<span class="op">=</span><span class="fl">1</span>,</span>
-<span>               xlab<span class="op">=</span><span class="va">variable</span>, ylab<span class="op">=</span><span class="st">"Survival Probability at t"</span>,</span>
-<span>               title<span class="op">=</span><span class="cn">NULL</span>, subtitle<span class="op">=</span><span class="cn">NULL</span>,</span>
-<span>               legend.title<span class="op">=</span><span class="st">"t"</span>, legend.position<span class="op">=</span><span class="st">"right"</span>,</span>
-<span>               gg_theme<span class="op">=</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>               facet_args<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plot_surv_at_t</span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span>, <span class="va">variable</span>, group<span class="op">=</span><span class="cn">NULL</span>,
+               <span class="va">data</span>, <span class="va">model</span>, cif<span class="op">=</span><span class="cn">FALSE</span>,
+               na.action<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">na.action</span>, <span class="va">t</span>, horizon<span class="op">=</span><span class="cn">NULL</span>,
+               size<span class="op">=</span><span class="fl">1</span>, linetype<span class="op">=</span><span class="st">"solid"</span>, alpha<span class="op">=</span><span class="fl">1</span>,
+               xlab<span class="op">=</span><span class="va">variable</span>, ylab<span class="op">=</span><span class="st">"Survival Probability at t"</span>,
+               title<span class="op">=</span><span class="cn">NULL</span>, subtitle<span class="op">=</span><span class="cn">NULL</span>,
+               legend.title<span class="op">=</span><span class="st">"t"</span>, legend.position<span class="op">=</span><span class="st">"right"</span>,
+               gg_theme<span class="op">=</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span>,
+               facet_args<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>time</dt>
 <dd><p>A single character string specifying the time-to-event variable. Needs to be a valid column name of a variable in <code>data</code>.</p></dd>
-
-  <dt>status</dt>
+<dt>status</dt>
 <dd><p>A single character string specifying the status variable, indicating if a person has experienced an event or not. Needs to be a valid column name of a variable in <code>data</code>.</p></dd>
-
-  <dt>variable</dt>
+<dt>variable</dt>
 <dd><p>A single character string specifying the continuous variable of interest, for which the survival curves should be estimated. This variable has to be contained in the <code>data.frame</code> that is supplied to the <code>data</code> argument.</p></dd>
-
-  <dt>group</dt>
+<dt>group</dt>
 <dd><p>An optional single character string specifying a factor variable in <code>data</code>. When used, the plot is created conditional on this factor variable, meaning that a facetted plot is produced with one facet for each level of the factor variable. See <code><a href="curve_cont.html">curve_cont</a></code> for a detailed description of the estimation strategy. Set to <code>NULL</code> (default) to use no grouping variable.</p></dd>
-
-  <dt>data</dt>
+<dt>data</dt>
 <dd><p>A <code>data.frame</code> containing all required variables.</p></dd>
-
-  <dt>model</dt>
+<dt>model</dt>
 <dd><p>A model describing the time-to-event process (such as an <code>coxph</code> model). Needs to include <code>variable</code> as an independent variable. It also has to have an associated <code><a href="https://rdrr.io/pkg/riskRegression/man/riskRegression.html" class="external-link">predictRisk</a></code> method. See <code><a href="https://rdrr.io/pkg/riskRegression/man/predictRisk.html" class="external-link">?predictRisk</a></code> for more details.</p></dd>
-
-  <dt>cif</dt>
+<dt>cif</dt>
 <dd><p>Whether to plot the cumulative incidence (CIF) instead of the survival probability. If multiple failure types are present, the survival probability cannot be estimated in an unbiased way. This function will always return CIF estimates in that case.</p></dd>
-
-  <dt>na.action</dt>
+<dt>na.action</dt>
 <dd><p>How missing values should be handled. Can be one of: <code>na.fail</code>, <code>na.omit</code>, <code>na.pass</code>, <code>na.exclude</code> or a user-defined custom function. Also accepts strings of the function names. See <code><a href="https://rdrr.io/r/stats/na.action.html" class="external-link">?na.action</a></code> for more details. By default it uses the na.action which is set in the global options by the respective user.</p></dd>
-
-  <dt>t</dt>
+<dt>t</dt>
 <dd><p>The point in time at which the survival probability should be calculated. For example, by setting this parameter to 10, this function will display the survival probability at t = 10 over values of <code>variable</code>. If multiple values are supplied, one curve is drawn for each of them.</p></dd>
-
-  <dt>horizon</dt>
+<dt>horizon</dt>
 <dd><p>A numeric vector containing a range of values of <code>variable</code> for which the survival curves should be calculated or <code>NULL</code> (default). If <code>NULL</code>, the horizon is constructed as a sequence from the lowest to the highest value observed in <code>variable</code> with 100 equally spaced steps.</p></dd>
-
-  <dt>size</dt>
+<dt>size</dt>
 <dd><p>A single number specifying how thick the lines should be drawn.</p></dd>
-
-  <dt>linetype</dt>
+<dt>linetype</dt>
 <dd><p>The linetype of the drawn lines. See documentation of <span class="pkg">ggplot2</span> for more details on allowed values.</p></dd>
-
-  <dt>alpha</dt>
+<dt>alpha</dt>
 <dd><p>The transparency level of the lines.</p></dd>
-
-  <dt>xlab</dt>
+<dt>xlab</dt>
 <dd><p>A character string used as the x-axis label of the plot.</p></dd>
-
-  <dt>ylab</dt>
+<dt>ylab</dt>
 <dd><p>A character string used as the y-axis label of the plot.</p></dd>
-
-  <dt>title</dt>
+<dt>title</dt>
 <dd><p>A character string used as the title of the plot.</p></dd>
-
-  <dt>subtitle</dt>
+<dt>subtitle</dt>
 <dd><p>A character string used as the subtitle of the plot.</p></dd>
-
-  <dt>legend.title</dt>
+<dt>legend.title</dt>
 <dd><p>A character string used as the legend title of the plot.</p></dd>
-
-  <dt>legend.position</dt>
+<dt>legend.position</dt>
 <dd><p>Where to put the legend. See <code><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">?theme</a></code> for more details.</p></dd>
-
-  <dt>gg_theme</dt>
+<dt>gg_theme</dt>
 <dd><p>A <span class="pkg">ggplot2</span> theme which is applied to the plot.</p></dd>
-
-  <dt>facet_args</dt>
+<dt>facet_args</dt>
 <dd><p>A named list of arguments that are passed to the <code><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></code> function call when creating a plot separated by groups. Ignored if <code>group=NULL</code>. Any argument except the <code>facets</code> argument of the <code><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></code> function can be used. For example, if the user wants to allow free y-scales, this argument could be set to <code>list(scales="free_y")</code>.</p></dd>
-
-  <dt>...</dt>
+<dt>...</dt>
 <dd><p>Further arguments passed to <code><a href="curve_cont.html">curve_cont</a></code>.</p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -142,9 +120,7 @@
     </div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    
-
-<p>Returns a <code>ggplot2</code> object.</p>
+    <p>Returns a <code>ggplot2</code> object.</p>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -157,33 +133,33 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tagteam/riskRegression" class="external-link">riskRegression</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival" class="external-link">survival</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># using data from the survival package</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">nafld</span>, package<span class="op">=</span><span class="st">"survival"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># fit cox-model with age</span></span></span>
-<span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">futime</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">age</span>, data<span class="op">=</span><span class="va">nafld1</span>, x<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># plot effect of age on survival at t=2000</span></span></span>
-<span class="r-in"><span><span class="fu">plot_surv_at_t</span><span class="op">(</span>time<span class="op">=</span><span class="st">"futime"</span>,</span></span>
-<span class="r-in"><span>               status<span class="op">=</span><span class="st">"status"</span>,</span></span>
-<span class="r-in"><span>               variable<span class="op">=</span><span class="st">"age"</span>,</span></span>
-<span class="r-in"><span>               data<span class="op">=</span><span class="va">nafld1</span>,</span></span>
-<span class="r-in"><span>               model<span class="op">=</span><span class="va">model</span>,</span></span>
-<span class="r-in"><span>               t<span class="op">=</span><span class="fl">2000</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># plot it for arbitrary multiple values of t</span></span></span>
-<span class="r-in"><span><span class="fu">plot_surv_at_t</span><span class="op">(</span>time<span class="op">=</span><span class="st">"futime"</span>,</span></span>
-<span class="r-in"><span>               status<span class="op">=</span><span class="st">"status"</span>,</span></span>
-<span class="r-in"><span>               variable<span class="op">=</span><span class="st">"age"</span>,</span></span>
-<span class="r-in"><span>               data<span class="op">=</span><span class="va">nafld1</span>,</span></span>
-<span class="r-in"><span>               model<span class="op">=</span><span class="va">model</span>,</span></span>
-<span class="r-in"><span>               t<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">2000</span>, <span class="fl">3200</span>, <span class="fl">5643</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tagteam/riskRegression" class="external-link">riskRegression</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival" class="external-link">survival</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># using data from the survival package</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">nafld</span>, package<span class="op">=</span><span class="st">"survival"</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># fit cox-model with age</span></span>
+<span class="r-in"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">futime</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">age</span>, data<span class="op">=</span><span class="va">nafld1</span>, x<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># plot effect of age on survival at t=2000</span></span>
+<span class="r-in"><span class="fu">plot_surv_at_t</span><span class="op">(</span>time<span class="op">=</span><span class="st">"futime"</span>,</span>
+<span class="r-in">               status<span class="op">=</span><span class="st">"status"</span>,</span>
+<span class="r-in">               variable<span class="op">=</span><span class="st">"age"</span>,</span>
+<span class="r-in">               data<span class="op">=</span><span class="va">nafld1</span>,</span>
+<span class="r-in">               model<span class="op">=</span><span class="va">model</span>,</span>
+<span class="r-in">               t<span class="op">=</span><span class="fl">2000</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># plot it for arbitrary multiple values of t</span></span>
+<span class="r-in"><span class="fu">plot_surv_at_t</span><span class="op">(</span>time<span class="op">=</span><span class="st">"futime"</span>,</span>
+<span class="r-in">               status<span class="op">=</span><span class="st">"status"</span>,</span>
+<span class="r-in">               variable<span class="op">=</span><span class="st">"age"</span>,</span>
+<span class="r-in">               data<span class="op">=</span><span class="va">nafld1</span>,</span>
+<span class="r-in">               model<span class="op">=</span><span class="va">model</span>,</span>
+<span class="r-in">               t<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">2000</span>, <span class="fl">3200</span>, <span class="fl">5643</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -195,7 +171,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
     </footer></div>

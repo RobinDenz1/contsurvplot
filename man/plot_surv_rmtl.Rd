@@ -5,7 +5,7 @@
 Plot the Effect of a Continuous Variable on the Restricted Mean Time Lost
 }
 \description{
-Using a previously fit time-to-event model, this function plots the restricted mean time lost (RMTL) as a function of a continuous variable. Internally uses the \pkg{adjustedCurves} package to calculate the RMTL. Unlike the \code{\link{plot_surv_rmst}} function, this function can deal with multiple event types in the \code{status} variable.
+Using a previously fit time-to-event model, this function plots the restricted mean time lost (RMTL) as a function of a continuous variable. Unlike the \code{\link{plot_surv_rmst}} function, this function can deal with multiple event types in the \code{status} variable.
 }
 \usage{
 plot_surv_rmtl(time, status, variable, group=NULL,
@@ -41,7 +41,7 @@ A model describing the time-to-event process (such as an \code{coxph} model). Ne
 How missing values should be handled. Can be one of: \code{na.fail}, \code{na.omit}, \code{na.pass}, \code{na.exclude} or a user-defined custom function. Also accepts strings of the function names. See \code{?na.action} for more details. By default it uses the na.action which is set in the global options by the respective user.
   }
   \item{tau}{
-The point in time to which the RMTL should be calculated. Corresponds to the \code{to} argument in the \code{\link[=adjustedCurves]{adjusted_rmtl}} function of the \code{adjustedCurves} package. If multiple values are supplied, one curve is drawn for each of them.
+The point in time to which the RMTL should be calculated. Can be a vector of numbers. If multiple values are supplied, one curve is drawn for each of them.
   }
   \item{horizon}{
 A numeric vector containing a range of values of \code{variable} for which the CIFs should be calculated or \code{NULL} (default). If \code{NULL}, the horizon is constructed as a sequence from the lowest to the highest value observed in \code{variable} with 100 equally spaced steps.
@@ -108,7 +108,6 @@ Eng, K. H.; Schiller, E. & Morrell, K. On Representing the Prognostic Value of C
 library(riskRegression)
 library(survival)
 library(ggplot2)
-library(adjustedCurves)
 library(splines)
 
 # using data from the survival package

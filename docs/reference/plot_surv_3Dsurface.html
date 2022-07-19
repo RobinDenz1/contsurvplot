@@ -17,7 +17,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-3">
+    <div id="navbar" class="collapse navbar-collapse ms-2">
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
@@ -54,78 +54,58 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_surv_3Dsurface</span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span>, <span class="va">variable</span>, <span class="va">data</span>, <span class="va">model</span>,</span>
-<span>                    cif<span class="op">=</span><span class="cn">FALSE</span>, na.action<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">na.action</span>,</span>
-<span>                    horizon<span class="op">=</span><span class="cn">NULL</span>, fixed_t<span class="op">=</span><span class="cn">NULL</span>, max_t<span class="op">=</span><span class="cn">Inf</span>,</span>
-<span>                    interactive<span class="op">=</span><span class="cn">FALSE</span>,</span>
-<span>                    xlab<span class="op">=</span><span class="st">"Time"</span>, ylab<span class="op">=</span><span class="st">"Survival Probability"</span>,</span>
-<span>                    zlab<span class="op">=</span><span class="va">variable</span>, ticktype<span class="op">=</span><span class="st">"detailed"</span>,</span>
-<span>                    theta<span class="op">=</span><span class="fl">120</span>, phi<span class="op">=</span><span class="fl">20</span>, col<span class="op">=</span><span class="st">"green"</span>, shade<span class="op">=</span><span class="fl">0.5</span>,</span>
-<span>                    <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plot_surv_3Dsurface</span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span>, <span class="va">variable</span>, <span class="va">data</span>, <span class="va">model</span>,
+                    cif<span class="op">=</span><span class="cn">FALSE</span>, na.action<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">na.action</span>,
+                    horizon<span class="op">=</span><span class="cn">NULL</span>, fixed_t<span class="op">=</span><span class="cn">NULL</span>, max_t<span class="op">=</span><span class="cn">Inf</span>,
+                    interactive<span class="op">=</span><span class="cn">FALSE</span>,
+                    xlab<span class="op">=</span><span class="st">"Time"</span>, ylab<span class="op">=</span><span class="st">"Survival Probability"</span>,
+                    zlab<span class="op">=</span><span class="va">variable</span>, ticktype<span class="op">=</span><span class="st">"detailed"</span>,
+                    theta<span class="op">=</span><span class="fl">120</span>, phi<span class="op">=</span><span class="fl">20</span>, col<span class="op">=</span><span class="st">"green"</span>, shade<span class="op">=</span><span class="fl">0.5</span>,
+                    <span class="va">...</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>time</dt>
 <dd><p>A single character string specifying the time-to-event variable. Needs to be a valid column name of a numeric variable in <code>data</code>.</p></dd>
-
-  <dt>status</dt>
+<dt>status</dt>
 <dd><p>A single character string specifying the status variable, indicating if a person has experienced an event or not. Needs to be a valid column name of a numeric or logical variable in <code>data</code>.</p></dd>
-
-  <dt>variable</dt>
+<dt>variable</dt>
 <dd><p>A single character string specifying the continuous variable of interest, for which the survival curves should be estimated. This variable has to be contained in the <code>data.frame</code> that is supplied to the <code>data</code> argument.</p></dd>
-
-  <dt>data</dt>
+<dt>data</dt>
 <dd><p>A <code>data.frame</code> containing all required variables.</p></dd>
-
-  <dt>model</dt>
+<dt>model</dt>
 <dd><p>A model describing the time-to-event process (such as an <code>coxph</code> model). Needs to include <code>variable</code> as an independent variable. It also has to have an associated <code><a href="https://rdrr.io/pkg/riskRegression/man/riskRegression.html" class="external-link">predictRisk</a></code> method. See <code><a href="https://rdrr.io/pkg/riskRegression/man/predictRisk.html" class="external-link">?predictRisk</a></code> for more details.</p></dd>
-
-  <dt>cif</dt>
+<dt>cif</dt>
 <dd><p>Whether to plot the cumulative incidence (CIF) instead of the survival probability. If multiple failure types are present, the survival probability cannot be estimated in an unbiased way. This function will always return CIF estimates in that case.</p></dd>
-
-  <dt>na.action</dt>
+<dt>na.action</dt>
 <dd><p>How missing values should be handled. Can be one of: <code>na.fail</code>, <code>na.omit</code>, <code>na.pass</code>, <code>na.exclude</code> or a user-defined custom function. Also accepts strings of the function names. See <code><a href="https://rdrr.io/r/stats/na.action.html" class="external-link">?na.action</a></code> for more details. By default it uses the na.action which is set in the global options by the respective user.</p></dd>
-
-  <dt>horizon</dt>
+<dt>horizon</dt>
 <dd><p>A numeric vector containing a range of values of <code>variable</code> for which the survival curves should be calculated or <code>NULL</code> (default). If <code>NULL</code>, the horizon is constructed as a sequence from the lowest to the highest value observed in <code>variable</code> with 40 equally spaced steps.</p></dd>
-
-  <dt>fixed_t</dt>
+<dt>fixed_t</dt>
 <dd><p>A numeric vector containing points in time at which the survival probabilities should be calculated or <code>NULL</code> (default). If <code>NULL</code>, the survival probability is estimated at every point in time at which an event occured.</p></dd>
-
-  <dt>max_t</dt>
+<dt>max_t</dt>
 <dd><p>A number indicating the latest survival time which is to be plotted.</p></dd>
-
-  <dt>interactive</dt>
+<dt>interactive</dt>
 <dd><p>Whether to draw the 3D surface as a static plot (<code>interactive=FALSE</code>, the default) or as an interactive plot. When <code>interactive=TRUE</code> is used, this function relies on the <span class="pkg">plotly</span> package. In this case, the only aesthetic arguments that still work are the <code>xlab</code>, <code>ylab</code> and <code>zlab</code> arguments. Everything else has to be set manually using the functionality of the <span class="pkg">plotly</span> package directly.</p></dd>
-
-  <dt>xlab</dt>
+<dt>xlab</dt>
 <dd><p>A character string used as the x-axis label of the plot, representing the survival time.</p></dd>
-
-  <dt>ylab</dt>
+<dt>ylab</dt>
 <dd><p>A character string used as the y-axis label of the plot, representing the survival probability or CIF.</p></dd>
-
-  <dt>zlab</dt>
+<dt>zlab</dt>
 <dd><p>A character string used as the z-axis of the plot, representing the continuous covariate of interest.</p></dd>
-
-  <dt>ticktype</dt>
+<dt>ticktype</dt>
 <dd><p>A single character: <code>"simple"</code> draws just an arrow parallel to the axis to indicate direction of increase; <code>"detailed"</code> draws normal ticks as per 2D plots. Passed to the <code>ticktype</code> argument in the <code>persp</code> function. Ignored if <code>interactive=TRUE</code>.</p></dd>
-
-  <dt>theta</dt>
+<dt>theta</dt>
 <dd><p>Angles defining the viewing direction. <code>theta</code> gives the azimuthal direction and <code>phi</code> the colatitude. Passed to the <code>theta</code> argument in the <code>persp</code> function. Ignored if <code>interactive=TRUE</code>.</p></dd>
-
-  <dt>phi</dt>
+<dt>phi</dt>
 <dd><p>See argument <code>theta</code>. Passed to the <code>phi</code> argument in the <code>persp</code> function. Ignored if <code>interactive=TRUE</code>.</p></dd>
-
-  <dt>col</dt>
+<dt>col</dt>
 <dd><p>The color(s) of the surface facets. Transparent colours are ignored. This is recycled to the <code>(nx-1)(ny-1)</code> facets. Passed to the <code>col</code> argument in the <code>persp</code> function. Ignored if <code>interactive=TRUE</code>.</p></dd>
-
-  <dt>shade</dt>
+<dt>shade</dt>
 <dd><p>The shade at a surface facet is computed as <code>((1+d)/2)^shade</code>, where d is the dot product of a unit vector normal to the facet and a unit vector in the direction of a light source. Values of shade close to one yield shading similar to a point light source model and values close to zero produce no shading. Values in the range 0.5 to 0.75 provide an approximation to daylight illumination. Passed to the <code>shade</code> argument in the <code>persp</code> function. Ignored if <code>interactive=TRUE</code>.</p></dd>
-
-  <dt>...</dt>
+<dt>...</dt>
 <dd><p>Further arguments passed to <code><a href="curve_cont.html">curve_cont</a></code>.</p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -134,9 +114,7 @@
     </div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    
-
-<p>Returns a <code>plotly</code> object if <code>interactive=TRUE</code> is used and a matrix when <code>interactive=FALSE</code> is used (still drawing the plot).</p>
+    <p>Returns a <code>plotly</code> object if <code>interactive=TRUE</code> is used and a matrix when <code>interactive=FALSE</code> is used (still drawing the plot).</p>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -149,60 +127,60 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tagteam/riskRegression" class="external-link">riskRegression</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival" class="external-link">survival</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">splines</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://plotly-r.com" class="external-link">plotly</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># using data from the survival package</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">nafld</span>, package<span class="op">=</span><span class="st">"survival"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># fit cox-model with age</span></span></span>
-<span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">futime</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">age</span>, data<span class="op">=</span><span class="va">nafld1</span>, x<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># plot effect of age on survival for ages 50 to 80</span></span></span>
-<span class="r-in"><span><span class="fu">plot_surv_3Dsurface</span><span class="op">(</span>time<span class="op">=</span><span class="st">"futime"</span>,</span></span>
-<span class="r-in"><span>                    status<span class="op">=</span><span class="st">"status"</span>,</span></span>
-<span class="r-in"><span>                    variable<span class="op">=</span><span class="st">"age"</span>,</span></span>
-<span class="r-in"><span>                    data<span class="op">=</span><span class="va">nafld1</span>,</span></span>
-<span class="r-in"><span>                    model<span class="op">=</span><span class="va">model</span>,</span></span>
-<span class="r-in"><span>                    horizon<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">80</span>, <span class="fl">0.5</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                    interactive<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># plot effect of age on survival using an interactive plot for ages 50 to 80</span></span></span>
-<span class="r-in"><span><span class="fu">plot_surv_3Dsurface</span><span class="op">(</span>time<span class="op">=</span><span class="st">"futime"</span>,</span></span>
-<span class="r-in"><span>                    status<span class="op">=</span><span class="st">"status"</span>,</span></span>
-<span class="r-in"><span>                    variable<span class="op">=</span><span class="st">"age"</span>,</span></span>
-<span class="r-in"><span>                    data<span class="op">=</span><span class="va">nafld1</span>,</span></span>
-<span class="r-in"><span>                    model<span class="op">=</span><span class="va">model</span>,</span></span>
-<span class="r-in"><span>                    horizon<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">80</span>, <span class="fl">0.5</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                    interactive<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## showing non-linear effects</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># fit cox-model with bmi modeled using B-Splines,</span></span></span>
-<span class="r-in"><span><span class="co"># adjusting for age and sex</span></span></span>
-<span class="r-in"><span><span class="va">model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">futime</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">male</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/splines/bs.html" class="external-link">bs</a></span><span class="op">(</span><span class="va">bmi</span>, df<span class="op">=</span><span class="fl">5</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                data<span class="op">=</span><span class="va">nafld1</span>, x<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># plot effect of bmi on survival using normal plot</span></span></span>
-<span class="r-in"><span><span class="fu">plot_surv_3Dsurface</span><span class="op">(</span>time<span class="op">=</span><span class="st">"futime"</span>,</span></span>
-<span class="r-in"><span>                    status<span class="op">=</span><span class="st">"status"</span>,</span></span>
-<span class="r-in"><span>                    variable<span class="op">=</span><span class="st">"bmi"</span>,</span></span>
-<span class="r-in"><span>                    data<span class="op">=</span><span class="va">nafld1</span>,</span></span>
-<span class="r-in"><span>                    model<span class="op">=</span><span class="va">model2</span>,</span></span>
-<span class="r-in"><span>                    interactive<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># plot effect of bmi on survival using interactive plot</span></span></span>
-<span class="r-in"><span><span class="fu">plot_surv_3Dsurface</span><span class="op">(</span>time<span class="op">=</span><span class="st">"futime"</span>,</span></span>
-<span class="r-in"><span>                    status<span class="op">=</span><span class="st">"status"</span>,</span></span>
-<span class="r-in"><span>                    variable<span class="op">=</span><span class="st">"bmi"</span>,</span></span>
-<span class="r-in"><span>                    data<span class="op">=</span><span class="va">nafld1</span>,</span></span>
-<span class="r-in"><span>                    model<span class="op">=</span><span class="va">model2</span>,</span></span>
-<span class="r-in"><span>                    interactive<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tagteam/riskRegression" class="external-link">riskRegression</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival" class="external-link">survival</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">splines</span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://plotly-r.com" class="external-link">plotly</a></span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># using data from the survival package</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">nafld</span>, package<span class="op">=</span><span class="st">"survival"</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># fit cox-model with age</span></span>
+<span class="r-in"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">futime</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">age</span>, data<span class="op">=</span><span class="va">nafld1</span>, x<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># plot effect of age on survival for ages 50 to 80</span></span>
+<span class="r-in"><span class="fu">plot_surv_3Dsurface</span><span class="op">(</span>time<span class="op">=</span><span class="st">"futime"</span>,</span>
+<span class="r-in">                    status<span class="op">=</span><span class="st">"status"</span>,</span>
+<span class="r-in">                    variable<span class="op">=</span><span class="st">"age"</span>,</span>
+<span class="r-in">                    data<span class="op">=</span><span class="va">nafld1</span>,</span>
+<span class="r-in">                    model<span class="op">=</span><span class="va">model</span>,</span>
+<span class="r-in">                    horizon<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">80</span>, <span class="fl">0.5</span><span class="op">)</span>,</span>
+<span class="r-in">                    interactive<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># plot effect of age on survival using an interactive plot for ages 50 to 80</span></span>
+<span class="r-in"><span class="fu">plot_surv_3Dsurface</span><span class="op">(</span>time<span class="op">=</span><span class="st">"futime"</span>,</span>
+<span class="r-in">                    status<span class="op">=</span><span class="st">"status"</span>,</span>
+<span class="r-in">                    variable<span class="op">=</span><span class="st">"age"</span>,</span>
+<span class="r-in">                    data<span class="op">=</span><span class="va">nafld1</span>,</span>
+<span class="r-in">                    model<span class="op">=</span><span class="va">model</span>,</span>
+<span class="r-in">                    horizon<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">80</span>, <span class="fl">0.5</span><span class="op">)</span>,</span>
+<span class="r-in">                    interactive<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co">## showing non-linear effects</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># fit cox-model with bmi modeled using B-Splines,</span></span>
+<span class="r-in"><span class="co"># adjusting for age and sex</span></span>
+<span class="r-in"><span class="va">model2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">futime</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">male</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/splines/bs.html" class="external-link">bs</a></span><span class="op">(</span><span class="va">bmi</span>, df<span class="op">=</span><span class="fl">5</span><span class="op">)</span>,</span>
+<span class="r-in">                data<span class="op">=</span><span class="va">nafld1</span>, x<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># plot effect of bmi on survival using normal plot</span></span>
+<span class="r-in"><span class="fu">plot_surv_3Dsurface</span><span class="op">(</span>time<span class="op">=</span><span class="st">"futime"</span>,</span>
+<span class="r-in">                    status<span class="op">=</span><span class="st">"status"</span>,</span>
+<span class="r-in">                    variable<span class="op">=</span><span class="st">"bmi"</span>,</span>
+<span class="r-in">                    data<span class="op">=</span><span class="va">nafld1</span>,</span>
+<span class="r-in">                    model<span class="op">=</span><span class="va">model2</span>,</span>
+<span class="r-in">                    interactive<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># plot effect of bmi on survival using interactive plot</span></span>
+<span class="r-in"><span class="fu">plot_surv_3Dsurface</span><span class="op">(</span>time<span class="op">=</span><span class="st">"futime"</span>,</span>
+<span class="r-in">                    status<span class="op">=</span><span class="st">"status"</span>,</span>
+<span class="r-in">                    variable<span class="op">=</span><span class="st">"bmi"</span>,</span>
+<span class="r-in">                    data<span class="op">=</span><span class="va">nafld1</span>,</span>
+<span class="r-in">                    model<span class="op">=</span><span class="va">model2</span>,</span>
+<span class="r-in">                    interactive<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -214,7 +192,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
     </footer></div>

@@ -93,7 +93,7 @@ Further arguments passed to \code{\link{curve_cont}}.
 \details{
 Survival Time Quantiles are a single value summarizing the entire survival curve. For example, the most prominently used survival time quantile is the median survival time, which can be interpreted as the time at which half of the people in the sample are expected to have experienced the event of interest. This plot shows one or more of these quantiles as a function of a continuous variable of interest.
 
-To calculate the survival time quantiles, it first calls the \code{curve_cont} function to get estimates of the value-specific survival curves. Afterwards, it uses the \code{\link[=adjustedCurves]{adjusted_surv_quantile}} function from the \pkg{adjustedCurves} package to calculate the survival time quantiles using these curves.
+To calculate the survival time quantiles, it first calls the \code{curve_cont} function to get estimates of the value-specific survival curves. Afterwards, it uses step function interpolation to read off the survival time quantile from the estimates.
 
 Although this is a simple way to plot the effect of a continuous covariate on the survival, it can give a misleading visualization of the relationship in some situations. Plots that do not use summary statistics, such as the \code{\link{plot_surv_contour}} and \code{\link{plot_surv_area}} plots, may be preferable.
 }
@@ -108,7 +108,6 @@ Robin Denz
 library(riskRegression)
 library(survival)
 library(ggplot2)
-library(adjustedCurves)
 library(splines)
 
 # using data from the survival package

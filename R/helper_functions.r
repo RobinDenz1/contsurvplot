@@ -71,3 +71,43 @@ use_data.frame <- function(data) {
   }
   return(data)
 }
+
+## takes a value x at which to read from the step function
+## and step function data from which to read it
+read_from_step_function <- function(x, data, est="surv", time="time") {
+
+  # keep only data with non-missing est
+  data <- data[which(!is.na(data[, est])), ]
+
+  # no extrapolation
+  if (x > max(data[, time])) {
+    return(NA)
+  }
+
+  # otherwise get value
+  check <- data[which(data[, time] <= x), ]
+  if (nrow(check)==0) {
+    if (est=="surv") {
+      val <- 1
+    } else if (est=="cif") {
+      val <- 0
+    } else {
+      val <- NA
+    }
+  } else {
+    val <- check[, est][which(check[, time]==max(check[, time]))][1]
+  }
+  return(val)
+}
+
+## calculate exact integral of a step function
+stepfun_integral <- function(x, y) {
+  area <- 0
+  for (i in seq_len((length(x)-1))) {
+    x1 <- x[i]
+    x2 <- x[i+1]
+    rect_area <- (x2 - x1) * y[i]
+    area <- area + rect_area
+  }
+  return(area)
+}

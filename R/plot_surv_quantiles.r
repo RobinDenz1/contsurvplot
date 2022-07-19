@@ -5,12 +5,20 @@ cont_surv_quantiles <- function(plotdata, p) {
 
   plotdata$group <- as.factor(plotdata$cont)
   plotdata$surv <- plotdata$est
-  fake_adjsurv <- list(adjsurv=plotdata)
-  class(fake_adjsurv) <- "adjustedsurv"
 
-  surv_q <- adjustedCurves::adjusted_surv_quantile(fake_adjsurv, p=p,
-                                                   conf_int=FALSE,
-                                                   interpolation="steps")
+  levs <- unique(plotdata$group)
+
+  out <- vector(mode="list", length=length(levs))
+  for (i in seq_len(length(levs))) {
+    temp_dat <- plotdata[plotdata$group==levs[i],]
+    temp_dat$group <- NULL
+
+    val <- vapply(X=p, FUN=read_from_step_function, FUN.VALUE=numeric(1),
+                  data=temp_dat, est="time", time="surv")
+    out[[i]] <- data.frame(p=p, group=levs[i], q_surv=val)
+  }
+  surv_q <- dplyr::bind_rows(out)
+
   surv_q$group <- as.numeric(as.character(surv_q$group))
   surv_q$p <- as.factor(surv_q$p)
 
@@ -31,7 +39,6 @@ plot_surv_quantiles <- function(time, status, variable, group=NULL, data, model,
                                 legend.title=variable, legend.position="right",
                                 gg_theme=ggplot2::theme_bw(), facet_args=list(),
                                 ...) {
-  requireNamespace("adjustedCurves")
 
   data <- use_data.frame(data)
 

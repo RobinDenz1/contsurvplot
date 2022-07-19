@@ -5,7 +5,7 @@
 Plot the Effect of a Continuous Variable on the Restricted Mean Survival Time
 }
 \description{
-Using a previously fit time-to-event model, this function plots the restricted mean survival time (RMST) as a function of a continuous variable. Internally uses the \pkg{adjustedCurves} package to calculate the RMST.
+Using a previously fit time-to-event model, this function plots the restricted mean survival time (RMST) as a function of a continuous variable.
 }
 \usage{
 plot_surv_rmst(time, status, variable, group=NULL,
@@ -41,7 +41,7 @@ A model describing the time-to-event process (such as an \code{coxph} model). Ne
 How missing values should be handled. Can be one of: \code{na.fail}, \code{na.omit}, \code{na.pass}, \code{na.exclude} or a user-defined custom function. Also accepts strings of the function names. See \code{?na.action} for more details. By default it uses the na.action which is set in the global options by the respective user.
   }
   \item{tau}{
-The point in time to which the RMST should be calculated. Corresponds to the \code{to} argument in the \code{adjusted_rmst} function of the \code{adjustedCurves} package. If multiple values are supplied, one curve is drawn for each of them.
+The point in time to which the RMST should be calculated. Can be a vector of numbers. If multiple values are supplied, one curve is drawn for each of them.
   }
   \item{horizon}{
 A numeric vector containing a range of values of \code{variable} for which the survival curves should be calculated or \code{NULL} (default). If \code{NULL}, the horizon is constructed as a sequence from the lowest to the highest value observed in \code{variable} with 100 equally spaced steps.
@@ -92,7 +92,7 @@ Further arguments passed to \code{\link{curve_cont}}.
 \details{
 Similar to the \code{\link{plot_surv_at_t}} and \code{\link{plot_surv_quantiles}} plots, this function produces a plot of a survival curve summary statistic as a function of a continuous variable. The summary statistic in question is the restricted mean survival time (RMST), which is the area under a survival curve up to a specific point in time \code{tau}. It can be interpreted as the mean survival time of the population up to \code{tau}.
 
-First, a range of value-specific survival curves are estimated. The RMST is then calculated for each one using the \code{\link[=adjustedCurves]{adjusted_rmst}} function from the \pkg{adjustedCurves} package. This only works for survival curves, not for CIFs. If the area under the CIF should be used instead, the \code{\link{plot_surv_rmtl}} function can be used.
+First, a range of value-specific survival curves are estimated. The RMST is then calculated for each one using step function interpolation. This only works for survival curves, not for CIFs. If the area under the CIF should be used instead, the \code{\link{plot_surv_rmtl}} function can be used.
 
 An advantage of this method over the \code{\link{plot_surv_at_t}} and \code{\link{plot_surv_quantiles}} function is, that it does take the whole survival curve into account, kind of. Although it is the area under it, it is only calculated up to \code{tau} which makes the output dependent on the choice of \code{tau}. This, again, can result in deceiving plots in some cases. Plots visualizing the entire survival curves such as \code{\link{plot_surv_contour}} and \code{\link{plot_surv_area}} might be preferable.
 }
@@ -110,7 +110,6 @@ Eng, K. H.; Schiller, E. & Morrell, K. On Representing the Prognostic Value of C
 library(riskRegression)
 library(survival)
 library(ggplot2)
-library(adjustedCurves)
 library(splines)
 
 # using data from the survival package

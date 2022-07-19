@@ -48,7 +48,7 @@ Further arguments passed to \code{\link[=riskRegression]{predictRisk}}.
   }
 }
 \details{
-This function uses *Direct Standardizaion*, also known as the Corrected Group Prognosis method, G-Computation or G-Formula, to calculate the causal survival probability or CIF for values of a continuous variable. The resulting estimates can be interepreted as the average survival probability (or failure probability) that would have been observed if the value of \code{variable} had been set to a specific value for all individuals in \code{data}.
+This function uses \emph{Direct Standardizaion}, also known as the \emph{Corrected Group Prognosis} method, \emph{G-Computation} or \emph{G-Formula}, to calculate the causal survival probability or CIF for values of a continuous variable. The resulting estimates can be interepreted as the average survival probability (or failure probability) that would have been observed if the value of \code{variable} had been set to a specific value for all individuals in \code{data}.
 
 If the model supplied to \code{model} is correct, the resulting estimates will be unbiased. By including relevant confounders as independent covariates in the \code{model}, the resulting estimates are adjusted for the confounders as well. This function is used internally in all plot functions included in this R-package and generally does not need to be called directly by the user. It can however be used to get specific values or as a basis to create custom plots not included in this package.
 

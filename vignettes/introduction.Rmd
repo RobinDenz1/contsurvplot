@@ -42,7 +42,6 @@ library(dplyr)
 library(rlang)
 library(riskRegression)
 library(survival)
-library(adjustedCurves)
 library(pammtools)
 library(gganimate)
 library(transformr)
@@ -89,7 +88,7 @@ curve_cont(data=colon, variable="nodes", model=model,
            horizon=c(0, 10, 15), times=c(1000, 2000))
 ```
 
-Using the previously fit cox-regression model, this function outputs a single row for each covariate - time combination with an associated survival time. The first column shows the average survival probability of all patients at $t = 1000$, if they all had $0$ lymph nodes with detectable cancer. In this case, the probability is approximately 0.724. Similarly, when all patients have had 10 affected lymph nodes, the average survival probability would me much lower at approximately 0.462.
+Using the previously fit cox-regression model, this function outputs a single row for each covariate - time combination with an associated survival time. The first column shows the average survival probability of all patients at $t = 1000$, if they all had $0$ lymph nodes with detectable cancer. In this case, the probability is approximately 0.724. Similarly, if all patients would have had 10 affected lymph nodes, the average survival probability would be much lower at approximately 0.462.
 
 By estimating these probabilities for a wide range of times and values of the continuous variable, we effectively get a three dimensional survival curve. If the model is correctly specified, the estimates will be unbiased with an easy causal interpretation. All that's left is to visualize them appropriately.
 

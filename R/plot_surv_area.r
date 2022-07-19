@@ -65,7 +65,9 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
     fake_horizon <- as.factor(horizon[seq_len(length(horizon)-1)])
     levels(fake_horizon) <- get_bin_labels(horizon, digits=label_digits)
 
-    fake_dat <- data.frame(x=horizon[1], y=0.99, col=fake_horizon)
+    fake_dat <- data.frame(x=horizon[1],
+                           y=ifelse(cif, 0.01, 0.99),
+                           col=fake_horizon)
     p <- p + ggplot2::geom_tile(data=fake_dat,
                                 ggplot2::aes(x=.data$x,
                                              y=.data$y,
