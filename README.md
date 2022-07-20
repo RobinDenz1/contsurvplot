@@ -5,7 +5,7 @@
 [![R-CMD-check](https://github.com/RobinDenz1/contsurvplot/workflows/R-CMD-check/badge.svg)](https://github.com/RobinDenz1/contsurvplot/actions)
 <!-- badges: end -->
 
-# contsurvplot
+# contsurvplot <img src="man/figures/contsurvplot_sticker.png" height="240" align="right" />
 
 Author: Robin Denz
 
