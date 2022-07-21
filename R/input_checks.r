@@ -140,16 +140,6 @@ check_inputs_curve_cont <- function(data, variable, model, horizon,
     stop("The column specified by the 'group' argument must be a factor.")
   }
 
-  # correct group
-  if (!is.null(group) && !(length(group)==1 && is.character(group))) {
-    stop("'group' must be a single character string specifying a factor",
-         " variable in 'data' or NULL.")
-  } else if (!is.null(group) && !group %in% colnames(data)) {
-    stop(group, " is not a valid column name in 'data'.")
-  } else if (!is.null(group) && !is.factor(data[, group])) {
-    stop("The column specified by the 'group' argument must be a factor.")
-  }
-
   # horizon
   check_horizon(horizon, data, variable)
 

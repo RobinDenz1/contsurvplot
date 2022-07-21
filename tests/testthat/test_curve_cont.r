@@ -19,7 +19,8 @@ test_that("defaults, 1 time, 1 cont, group", {
   out <- curve_cont(data=sim_dat, variable="x3", model=model,
                     group="group", horizon=10, times=15)
   expect_true(is.data.frame(out))
-  expect_true(all(c(out$time==15, round(out$est, 3)==c(0.687, 0.778), out$cont==10)))
+  expect_true(all(c(out$time==15, round(out$est, 3)==c(0.687, 0.778),
+                    out$cont==10)))
 })
 
 test_that("defaults, multiple times, multiple cont", {
