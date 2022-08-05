@@ -12,7 +12,7 @@ This package provides different plotting routines to visualize the causal effect
 
 \strong{\emph{What features are included in this package?}}
 
-The package includes 10 different plot functions, most based on the \pkg{ggplot2} package. Those 10 plotting routines include \emph{value specific survival curves}, \emph{landmark survival probability plots}, \emph{survival time quantile plots}, \emph{survival probability heatmaps}, and \emph{survival area plots}, amongst others.
+The package includes 10 different plot functions, most based on the \pkg{ggplot2} package. Those 10 plotting routines include \emph{value specific survival curves}, \emph{landmark survival probability plots}, \emph{survival time quantile plots}, \emph{survival probability heatmaps}, and \emph{survival area plots}, amongst others. A description and comparison of these plots can be found in the article associated with this R-package (Denz & Timmesfeld 2022).
 
 \strong{\emph{What does a typical workflow using this package look like?}}
 
@@ -20,7 +20,7 @@ All the user has to do is fit a time-to-event model, such as the cox-model, incl
 
 \strong{\emph{What type of plot should I use?}}
 
-There is no general answer to this question, but we would usually suggest using a plot method that is able to visualize the causal survival probability both as a function of time and as a function of the continuous variable. The \code{\link[contsurvplot]{plot_surv_area}}, \code{\link[contsurvplot]{plot_surv_heatmap}} and \code{\link[contsurvplot]{plot_surv_contour}} functions do just that. More discussion about this topic can be found in the vignette.
+There is no general answer to this question, but we would usually suggest using a plot method that is able to visualize the causal survival probability both as a function of time and as a function of the continuous variable. The \code{\link[contsurvplot]{plot_surv_area}}, \code{\link[contsurvplot]{plot_surv_heatmap}} and \code{\link[contsurvplot]{plot_surv_contour}} functions do just that. More discussion about this topic can be found in the vignette and the associated paper.
 
 \strong{\emph{Where can I get more information?}}
 
@@ -28,12 +28,13 @@ The documentation pages contain a lot of information, relevant examples and lite
 
 \strong{\emph{I want to suggest a new feature / I want to report a bug. Where can I do this?}}
 
-Bug reports, suggestions and feature requests are highly welcome. Please file an issue on the official github page (https://github.com/RobinDenz1/contsurvplot) or contact the author directly using the supplied e-mail address.
+Bug reports, suggestions and feature requests are highly welcome. Please file an issue on the official github page (<https://github.com/RobinDenz1/contsurvplot>) or contact the author directly using the supplied e-mail address.
 
 }
-
 \references{
-PREPRINT HERE
+Robin Denz, Nina Timmesfeld. Visualizing the Causal Effect of a Continuous Variable on a Time-To-Event Outcome. ARXIV STUFF
+
+James Robins. A New Approach to Causal Inference in Mortality Studies with a Sustained Exposure Period: Application to Control of the Healthy Worker Survivor Effect. Mathematical Modelling (1986) 7, pages 1393-1512.
 }
 \author{
 Robin Denz (robin.denz@rub.de)

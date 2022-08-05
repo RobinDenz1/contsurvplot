@@ -103,13 +103,17 @@ Robin Denz
 Shen, Y.-M.; Le, L. D.; Wilson, R. & Mansmann, U. Graphical Presentation of Patient-Treatment Interaction Elucidated by Continuous Biomarkers: Current Practice and Scope for Improvement Methods of Information in Medicine, 2017, 56, 13-27
 }
 \examples{
-\dontrun{
+library(contsurvplot)
 library(riskRegression)
 library(survival)
 library(ggplot2)
 
 # using data from the survival package
 data(nafld, package="survival")
+
+# take a random sample to keep example fast
+set.seed(42)
+nafld1 <- nafld1[sample(nrow(nafld1), 150), ]
 
 # fit cox-model with age
 model <- coxph(Surv(futime, status) ~ age, data=nafld1, x=TRUE)
@@ -129,5 +133,4 @@ plot_surv_at_t(time="futime",
                data=nafld1,
                model=model,
                t=c(1000, 2000, 3200, 5643))
-}
 }

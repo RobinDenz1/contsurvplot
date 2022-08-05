@@ -104,7 +104,7 @@ Returns a \code{plotly} object if \code{slider=TRUE} and a \code{gganim} object 
 Robin Denz
 }
 \examples{
-\dontrun{
+library(contsurvplot)
 library(riskRegression)
 library(survival)
 library(splines)
@@ -116,9 +116,14 @@ library(plotly)
 # using data from the survival package
 data(nafld, package="survival")
 
+# take a random sample to keep example fast
+set.seed(42)
+nafld1 <- nafld1[sample(nrow(nafld1), 150), ]
+
 # fit cox-model with age
 model <- coxph(Surv(futime, status) ~ age, data=nafld1, x=TRUE)
 
+if (interactive()) {
 # plot effect of age on survival for ages 50 to 80
 plot_surv_animated(time="futime",
                    status="status",
@@ -136,14 +141,16 @@ plot_surv_animated(time="futime",
                    model=model,
                    horizon=seq(50, 80, 1),
                    slider=FALSE)
+}
 
 ## showing non-linear effects
 
 # fit cox-model with bmi modeled using B-Splines,
 # adjusting for age and sex
-model2 <- coxph(Surv(futime, status) ~ age + male + bs(bmi, df=5),
+model2 <- coxph(Surv(futime, status) ~ age + male + bs(bmi, df=3),
                 data=nafld1, x=TRUE)
 
+if (interactive()) {
 # plot effect of bmi on survival using slider
 plot_surv_animated(time="futime",
                    status="status",

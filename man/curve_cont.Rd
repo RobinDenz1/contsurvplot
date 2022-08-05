@@ -61,6 +61,10 @@ Returns a \code{data.frame} containing the columns \code{time} (the point in tim
 }
 \references{
 Brice Ozenne, Anne Lyngholm Sorensen, Thomas Scheike, Christian Torp-Pedersen and Thomas Alexander Gerds. riskRegression: Predicting the Risk of an Event using Cox Regression Models. The R Journal (2017) 9:2, pages 440-460.
+
+I-Ming Chang, Rebecca Gelman, and Marcello Pagano. Corrected Group Prognostic Curves and Summary Statistics. Journal of Chronic Diseases (1982) 35, pages 669-674
+
+James Robins. A New Approach to Causal Inference in Mortality Studies with a Sustained Exposure Period: Application to Control of the Healthy Worker Survivor Effect. Mathematical Modelling (1986) 7, pages 1393-1512.
 }
 \author{
 Robin Denz
@@ -69,12 +73,16 @@ Robin Denz
 \code{\link[=riskRegression]{predictRisk}}
 }
 \examples{
-\dontrun{
+library(contsurvplot)
 library(riskRegression)
 library(survival)
 
 # using data from the survival package
 data(nafld, package="survival")
+
+# take a random sample to keep example fast
+set.seed(42)
+nafld1 <- nafld1[sample(nrow(nafld1), 150), ]
 
 # fit cox-model with age
 model <- coxph(Surv(futime, status) ~ age, data=nafld1, x=TRUE)
@@ -94,5 +102,4 @@ plotdata <- curve_cont(data=nafld1,
                        horizon=seq(50, 80, 1),
                        times=seq(0, 4000, 100),
                        cif=TRUE)
-}
 }

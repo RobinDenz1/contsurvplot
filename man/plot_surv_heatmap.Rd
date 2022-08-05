@@ -129,7 +129,7 @@ Returns a \code{ggplot2} object.
 Robin Denz
 }
 \examples{
-\dontrun{
+library(contsurvplot)
 library(riskRegression)
 library(survival)
 library(ggplot2)
@@ -137,6 +137,10 @@ library(splines)
 
 # using data from the survival package
 data(nafld, package="survival")
+
+# take a random sample to keep example fast
+set.seed(42)
+nafld1 <- nafld1[sample(nrow(nafld1), 150), ]
 
 # fit cox-model with age
 model <- coxph(Surv(futime, status) ~ age, data=nafld1, x=TRUE)
@@ -160,7 +164,7 @@ plot_surv_heatmap(time="futime",
 
 # fit cox-model with bmi modelled using B-Splines,
 # adjusting for age and sex
-model2 <- coxph(Surv(futime, status) ~ age + male + bs(bmi, df=5),
+model2 <- coxph(Surv(futime, status) ~ age + male + bs(bmi, df=3),
                 data=nafld1, x=TRUE)
 
 # plot effect of bmi on survival using defaults
@@ -177,5 +181,4 @@ plot_surv_heatmap(time="futime",
                   data=nafld1,
                   model=model2,
                   contour_lines=TRUE)
-}
 }

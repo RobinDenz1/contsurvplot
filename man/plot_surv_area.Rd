@@ -134,7 +134,7 @@ Returns a \code{ggplot2} object.
 Robin Denz
 }
 \examples{
-\dontrun{
+library(contsurvplot)
 library(riskRegression)
 library(survival)
 library(ggplot2)
@@ -142,6 +142,10 @@ library(pammtools)
 
 # using data from the survival package
 data(nafld, package="survival")
+
+# take a random sample to keep example fast
+set.seed(42)
+nafld1 <- nafld1[sample(nrow(nafld1), 150), ]
 
 # fit cox-model with age
 model <- coxph(Surv(futime, status) ~ age, data=nafld1, x=TRUE)
@@ -180,5 +184,4 @@ plot_surv_area(time="futime",
                model=model,
                horizon=seq(60, 80, 5),
                discrete=TRUE)
-}
 }

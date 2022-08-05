@@ -94,7 +94,7 @@ Robin Denz
 Smith, A. M.; Christodouleas, J. P. & Hwang, W.-T. Understanding the Predictive Value of Continuous Markers for Censored Survival Data Using a Likelihood Ratio Approach BMC Medical Research Methodology, 2019, 19
 }
 \examples{
-\dontrun{
+library(contsurvplot)
 library(riskRegression)
 library(survival)
 library(splines)
@@ -103,6 +103,10 @@ library(plotly)
 
 # using data from the survival package
 data(nafld, package="survival")
+
+# take a random sample to keep example fast
+set.seed(41)
+nafld1 <- nafld1[sample(nrow(nafld1), 150), ]
 
 # fit cox-model with age
 model <- coxph(Surv(futime, status) ~ age, data=nafld1, x=TRUE)
@@ -128,8 +132,8 @@ plot_surv_3Dsurface(time="futime",
 ## showing non-linear effects
 
 # fit cox-model with bmi modeled using B-Splines,
-# adjusting for age and sex
-model2 <- coxph(Surv(futime, status) ~ age + male + bs(bmi, df=5),
+# adjusting for age
+model2 <- coxph(Surv(futime, status) ~ age + bs(bmi, df=3),
                 data=nafld1, x=TRUE)
 
 # plot effect of bmi on survival using normal plot
@@ -147,5 +151,4 @@ plot_surv_3Dsurface(time="futime",
                     data=nafld1,
                     model=model2,
                     interactive=TRUE)
-}
 }

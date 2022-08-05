@@ -17,11 +17,11 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-Stratified survival curves are a great way to visualize the effect of a categorical variable, such as treatment status, on the survival time. They are easy to produce, easy to understand and (if done correctly) visually appealing. The situation is slightly more complicated when confounders exist that need to be accounted for. In this case, methods that explicitly remove the influence of confounders need to be used to estimate the curves. Luckily, there are quite a few of those methods and also associated R-packages that implement them directly, such as the `adjustedCurves` package.
+Stratified survival curves are a great way to visualize the effect of a categorical variable, such as treatment status, on the survival time. They are easy to produce, easy to understand and (if done correctly) visually appealing. The situation is slightly more complicated when confounders exist that need to be accounted for. In this case, methods that explicitly remove the influence of confounders need to be used to estimate the curves. Luckily, there are quite a few of those methods and also associated R-packages that implement them directly, such as the `adjustedCurves` package (Denz et al. 2022).
 
 In many cases however, we are not interested in the effect of a categorical variable. Instead we want to show the effect of a *continuous* variable, for example when studying a new biomarker to predict a certain disease. Currently, there is only a small amount of research on this topic and even less publicly available code. When confounder-adjustment is required, the available code and literature is practically non-existent.
 
-The `contsurvplot` tries to fill this gap by providing multiple types of plots to visualize the causal effect of a continuous variable on a time-to-event outcome. All plots included rely on a previously fit model that describes the effect of the target variable on the time-to-event outcome. This model is then used to perform *Direct Standardization* to estimate covariate-level-specific survival curves or cumulative incidence functions (CIF). By including confounders in the model, all plots are naturally adjusted for these confounders. In this vignette, we will showcase the usage of these methods.
+The `contsurvplot` package tries to fill this gap by providing multiple types of plots to visualize the causal effect of a continuous variable on a time-to-event outcome (Denz & Timmesfeld 2022). All plots included rely on a previously fit model that describes the effect of the target variable on the time-to-event outcome. This model is then used to perform *G-Computation* (Robins 1986) to estimate covariate-level-specific survival curves or cumulative incidence functions (CIF). By including confounders in the model, all plots are naturally adjusted for these confounders. In this vignette, we will showcase the usage of these methods. More details and discussion of the plots presented here can be found in the paper associated with this package (Denz & Timmesfeld 2022).
 
 # Installation
 
@@ -55,6 +55,7 @@ As an example we will utilize the `colon` dataset included in the famous `surviv
 
 ```{r echo=TRUE}
 data(cancer)
+colon$sex <- factor(colon$sex)
 
 head(colon)
 ```
@@ -81,7 +82,7 @@ But how bad is a hazard-ratio of `r round(exp(model$coefficients["nodes"][[1]]),
 
 # How do We get the Survival Probability from the Model?
 
-Internally, all plot functions call the `curve_cont` function to perform direct standardization in order to obtain survival probability estimates at $t$ that would have been observed if all patients had a specific value of the continuous covariate. For example, lets look at this specific function call:
+Internally, all plot functions call the `curve_cont` function to perform g-computation in order to obtain survival probability estimates at $t$ that would have been observed if all patients had a specific value of the continuous covariate. Internally, it uses the `predictRisk` function from the `riskRegression` package to do this (Ozenne et al. 2017). For example, lets look at this specific function call:
 
 ```{r echo=TRUE}
 curve_cont(data=colon, variable="nodes", model=model,
@@ -90,7 +91,7 @@ curve_cont(data=colon, variable="nodes", model=model,
 
 Using the previously fit cox-regression model, this function outputs a single row for each covariate - time combination with an associated survival time. The first column shows the average survival probability of all patients at $t = 1000$, if they all had $0$ lymph nodes with detectable cancer. In this case, the probability is approximately 0.724. Similarly, if all patients would have had 10 affected lymph nodes, the average survival probability would be much lower at approximately 0.462.
 
-By estimating these probabilities for a wide range of times and values of the continuous variable, we effectively get a three dimensional survival curve. If the model is correctly specified, the estimates will be unbiased with an easy causal interpretation. All that's left is to visualize them appropriately.
+By estimating these probabilities for a wide range of times and values of the continuous variable, we effectively get a three dimensional counterfactual survival curve. If the model is correctly specified, the estimates will be unbiased with an easy causal interpretation. All that's left is to visualize them appropriately.
 
 # Plots Based on Summary Statistics
 
@@ -178,7 +179,7 @@ plot_surv_rmst(time="time",
 
 The restricted mean time lost (RMTL) is very closely related to the RMST. Instead of integrating the area under the survival curve, the area under the cumulative incidence function (CIF) is calculated. This can be useful when there are multiple mutually exclusive event types, in which case only the cause-specific CIF can be estimated, but not the cause-specific survival curve.
 
-The `plot_surv_rmtl` function can be used for this purpose. It has the same functionality and syntax as the `plot_rmst` function, so we will only show one plot with multiple $\tau$ values below:
+The `plot_surv_rmtl` function can be used for this purpose. It has the same functionality and syntax as the `plot_surv_rmst` function, so we will only show one plot with multiple $\tau$ values below:
 
 ```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=5}
 plot_surv_rmtl(time="time",
@@ -364,3 +365,39 @@ plot_surv_animated(time="time",
                    slider=FALSE,
                    horizon=seq(0, 30, 1))
 ```
+
+# Facetting by Groups
+
+In some scenarios it might be useful to display the average treatment effect separately for some subgroups. Most plot functions in this package support this directly using the `group` argument. The grouping variable should be a factor variable that is included as independent variable in the used `model`. For example, we used `sex` as an independent factor variable here. To obtain **survival contour plots** conditional on the sex of the patients, we can use the following code:
+
+```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=4}
+plot_surv_contour(time="time",
+                  status="status",
+                  variable="nodes",
+                  group="sex",
+                  data=colon,
+                  model=model)
+```
+
+This also works for **survival area plots** in exactly the same way:
+
+```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=4}
+plot_surv_area(time="time",
+               status="status",
+               variable="nodes",
+               group="sex",
+               data=colon,
+               model=model)
+```
+
+In this case, the differences are not extremly big because `sex` does not have a big effect on the survival time.
+
+# Literature
+
+Robin Denz, Nina Timmesfeld. Visualizing the Causal Effect of a Continuous Variable on a Time-To-Event Outcome. ARXIV STUFF
+
+Robin Denz, Renate Klaaßen-Mielke, and Nina Timmesfeld (2022). A Comparison of Different Methods to Adjust Survival Curves for Confounders. arXiv:2203.10002v1
+
+Brice Ozenne, Anne Lyngholm Sorensen, Thomas Scheike, Christian Torp-Pedersen and Thomas Alexander Gerds. riskRegression: Predicting the Risk of an Event using Cox Regression Models. The R Journal (2017) 9:2, pages 440-460.
+
+James Robins. A New Approach to Causal Inference in Mortality Studies with a Sustained Exposure Period: Application to Control of the Healthy Worker Survivor Effect. Mathematical Modelling (1986) 7, pages 1393-1512.
