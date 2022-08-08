@@ -1,13 +1,13 @@
 Package: contsurvplot
-Title: Visualize the Effect of a Continuous Variable on a Time-To-Event Outcome
+Title: Visualize the Effect of a Continuous Variable on a Time-to-Event Outcome
 Version: 0.1.0
 Authors@R: 
     person("Robin", "Denz", , "robin.denz@rub.de", role = c("aut", "cre"))
 Maintainer: Robin Denz <robin.denz@rub.de>
-Description: A package containing multiple plot functions to graphically display the
-	causal effect of a continuous variable on a time-to-event outcome. Those functions
-	include a heatmap, survival time quantile plots, restricted mean survival
-	time plots and a color graded survival curve. Allows confounder-adjustment.
+Description: Graphically display the causal effect of a continuous variable on a time-to-event outcome
+	using multiple different types of plots based on g-computation. Those functions
+	include, among others, survival area plots, survival contour plots, survival quantile plots and
+	3D surface plots. Due to the use of g-computation, all plot allow confounder-adjustment naturally.
 License: GPL (>= 3)
 URL: https://github.com/RobinDenz1/contsurvplot
 BugReports: https://github.com/RobinDenz1/contsurvplot/issues

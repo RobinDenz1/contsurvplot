@@ -145,7 +145,7 @@ data(nafld, package="survival")
 
 # take a random sample to keep example fast
 set.seed(42)
-nafld1 <- nafld1[sample(nrow(nafld1), 150), ]
+nafld1 <- nafld1[sample(nrow(nafld1), 100), ]
 
 # fit cox-model with age
 model <- coxph(Surv(futime, status) ~ age, data=nafld1, x=TRUE)
