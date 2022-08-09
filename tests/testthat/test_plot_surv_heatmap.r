@@ -65,6 +65,8 @@ test_that("plot, contour_lines", {
                            contour_size=1, contour_linetype="solid",
                            na.action=na.omit)
   expect_s3_class(plt, "ggplot")
+  skip_on_cran()
+  skip_on_covr()
   vdiffr::expect_doppelganger("plot, contour_lines", fig=plt)
 })
 
