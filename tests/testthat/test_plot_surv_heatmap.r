@@ -8,6 +8,14 @@ sim_dat$group <- factor(sim_dat$group)
 model <- survival::coxph(survival::Surv(time, event) ~ x3 + group,
                          data=sim_dat, x=TRUE)
 
+# to skip tests on github
+skip_on_actions <- function() {
+  if (!identical(Sys.getenv("GITHUB_ACTIONS"), "true")) {
+    return(invisible(TRUE))
+  }
+  skip("On GitHub Actions")
+}
+
 test_that("plot, defaults", {
   plt <- plot_surv_heatmap(time="time", status="event", variable="x3",
                            data=sim_dat, model=model)
@@ -67,6 +75,7 @@ test_that("plot, contour_lines", {
   expect_s3_class(plt, "ggplot")
   skip_on_cran()
   skip_on_covr()
+  skip_on_actions()
   vdiffr::expect_doppelganger("plot, contour_lines", fig=plt)
 })
 

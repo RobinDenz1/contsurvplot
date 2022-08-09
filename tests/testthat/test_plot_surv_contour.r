@@ -12,12 +12,21 @@ model <- survival::coxph(survival::Surv(time, event) ~ x3 + group,
 #       for contour plots for unknown reasons. The output looks the same,
 #       but gets flagged as different by ubuntu for example. Skipped.
 
+# to skip tests on github
+skip_on_actions <- function() {
+  if (!identical(Sys.getenv("GITHUB_ACTIONS"), "true")) {
+    return(invisible(TRUE))
+  }
+  skip("On GitHub Actions")
+}
+
 test_that("plot, defaults", {
   plt <- plot_surv_contour(time="time", status="event", variable="x3",
                            data=sim_dat, model=model)
   expect_s3_class(plt, "ggplot")
   skip_on_cran()
   skip_on_covr()
+  skip_on_actions()
   vdiffr::expect_doppelganger("plot, defaults", fig=plt)
 })
 
@@ -27,6 +36,7 @@ test_that("plot, with group", {
   expect_s3_class(plt, "ggplot")
   skip_on_cran()
   skip_on_covr()
+  skip_on_actions()
   vdiffr::expect_doppelganger("plot, with group", fig=plt)
 })
 
@@ -36,6 +46,7 @@ test_that("plot, cif", {
   expect_s3_class(plt, "ggplot")
   skip_on_cran()
   skip_on_covr()
+  skip_on_actions()
   vdiffr::expect_doppelganger("plot, cif", fig=plt)
 })
 
@@ -45,6 +56,7 @@ test_that("plot, change horizon", {
   expect_s3_class(plt, "ggplot")
   skip_on_cran()
   skip_on_covr()
+  skip_on_actions()
   vdiffr::expect_doppelganger("plot, change horizon", fig=plt)
 })
 
@@ -54,6 +66,7 @@ test_that("plot, at t", {
   expect_s3_class(plt, "ggplot")
   skip_on_cran()
   skip_on_covr()
+  skip_on_actions()
   vdiffr::expect_doppelganger("plot, at t", fig=plt)
 })
 
@@ -65,6 +78,7 @@ test_that("plot, custom colors", {
   expect_s3_class(plt, "ggplot")
   skip_on_cran()
   skip_on_covr()
+  skip_on_actions()
   vdiffr::expect_doppelganger("plot, custom colors", fig=plt)
 })
 
@@ -75,6 +89,7 @@ test_that("plot, panel_border / axis_dist", {
   expect_s3_class(plt, "ggplot")
   skip_on_cran()
   skip_on_covr()
+  skip_on_actions()
   vdiffr::expect_doppelganger("plot, panel_border / axis_dist", fig=plt)
 })
 
@@ -90,5 +105,6 @@ test_that("plot, lots of stuff", {
   expect_s3_class(plt, "ggplot")
   skip_on_cran()
   skip_on_covr()
+  skip_on_actions()
   vdiffr::expect_doppelganger("plot, lots of stuff", fig=plt)
 })
