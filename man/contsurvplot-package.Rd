@@ -32,7 +32,7 @@ Bug reports, suggestions and feature requests are highly welcome. Please file an
 
 }
 \references{
-Robin Denz, Nina Timmesfeld. Visualizing the Causal Effect of a Continuous Variable on a Time-To-Event Outcome. ARXIV STUFF
+Robin Denz, Nina Timmesfeld. (2022) Visualizing the Causal Effect of a Continuous Variable on a Time-To-Event Outcome. ARXIV SOON
 
 James Robins. A New Approach to Causal Inference in Mortality Studies with a Sustained Exposure Period: Application to Control of the Healthy Worker Survivor Effect. Mathematical Modelling (1986) 7, pages 1393-1512.
 }

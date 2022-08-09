@@ -3,6 +3,7 @@
 [![](https://www.r-pkg.org/badges/version/contsurvplot?color=green)](https://cran.r-project.org/package=contsurvplot)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/contsurvplot?color=blue)](https://cran.r-project.org/package=contsurvplot)
 [![R-CMD-check](https://github.com/RobinDenz1/contsurvplot/workflows/R-CMD-check/badge.svg)](https://github.com/RobinDenz1/contsurvplot/actions)
+[![Codecov test coverage](https://codecov.io/gh/RobinDenz1/contsurvplot/branch/main/graph/badge.svg)](https://app.codecov.io/gh/RobinDenz1/contsurvplot?branch=main)
 <!-- badges: end -->
 
 # contsurvplot <img src="man/figures/contsurvplot_sticker.png" height="240" align="right" />
@@ -95,7 +96,7 @@ More examples can be found in the documentation and the vignette.
 
 The main paper associated with this R-Package is:
 
-PAPER HERE
+Robin Denz, Nina Timmesfeld. (2022) Visualizing the Causal Effect of a Continuous Variable on a Time-To-Event Outcome. ARXIV SOON
 
 In addition, some relevant literature can be found in the documentation pages.
 

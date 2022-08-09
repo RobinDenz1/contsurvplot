@@ -18,17 +18,18 @@ Imports:
 	riskRegression,
 	foreach
 Suggests:
-	survival,
+    survival,
     pammtools,
     gganimate,
     transformr,
     plotly,
     reshape2,
-	doParallel,
+    doParallel,
     knitr,
     rmarkdown,
-	testthat (>= 3.0.0),
-	vdiffr (>= 1.0.0)
+    testthat (>= 3.0.0),
+    vdiffr (>= 1.0.0),
+    covr
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3

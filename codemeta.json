@@ -2,8 +2,8 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "contsurvplot",
-  "description": "A package containing multiple plot functions to graphically display the causal effect of a continuous variable on a time-to-event outcome. Those functions include a heatmap, survival time quantile plots, restricted mean survival time plots and a color graded survival curve. Allows confounder-adjustment.",
-  "name": "contsurvplot: Visualize the Effect of a Continuous Variable on a Time-To-Event Outcome",
+  "description": "Graphically display the causal effect of a continuous variable on a time-to-event outcome using multiple different types of plots based on g-computation. Those functions include, among others, survival area plots, survival contour plots, survival quantile plots and 3D surface plots. Due to the use of g-computation, all plot allow confounder-adjustment naturally.",
+  "name": "contsurvplot: Visualize the Effect of a Continuous Variable on a Time-to-Event Outcome",
   "codeRepository": "https://github.com/RobinDenz1/contsurvplot",
   "issueTracker": "https://github.com/RobinDenz1/contsurvplot/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
@@ -13,7 +13,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.2 (2020-06-22)",
+  "runtimePlatform": "R version 4.2.1 (2022-06-23 ucrt)",
   "author": [
     {
       "@type": "Person",
@@ -33,8 +33,15 @@
   "softwareSuggestions": [
     {
       "@type": "SoftwareApplication",
-      "identifier": "adjustedCurves",
-      "name": "adjustedCurves"
+      "identifier": "survival",
+      "name": "survival",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=survival"
     },
     {
       "@type": "SoftwareApplication",
@@ -157,6 +164,18 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=vdiffr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "covr",
+      "name": "covr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=covr"
     }
   ],
   "softwareRequirements": {
@@ -211,18 +230,6 @@
     },
     "5": {
       "@type": "SoftwareApplication",
-      "identifier": "survival",
-      "name": "survival",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=survival"
-    },
-    "6": {
-      "@type": "SoftwareApplication",
       "identifier": "foreach",
       "name": "foreach",
       "provider": {
@@ -235,8 +242,8 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "12411.355KB",
+  "fileSize": "10042.601KB",
   "readme": "https://github.com/RobinDenz1/contsurvplot/blob/main/README.md",
-  "contIntegration": "https://github.com/RobinDenz1/contsurvplot/actions",
+  "contIntegration": ["https://github.com/RobinDenz1/contsurvplot/actions", "https://app.codecov.io/gh/RobinDenz1/contsurvplot?branch=main"],
   "developmentStatus": "https://www.repostatus.org/#wip"
 }
