@@ -12,7 +12,7 @@ This package provides different plotting routines to visualize the causal effect
 
 \strong{\emph{What features are included in this package?}}
 
-The package includes 10 different plot functions, most based on the \pkg{ggplot2} package. Those 10 plotting routines include \emph{value specific survival curves}, \emph{landmark survival probability plots}, \emph{survival time quantile plots}, \emph{survival probability heatmaps}, and \emph{survival area plots}, amongst others. A description and comparison of these plots can be found in the article associated with this R-package (Denz & Timmesfeld 2022).
+The package includes 10 different plot functions, most based on the \pkg{ggplot2} package. Those 10 plotting routines include \emph{value specific survival curves}, \emph{landmark survival probability plots}, \emph{survival time quantile plots}, \emph{survival probability heatmaps}, and \emph{survival area plots}, among others. A description and comparison of these plots can be found in the article associated with this R-package (Denz & Timmesfeld 2022).
 
 \strong{\emph{What does a typical workflow using this package look like?}}
 
@@ -32,7 +32,7 @@ Bug reports, suggestions and feature requests are highly welcome. Please file an
 
 }
 \references{
-Robin Denz, Nina Timmesfeld. (2022) Visualizing the Causal Effect of a Continuous Variable on a Time-To-Event Outcome. ARXIV SOON
+Robin Denz, Nina Timmesfeld (2022). Visualizing the Causal Effect of a Continuous Variable on a Time-To-Event Outcome. arXiv:2208.04644v1
 
 James Robins. A New Approach to Causal Inference in Mortality Studies with a Sustained Exposure Period: Application to Control of the Healthy Worker Survivor Effect. Mathematical Modelling (1986) 7, pages 1393-1512.
 }

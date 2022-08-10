@@ -48,7 +48,7 @@ How missing values should be handled. Can be one of: \code{na.fail}, \code{na.om
 A numeric vector containing a range of values of \code{variable} for which the survival curves should be calculated or \code{NULL} (default). If \code{NULL}, the horizon is constructed as a sequence from the lowest to the highest value observed in \code{variable} with 40 equally spaced steps.
   }
   \item{fixed_t}{
-A numeric vector containing points in time at which the survival probabilities should be calculated or \code{NULL} (default). If \code{NULL}, the survival probability is estimated at every point in time at which an event occured.
+A numeric vector containing points in time at which the survival probabilities should be calculated or \code{NULL} (default). If \code{NULL}, the survival probability is estimated at every point in time at which an event occurred.
   }
   \item{max_t}{
 A number indicating the latest survival time which is to be plotted.
@@ -93,7 +93,7 @@ Further arguments passed to \code{\link{curve_cont}}.
 \details{
 When the plot doesn't have to be on paper, it is also possible to use animation to represent how the survival curve or CIF changes when different values of a continuous covariate are used. There are two options included in this function. The first one is creating a plot with a slider that can be interactively manipulated by the user (argument \code{slider=TRUE}). The second option creates a .gif file in which the continuous variable changes constantly over time (argument \code{slider=FALSE}).
 
-This type of plot is only usefull when visualizing the effect on a computer. It is also important to keep in mind that these plots might look slightly different to users with different hardware and or software.
+This type of plot is only useful when visualizing the effect on a computer. It is also important to keep in mind that these plots might look slightly different to users with different hardware and or software.
 
 An additional interactive plot can be created using the \code{\link{plot_surv_3Dsurface}} function with \code{interactive=TRUE}.
 }

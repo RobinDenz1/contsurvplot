@@ -43,7 +43,7 @@ How missing values should be handled. Can be one of: \code{na.fail}, \code{na.om
 A numeric vector containing a range of values of \code{variable} for which the survival curves should be calculated or \code{NULL} (default). If \code{NULL}, the horizon is constructed as a sequence from the lowest to the highest value observed in \code{variable} with 40 equally spaced steps.
   }
   \item{fixed_t}{
-A numeric vector containing points in time at which the survival probabilities should be calculated or \code{NULL} (default). If \code{NULL}, the survival probability is estimated at every point in time at which an event occured.
+A numeric vector containing points in time at which the survival probabilities should be calculated or \code{NULL} (default). If \code{NULL}, the survival probability is estimated at every point in time at which an event occurred.
   }
   \item{max_t}{
 A number indicating the latest survival time which is to be plotted.

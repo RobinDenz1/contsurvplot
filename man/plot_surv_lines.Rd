@@ -50,7 +50,7 @@ How missing values should be handled. Can be one of: \code{na.fail}, \code{na.om
 A numeric vector containing a range of values of \code{variable} for which the survival curves should be calculated or \code{NULL} (default). If \code{NULL}, the horizon is constructed as a sequence from the lowest to the highest value observed in \code{variable} with 12 equally spaced steps.
   }
   \item{fixed_t}{
-A numeric vector containing points in time at which the survival probabilities should be calculated or \code{NULL} (default). If \code{NULL}, the survival probability is estimated at every point in time at which an event occured.
+A numeric vector containing points in time at which the survival probabilities should be calculated or \code{NULL} (default). If \code{NULL}, the survival probability is estimated at every point in time at which an event occurred.
   }
   \item{max_t}{
 A number indicating the latest survival time which is to be plotted.
@@ -71,7 +71,7 @@ The color used for the highest value in \code{horizon}. See argument \code{start
 A single number specifying the size of the drawn curves.
   }
   \item{linetype}{
-A single character string specifyinf the linetype of the curves.
+A single character string specifying the linetype of the curves.
   }
   \item{alpha}{
 The transparency level of the plot.
@@ -153,9 +153,10 @@ model2 <- coxph(Surv(futime, status) ~ age + male + bs(bmi, df=3),
                 data=nafld1, x=TRUE)
 
 # plot effect of bmi on survival
-plot_surv_heatmap(time="futime",
+plot_surv_lines(time="futime",
                 status="status",
                 variable="bmi",
                 data=nafld1,
-                model=model2)
+                model=model2,
+                horizon=c(40, 52, 63, 81))
 }

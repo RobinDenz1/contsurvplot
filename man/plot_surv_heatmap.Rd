@@ -5,7 +5,7 @@
 Plot a Heatmap of the Effect of a Continuous Covariate on a Time-To-Event Outcome
 }
 \description{
-Using a previously fit time-to-event model, this function plots a heatmap with the continuous covariate on the y-axis and the time-to-event on the x-axis. The color is made in accordence with the corresponding survival probability or CIF at that point.
+Using a previously fit time-to-event model, this function plots a heatmap with the continuous covariate on the y-axis and the time-to-event on the x-axis. The color is made in accordance with the corresponding survival probability or CIF at that point.
 }
 \usage{
 plot_surv_heatmap(time, status, variable, group=NULL,
@@ -120,7 +120,7 @@ Heatmaps are a great tool to visualize a three dimensional surface in a two-dime
 
 In most cases, however, it is probably better to use a proper contour plot instead, which can be produced using the \code{\link{plot_surv_contour}} function. This is mostly a matter of taste, which is why both types of plots are included in this package.
 
-The main advantage of the heatmap and the contour plots is that they can visualize the effect of a continuous covariate regardless of how it was modelled. Non-linear relationships can be visualized just as well as linear ones. The major downside is, that the structure of the plot is not the same as that of a standard Kaplan-Meier plot. An alternative that is closer to the standard plot can be created using the \code{\link{plot_surv_area}} function.
+The main advantage of the heatmap and the contour plots is that they can visualize the effect of a continuous covariate regardless of how it was modeled. Non-linear relationships can be visualized just as well as linear ones. The major downside is, that the structure of the plot is not the same as that of a standard Kaplan-Meier plot. An alternative that is closer to the standard plot can be created using the \code{\link{plot_surv_area}} function.
 }
 \value{
 Returns a \code{ggplot2} object.

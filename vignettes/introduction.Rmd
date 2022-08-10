@@ -78,7 +78,7 @@ summary(model)
 
 We can see that the hazard-ratio of the target variable `nodes` is approximately `r round(exp(model$coefficients["nodes"][[1]]), 3)`. Together with a very small p-value, this indicates that the survival probability of the patients decreases with a rising number of affected lymph nodes. This is a plausible (and hardly shocking) result.
 
-But how bad is a hazard-ratio of `r round(exp(model$coefficients["nodes"][[1]]), 3)` exactly? A trained statistician might have no problem interpreting this number correctly, but for many other medical scientists this number might not mean that much. Appropriate visualizations are the key to proper communication of such regression results. Because relative effect measures, such as the hazard-ratio, are inherently harder to intrepret than absolute effect measures, we will only use the latter. This includes the standard survival probability at time $t$.
+But how bad is a hazard-ratio of `r round(exp(model$coefficients["nodes"][[1]]), 3)` exactly? A trained statistician might have no problem interpreting this number correctly, but for many other medical scientists this number might not mean that much. Appropriate visualizations are the key to proper communication of such regression results. Because relative effect measures, such as the hazard-ratio, are inherently harder to interpret than absolute effect measures, we will only use the latter. This includes the standard survival probability at time $t$.
 
 # How do We get the Survival Probability from the Model?
 
@@ -390,11 +390,11 @@ plot_surv_area(time="time",
                model=model)
 ```
 
-In this case, the differences are not extremly big because `sex` does not have a big effect on the survival time.
+In this case, the differences are not extremely big because `sex` does not have a big effect on the survival time.
 
 # Literature
 
-Robin Denz, Nina Timmesfeld. Visualizing the Causal Effect of a Continuous Variable on a Time-To-Event Outcome. ARXIV STUFF
+Robin Denz, Nina Timmesfeld (2022). Visualizing the Causal Effect of a Continuous Variable on a Time-To-Event Outcome. arXiv:2208.04644v1
 
 Robin Denz, Renate Klaaßen-Mielke, and Nina Timmesfeld (2022). A Comparison of Different Methods to Adjust Survival Curves for Confounders. arXiv:2203.10002v1
 

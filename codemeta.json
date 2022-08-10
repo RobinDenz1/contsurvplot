@@ -4,6 +4,7 @@
   "identifier": "contsurvplot",
   "description": "Graphically display the causal effect of a continuous variable on a time-to-event outcome using multiple different types of plots based on g-computation. Those functions include, among others, survival area plots, survival contour plots, survival quantile plots and 3D surface plots. Due to the use of g-computation, all plot allow confounder-adjustment naturally.",
   "name": "contsurvplot: Visualize the Effect of a Continuous Variable on a Time-to-Event Outcome",
+  "relatedLink": "https://robindenz1.github.io/contsurvplot/",
   "codeRepository": "https://github.com/RobinDenz1/contsurvplot",
   "issueTracker": "https://github.com/RobinDenz1/contsurvplot/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
@@ -242,7 +243,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "10042.601KB",
+  "fileSize": "10044.106KB",
   "readme": "https://github.com/RobinDenz1/contsurvplot/blob/main/README.md",
   "contIntegration": ["https://github.com/RobinDenz1/contsurvplot/actions", "https://app.codecov.io/gh/RobinDenz1/contsurvplot?branch=main"],
   "developmentStatus": "https://www.repostatus.org/#wip"

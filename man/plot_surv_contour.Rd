@@ -5,7 +5,7 @@
 Create a Contour Plot of the Effect of a Continuous Covariate on the Survival Probability
 }
 \description{
-Using a previously fit time-to-event model, this function creates a contour plot with the continuous covariate on the y-axis and the time-to-event on the x-axis. The color is made in accordence with the corresponding survival probability at that point, binned into separate categories. This is very similar to the \code{\link{plot_surv_heatmap}} plot, but using a categorical representation.
+Using a previously fit time-to-event model, this function creates a contour plot with the continuous covariate on the y-axis and the time-to-event on the x-axis. The color is made in accordance with the corresponding survival probability at that point, binned into separate categories. This is very similar to the \code{\link{plot_surv_heatmap}} plot, but using a categorical representation.
 }
 \usage{
 plot_surv_contour(time, status, variable, group=NULL,
@@ -125,6 +125,8 @@ Returns a \code{ggplot2} object.
 Robin Denz
 }
 \references{
+Robin Denz, Nina Timmesfeld (2022). Visualizing the Causal Effect of a Continuous Variable on a Time-To-Event Outcome. arXiv:2208.04644v1
+
 Jackson, R. J. & Cox, T. F. Kernel Hazard Estimation for Visualisation of the Effect of a Continuous Covariate on Time-To-Event Endpoints  Pharamaceutical Statistics, 2021
 }
 \examples{

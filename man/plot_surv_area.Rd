@@ -54,7 +54,7 @@ How missing values should be handled. Can be one of: \code{na.fail}, \code{na.om
 A numeric vector containing a range of values of \code{variable} for which the survival curves should be calculated or \code{NULL} (default). If \code{NULL}, the horizon is constructed as a sequence from the lowest to the highest value observed in \code{variable} with 40 equally spaced steps.
   }
   \item{fixed_t}{
-A numeric vector containing points in time at which the survival probabilities should be calculated or \code{NULL} (default). If \code{NULL}, the survival probability is estimated at every point in time at which an event occured.
+A numeric vector containing points in time at which the survival probabilities should be calculated or \code{NULL} (default). If \code{NULL}, the survival probability is estimated at every point in time at which an event occurred.
   }
   \item{max_t}{
 A number indicating the latest survival time which is to be plotted.
@@ -125,13 +125,16 @@ This function is very similar to a contour plot (see \code{\link{plot_surv_conto
 
 This is achieved by estimating value-specific curves over the whole range of the continuous covariate using direct standardization and a previously fitted time-to-event model (see \code{\link{curve_cont}}). The area between those curves is then simply filled in (using the \code{geom_stepribbon} function from the \pkg{pammtools} package). By using a big number of individual curves, the appearance of a continuously shaded area is created. This is done by default when using the argument \code{discrete=FALSE}. By using \code{discrete=TRUE}, only a small number of value-specific curves are estimated, resulting in only a few discrete bins. When using only a few bins, the output is therefore even closer to a contour plot.
 
-The major downside of this plotting method is that it only works if the effect of the continuous covariate was modelled as a monotone effect, meaning that it either only increases or only decreases with higher values. Curved relationships between the variable and the survival time cannot be represented using this function, because the areas would be plotted on top of each other in that case. However, the \code{\link{plot_surv_contour}} and \code{\link{plot_surv_heatmap}} functions may be used instead in this case.
+The major downside of this plotting method is that it only works if the effect of the continuous covariate was modeled as a monotone effect, meaning that it either only increases or only decreases with higher values. Curved relationships between the variable and the survival time cannot be represented using this function, because the areas would be plotted on top of each other in that case. However, the \code{\link{plot_surv_contour}} and \code{\link{plot_surv_heatmap}} functions may be used instead in this case.
 }
 \value{
 Returns a \code{ggplot2} object.
 }
 \author{
 Robin Denz
+}
+\references{
+Robin Denz, Nina Timmesfeld (2022). Visualizing the Causal Effect of a Continuous Variable on a Time-To-Event Outcome. arXiv:2208.04644v1
 }
 \examples{
 library(contsurvplot)

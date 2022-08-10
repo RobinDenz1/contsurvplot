@@ -6,7 +6,7 @@
 [![Codecov test coverage](https://codecov.io/gh/RobinDenz1/contsurvplot/branch/main/graph/badge.svg)](https://app.codecov.io/gh/RobinDenz1/contsurvplot?branch=main)
 <!-- badges: end -->
 
-# contsurvplot <img src="man/figures/contsurvplot_sticker.png" height="240" align="right" />
+# contsurvplot <img src="man/figures/logo.png" height="240" align="right" />
 
 Author: Robin Denz
 
@@ -96,7 +96,7 @@ More examples can be found in the documentation and the vignette.
 
 The main paper associated with this R-Package is:
 
-Robin Denz, Nina Timmesfeld. (2022) Visualizing the Causal Effect of a Continuous Variable on a Time-To-Event Outcome. ARXIV SOON
+Robin Denz, Nina Timmesfeld (2022). Visualizing the Causal Effect of a Continuous Variable on a Time-To-Event Outcome. arXiv:2208.04644v1
 
 In addition, some relevant literature can be found in the documentation pages.
 
