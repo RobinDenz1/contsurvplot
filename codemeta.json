@@ -243,7 +243,36 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "10044.106KB",
+  "fileSize": "10044.74KB",
+  "citation": [
+    {
+      "@type": "ScholarlyArticle",
+      "datePublished": "2022",
+      "author": [
+        {
+          "@type": "Person",
+          "givenName": "Robin",
+          "familyName": "Denz"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Nina",
+          "familyName": "Timmesfeld"
+        }
+      ],
+      "name": "Visualizing the Causal Effect of a Continuous Variable on a Time-To-Event Outcome",
+      "description": "R package version 0.1.0",
+      "isPartOf": {
+        "@type": "PublicationIssue",
+        "datePublished": "2022",
+        "isPartOf": {
+          "@type": ["PublicationVolume", "Periodical"],
+          "name": "arXiv:2208.04644v1"
+        }
+      }
+    }
+  ],
+  "releaseNotes": "https://github.com/RobinDenz1/contsurvplot/blob/master/NEWS.md",
   "readme": "https://github.com/RobinDenz1/contsurvplot/blob/main/README.md",
   "contIntegration": ["https://github.com/RobinDenz1/contsurvplot/actions", "https://app.codecov.io/gh/RobinDenz1/contsurvplot?branch=main"],
   "developmentStatus": "https://www.repostatus.org/#wip"

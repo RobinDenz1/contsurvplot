@@ -168,23 +168,15 @@ plot_surv_area(time="futime",
                model=model,
                horizon=seq(60, 80, 0.5))
 
-# plot it only for 60 to 80 year old people,
-# and also use a black and white color scale
-plot_surv_area(time="futime",
-               status="status",
-               variable="age",
-               data=nafld1,
-               model=model,
-               horizon=seq(60, 80, 0.5),
-               start_color="grey",
-               end_color="black")
-
 # plot it only for 60 to 60 year old people, using discrete bins
+# and a black and white color scale
 plot_surv_area(time="futime",
                status="status",
                variable="age",
                data=nafld1,
                model=model,
                horizon=seq(60, 80, 5),
-               discrete=TRUE)
+               discrete=TRUE,
+               start_color="grey",
+               end_color="black")
 }

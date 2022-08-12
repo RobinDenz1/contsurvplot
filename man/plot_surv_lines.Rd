@@ -158,5 +158,5 @@ plot_surv_lines(time="futime",
                 variable="bmi",
                 data=nafld1,
                 model=model2,
-                horizon=c(40, 52, 63, 81))
+                horizon=c(20, 30, 40))
 }

@@ -142,7 +142,7 @@ plot_surv_rmtl(time="futime",
 
 # fit cox-model with bmi modeled using B-Splines,
 # adjusting for age and sex
-model2 <- coxph(Surv(futime, status) ~ age + male + bs(bmi, df=5),
+model2 <- coxph(Surv(futime, status) ~ age + male + bs(bmi, df=3),
                 data=nafld1, x=TRUE)
 
 # plot effect of bmi on survival

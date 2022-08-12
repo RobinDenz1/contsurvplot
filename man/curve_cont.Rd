@@ -92,14 +92,14 @@ model <- coxph(Surv(futime, status) ~ age, data=nafld1, x=TRUE)
 plotdata <- curve_cont(data=nafld1,
                        variable="age",
                        model=model,
-                       horizon=seq(50, 80, 1),
-                       times=seq(0, 4000, 100))
+                       horizon=c(50, 60, 70, 80),
+                       times=c(1000, 2000, 3000, 4000))
 
 # estimate cumulative incidences instead
 plotdata <- curve_cont(data=nafld1,
                        variable="age",
                        model=model,
-                       horizon=seq(50, 80, 1),
-                       times=seq(0, 4000, 100),
+                       horizon=c(50, 60, 70, 80),
+                       times=c(1000, 2000, 3000, 4000),
                        cif=TRUE)
 }
