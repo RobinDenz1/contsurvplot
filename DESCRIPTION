@@ -8,6 +8,7 @@ Description: Graphically display the causal effect of a continuous variable on a
 	using multiple different types of plots based on g-computation. Those functions
 	include, among others, survival area plots, survival contour plots, survival quantile plots and
 	3D surface plots. Due to the use of g-computation, all plot allow confounder-adjustment naturally.
+	For details, see Robin Denz, Nina Timmesfeld (2022) <arXiv:2208.04644v1>.
 License: GPL (>= 3)
 URL: https://github.com/RobinDenz1/contsurvplot,
 	https://robindenz1.github.io/contsurvplot/
