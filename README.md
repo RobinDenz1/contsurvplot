@@ -1,5 +1,5 @@
 <!-- badges: start -->
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![](https://www.r-pkg.org/badges/version/contsurvplot?color=green)](https://cran.r-project.org/package=contsurvplot)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/contsurvplot?color=blue)](https://cran.r-project.org/package=contsurvplot)
 [![R-CMD-check](https://github.com/RobinDenz1/contsurvplot/workflows/R-CMD-check/badge.svg)](https://github.com/RobinDenz1/contsurvplot/actions)
@@ -19,7 +19,13 @@ Also, most of the plot functions are based on the `ggplot2` package, allowing th
 
 ## Installation
 
-Currently this package is not available on CRAN, but can be installed easily using the `devtools` R-Package:
+The stable release version can be installed directly from CRAN using:
+
+```R
+install.packages("contsurvplot")
+```
+
+Alternatively, the development version can be installed using the `devtools` R-Package:
 
 ```R
 library(devtools)
