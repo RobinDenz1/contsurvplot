@@ -175,3 +175,55 @@ check_inputs_curve_cont <- function(data, variable, model, horizon,
     }
   }
 }
+
+## Check inputs for special parameters in plot_surv_tiles
+check_inputs_tiles <- function(border_color, border_size, numbers, number_color,
+                               number_size, number_family, number_fontface,
+                               number_digits, fixed_t, horizon, n_col, n_row) {
+
+  # check if fixed_t is equally spaced
+  if (!is.null(fixed_t)) {
+    expected <- seq(fixed_t[1], fixed_t[length(fixed_t)],
+                    length.out=length(fixed_t))
+    if (!all(fixed_t==expected)) {
+      stop("'fixed_t' needs to be an equally spaced numeric vector.",
+           " For example, you could use seq(min, max, length.out=100).")
+    }
+  }
+
+  # check if horizon is equally spaced
+  if (!is.null(horizon)) {
+    expected <- seq(horizon[1], horizon[length(horizon)],
+                    length.out=length(horizon))
+    if (!all(horizon==expected)) {
+      stop("'horizon' needs to be an equally spaced numeric vector.",
+           " For example, you could use seq(min, max, length.out=100).")
+    }
+  }
+
+  # check other arguments
+  if (!is.null(border_color) && !(length(border_color)==1 &&
+                                  is.character(border_color))) {
+    stop("'border_color' needs to be a single character string specifying",
+         " the color of the rectangle borders or NULL.")
+  } else if (!(length(border_size)==1 && is.numeric(border_size))) {
+    stop("'border_size' needs to be a single number.")
+  } else if (!(length(numbers)==1 && is.logical(numbers))) {
+    stop("'numbers' must be either TRUE or FALSE.")
+  } else if (!(length(number_color)==1 && is.character(number_color))) {
+    stop("'number_color' needs to be a single character string specifying",
+         " the color of the text inside the rectangles.")
+  } else if (!(length(number_size)==1 && is.numeric(number_size))) {
+    stop("'number_size' needs to be a single number.")
+  } else if (!(length(number_family)==1 && is.character(number_family))) {
+    stop("'number_family' needs to be a single character string.")
+  } else if (!(length(number_fontface)==1 && is.character(number_fontface))) {
+    stop("'number_fontface' needs to be a single character string.")
+  } else if (!(length(number_digits)==1 && is.numeric(number_digits))) {
+    stop("'number_digits' needs to be a single number.")
+  } else if (!(length(n_col)==1 && is.numeric(n_col))) {
+    stop("'n_col' needs to be a single number.")
+  } else if (!(length(n_row)==1 && is.numeric(n_row))) {
+    stop("'n_row' needs to be a single number.")
+  }
+}

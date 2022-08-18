@@ -118,7 +118,7 @@ Further arguments passed to \code{\link{curve_cont}}.
 \details{
 Heatmaps are a great tool to visualize a three dimensional surface in a two-dimensional plot. A continuous color scale is used to represent the probability of interest. Although this is fine theoretically, it is often hard to read specific information off these plots. Contour lines can be added to the plot in order to make this easier by using \code{contour_lines=TRUE} in the function call.
 
-In most cases, however, it is probably better to use a proper contour plot instead, which can be produced using the \code{\link{plot_surv_contour}} function. This is mostly a matter of taste, which is why both types of plots are included in this package.
+In most cases, however, it is probably better to use a proper contour plot instead, which can be produced using the \code{\link{plot_surv_contour}} function. This is mostly a matter of taste, which is why both types of plots are included in this package. Another alternative is the to use the \code{\link{plot_surv_tiles}} function, which is basically a discretized version of a survival heatmap.
 
 The main advantage of the heatmap and the contour plots is that they can visualize the effect of a continuous covariate regardless of how it was modeled. Non-linear relationships can be visualized just as well as linear ones. The major downside is, that the structure of the plot is not the same as that of a standard Kaplan-Meier plot. An alternative that is closer to the standard plot can be created using the \code{\link{plot_surv_area}} function.
 }
