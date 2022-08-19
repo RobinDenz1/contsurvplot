@@ -1,5 +1,5 @@
-\name{plot_surv_tiles}
-\alias{plot_surv_tiles}
+\name{plot_surv_matrix}
+\alias{plot_surv_matrix}
 
 \title{
 Plot a Discretized Heatmap of the Effect of a Continuous Covariate on a Time-To-Event Outcome
@@ -8,21 +8,22 @@ Plot a Discretized Heatmap of the Effect of a Continuous Covariate on a Time-To-
 Using a previously fit time-to-event model, this function plots a discretized heatmap with the continuous covariate on the y-axis and the time-to-event on the x-axis. This is essentially a discretized version of the \code{\link{plot_surv_heatmap}} plot, which makes it look very similar to a correlation matrix.
 }
 \usage{
-plot_surv_tiles(time, status, variable, data, model,
-                cif=FALSE, na.action=options()$na.action,
-                horizon=NULL, fixed_t=NULL, max_t=Inf,
-                n_col=10, n_row=10,
-                start_color="red", end_color="blue",
-                alpha=1, xlab="Time", ylab=variable,
-                title=NULL, subtitle=NULL,
-                legend.title="S(t)", legend.position="none",
-                gg_theme=ggplot2::theme_bw(),
-                panel_border=FALSE, axis_dist=0,
-                border_color="white", border_size=0.5,
-                numbers=TRUE, number_color="white",
-                number_size=3, number_family="sans",
-                number_fontface="plain", number_digits=2,
-                ...)
+plot_surv_matrix(time, status, variable, group=NULL, data, model,
+                 cif=FALSE, na.action=options()$na.action,
+                 horizon=NULL, fixed_t=NULL, max_t=Inf,
+                 n_col=10, n_row=10,
+                 start_color="red", end_color="blue",
+                 alpha=1, xlab="Time", ylab=variable,
+                 title=NULL, subtitle=NULL,
+                 legend.title="S(t)", legend.position="none",
+                 gg_theme=ggplot2::theme_bw(),
+                 facet_args=list(),
+                 panel_border=FALSE, axis_dist=0,
+                 border_color="white", border_size=0.5,
+                 numbers=TRUE, number_color="white",
+                 number_size=3, number_family="sans",
+                 number_fontface="plain", number_digits=2,
+                 ...)
 }
 \arguments{
   \item{time}{
@@ -33,6 +34,9 @@ A single character string specifying the status variable, indicating if a person
   }
   \item{variable}{
 A single character string specifying the continuous variable of interest, for which the survival curves should be estimated. This variable has to be contained in the \code{data.frame} that is supplied to the \code{data} argument.
+  }
+  \item{group}{
+An optional single character string specifying a factor variable in \code{data}. When used, the plot is created conditional on this factor variable, meaning that a facetted plot is produced with one facet for each level of the factor variable. See \code{\link{curve_cont}} for a detailed description of the estimation strategy. Set to \code{NULL} (default) to use no grouping variable.
   }
   \item{data}{
 A \code{data.frame} containing all required variables.
@@ -90,6 +94,9 @@ Where to put the legend. See \code{?theme} for more details.
   }
   \item{gg_theme}{
 A \pkg{ggplot2} theme which is applied to the plot.
+  }
+  \item{facet_args}{
+A named list of arguments that are passed to the \code{\link{facet_wrap}} function call when creating a plot separated by groups. Ignored if \code{group=NULL}. Any argument except the \code{facets} argument of the \code{\link{facet_wrap}} function can be used. For example, if the user wants to allow free y-scales, this argument could be set to \code{list(scales="free_y")}.
   }
   \item{panel_border}{
 Whether to draw a border around the heatmap or not. Is set to FALSE by default to mimic standard heatmaps.
@@ -154,19 +161,19 @@ nafld1 <- nafld1[sample(nrow(nafld1), 150), ]
 model <- coxph(Surv(futime, status) ~ age, data=nafld1, x=TRUE)
 
 # plot effect of age on survival using defaults
-plot_surv_tiles(time="futime",
-                status="status",
-                variable="age",
-                data=nafld1,
-                model=model)
+plot_surv_matrix(time="futime",
+                 status="status",
+                 variable="age",
+                 data=nafld1,
+                 model=model)
 
 # plot it only for 60 to 80 year old people
-plot_surv_tiles(time="futime",
-                status="status",
-                variable="age",
-                data=nafld1,
-                model=model,
-                horizon=seq(60, 80, 0.5))
+plot_surv_matrix(time="futime",
+                 status="status",
+                 variable="age",
+                 data=nafld1,
+                 model=model,
+                 horizon=seq(60, 80, 0.5))
 
 ## showing non-linear effects
 
@@ -176,10 +183,10 @@ model2 <- coxph(Surv(futime, status) ~ age + male + bs(bmi, df=3),
                 data=nafld1, x=TRUE)
 
 # plot effect of bmi on survival using defaults
-plot_surv_tiles(time="futime",
-                status="status",
-                variable="bmi",
-                data=nafld1,
-                model=model2)
+plot_surv_matrix(time="futime",
+                 status="status",
+                 variable="bmi",
+                 data=nafld1,
+                 model=model2)
 
 }

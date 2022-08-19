@@ -177,9 +177,10 @@ check_inputs_curve_cont <- function(data, variable, model, horizon,
 }
 
 ## Check inputs for special parameters in plot_surv_tiles
-check_inputs_tiles <- function(border_color, border_size, numbers, number_color,
-                               number_size, number_family, number_fontface,
-                               number_digits, fixed_t, horizon, n_col, n_row) {
+check_inputs_surv_matrix <- function(border_color, border_size, numbers,
+                                     number_color, number_size, number_family,
+                                     number_fontface, number_digits, fixed_t,
+                                     horizon, n_col, n_row) {
 
   # check if fixed_t is equally spaced
   if (!is.null(fixed_t)) {

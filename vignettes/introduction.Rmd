@@ -25,7 +25,13 @@ The `contsurvplot` package tries to fill this gap by providing multiple types of
 
 # Installation
 
-The package is currently not available on CRAN, but can be installed from github, using the following code:
+The stable release version of this package can be installed directly from CRAN using:
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
+install.packages("contsurvplot")
+```
+
+Alternatively, the developmental version can be installed from github, using the following code:
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
 devtools::install_github("RobinDenz1/contsurvplot")
@@ -301,6 +307,34 @@ plot_surv_contour(time="time",
 ```
 
 This type of plot is preferable to the heatmap in most cases. In case of a very smooth effect, the simple heatmap might be a better choice though.
+
+## Survival Matrix
+
+A different version of a heatmap can be created using the `plot_surv_matrix` function. Instead of using a smooth area with color scaling, this type of plot divides the are into rectangles and displays the average survival probability inside those. It can be created like this:
+
+```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=5}
+plot_surv_matrix(time="time",
+                 status="status",
+                 variable="nodes",
+                 data=colon,
+                 model=model)
+```
+
+This type of heatmap is definitely easier to interpret (and arguably more pretty), but it also swallows up information by only displaying *average* survival probabilities in each rectangle. It is important to check whether the underlying smooth effect is correctly displayed with the current amount of rectangles and to change the dimensions of the matrix accordingly.
+
+In this case, using a 10 x 10 matrix seems fine. This is what it would look like to use only a 5 x 5 matrix:
+
+```{r echo=TRUE, fig.show=TRUE, fig.width=7, fig.height=5}
+plot_surv_matrix(time="time",
+                 status="status",
+                 variable="nodes",
+                 data=colon,
+                 model=model,
+                 n_col=5,
+                 n_row=5)
+```
+
+25 rectangles are clearly not enough in this case.
 
 ## Survival 3D Surface
 

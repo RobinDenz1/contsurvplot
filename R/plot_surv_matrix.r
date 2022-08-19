@@ -1,25 +1,24 @@
 
 ## Survival heatmap using only a discrete number of tiles,
 ## but with underlying smooth estimation
-# TODO:
-#   - allow group parameter
 #' @importFrom rlang .data
 #' @export
-plot_surv_tiles <- function(time, status, variable, data, model,
-                            cif=FALSE, na.action=options()$na.action,
-                            horizon=NULL, fixed_t=NULL, max_t=Inf,
-                            n_col=10, n_row=10,
-                            start_color="red", end_color="blue",
-                            alpha=1, xlab="Time", ylab=variable,
-                            title=NULL, subtitle=NULL,
-                            legend.title="S(t)", legend.position="none",
-                            gg_theme=ggplot2::theme_bw(),
-                            panel_border=FALSE, axis_dist=0,
-                            border_color="white", border_size=0.5,
-                            numbers=TRUE, number_color="white",
-                            number_size=3, number_family="sans",
-                            number_fontface="plain", number_digits=2,
-                            ...) {
+plot_surv_matrix <- function(time, status, variable, group=NULL, data, model,
+                             cif=FALSE, na.action=options()$na.action,
+                             horizon=NULL, fixed_t=NULL, max_t=Inf,
+                             n_col=10, n_row=10,
+                             start_color="red", end_color="blue",
+                             alpha=1, xlab="Time", ylab=variable,
+                             title=NULL, subtitle=NULL,
+                             legend.title="S(t)", legend.position="none",
+                             gg_theme=ggplot2::theme_bw(),
+                             facet_args=list(),
+                             panel_border=FALSE, axis_dist=0,
+                             border_color="white", border_size=0.5,
+                             numbers=TRUE, number_color="white",
+                             number_size=3, number_family="sans",
+                             number_fontface="plain", number_digits=2,
+                             ...) {
   # silence devtools::check()
   rect_id <- cont <- est <- NULL
 
@@ -30,19 +29,19 @@ plot_surv_tiles <- function(time, status, variable, data, model,
                      data=data, model=model, na.action=na.action,
                      horizon=horizon, fixed_t=fixed_t, max_t=max_t,
                      discrete=TRUE, panel_border=panel_border, t=1, tau=1,
-                     group=NULL)
+                     group=group)
 
   # further special input checks
-  check_inputs_tiles(border_color=border_color, border_size=border_size,
-                     numbers=numbers, number_color=number_color,
-                     number_size=number_size, number_family=number_family,
-                     number_fontface=number_fontface,
-                     number_digits=number_digits, fixed_t=fixed_t,
-                     horizon=horizon, n_col=n_col, n_row=n_row)
+  check_inputs_surv_matrix(border_color=border_color, border_size=border_size,
+                           numbers=numbers, number_color=number_color,
+                           number_size=number_size, number_family=number_family,
+                           number_fontface=number_fontface,
+                           number_digits=number_digits, fixed_t=fixed_t,
+                           horizon=horizon, n_col=n_col, n_row=n_row)
 
   data <- prepare_inputdata(data=data, time=time, status=status,
                             variable=variable, model=model,
-                            group=NULL, na.action=na.action)
+                            group=group, na.action=na.action)
 
   if (is.null(fixed_t)) {
     fixed_t <- seq(min(data[, time]), max(data[, time]), length.out=100)
@@ -68,7 +67,7 @@ plot_surv_tiles <- function(time, status, variable, data, model,
   plotdata <- curve_cont(data=data,
                          variable=variable,
                          model=model,
-                         group=NULL,
+                         group=group,
                          horizon=horizon,
                          times=fixed_t,
                          na.action="na.fail",
@@ -80,13 +79,23 @@ plot_surv_tiles <- function(time, status, variable, data, model,
   plotdata$cont_cut <- cut(plotdata$cont, n_row)
   plotdata$rect_id <- paste(plotdata$time_cut, plotdata$cont_cut)
 
-  plotdata <- plotdata %>%
-    dplyr::group_by(rect_id) %>%
-    dplyr::summarise(xmin=min(time),
-                     xmax=max(time),
-                     ymin=min(cont),
-                     ymax=max(cont),
-                     est=mean(est))
+  if (is.null(group)) {
+    plotdata <- plotdata %>%
+      dplyr::group_by(rect_id) %>%
+      dplyr::summarise(xmin=min(time),
+                       xmax=max(time),
+                       ymin=min(cont),
+                       ymax=max(cont),
+                       est=mean(est))
+  } else {
+    plotdata <- plotdata %>%
+      dplyr::group_by(rect_id, group) %>%
+      dplyr::summarise(xmin=min(time),
+                       xmax=max(time),
+                       ymin=min(cont),
+                       ymax=max(cont),
+                       est=mean(est))
+  }
 
   # close gap between tiles
   gap_x <- fixed_t[2] - fixed_t[1]
@@ -134,6 +143,12 @@ plot_surv_tiles <- function(time, status, variable, data, model,
                                 size=number_size,
                                 family=number_family,
                                 fontface=number_fontface)
+  }
+  # facet plot by factor variable
+  if (!is.null(group)) {
+    facet_args$facets <- stats::as.formula("~ group")
+    facet_obj <- do.call(ggplot2::facet_wrap, facet_args)
+    p <- p + facet_obj
   }
   return(p)
 }
