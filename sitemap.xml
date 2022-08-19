@@ -52,6 +52,9 @@
     <loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_lines.html</loc>
   </url>
   <url>
+    <loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_matrix.html</loc>
+  </url>
+  <url>
     <loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_quantiles.html</loc>
   </url>
   <url>
@@ -59,8 +62,5 @@
   </url>
   <url>
     <loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_rmtl.html</loc>
-  </url>
-  <url>
-    <loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_tiles.html</loc>
   </url>
 </urlset>
