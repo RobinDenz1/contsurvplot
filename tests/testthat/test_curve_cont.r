@@ -45,3 +45,35 @@ test_that("defaults, multicore processing", {
   expect_true(is.data.frame(out))
   expect_true(nrow(out)==12)
 })
+
+test_that("defaults, 1 time, 1 cont, boot", {
+  set.seed(42)
+  out <- curve_cont(data=sim_dat, variable="x3", model=model,
+                    horizon=10, times=15, conf_int=TRUE, n_boot=2)
+  expect_true(is.data.frame(out))
+  expect_true(all(c(out$time==15, round(out$est, 3)==0.724, out$cont==10,
+                    round(out$se, 3)==0.004, round(out$ci_lower, 3)==0.795,
+                    round(out$ci_upper, 3)==0.8)))
+})
+
+test_that("defaults, 1 time, 1 cont, boot, multicore", {
+  out <- curve_cont(data=sim_dat, variable="x3", model=model,
+                    horizon=10, times=15, conf_int=TRUE, n_boot=2,
+                    n_cores=2)
+  expect_true(is.data.frame(out))
+  expect_true(nrow(out)==1)
+})
+
+test_that("defaults, 1 time, 1 cont, group, boot", {
+  set.seed(42)
+  out <- curve_cont(data=sim_dat, variable="x3", model=model,
+                    horizon=10, times=15, conf_int=TRUE, n_boot=2,
+                    group="group")
+  expect_true(is.data.frame(out))
+  expect_true(all(c(out$time==15,
+                    round(out$est, 3)==c(0.687, 0.778),
+                    out$cont==10,
+                    round(out$se, 3)==c(0.018, 0.020),
+                    round(out$ci_lower, 3)==c(0.753, 0.830),
+                    round(out$ci_upper, 3)==c(0.777, 0.858))))
+})

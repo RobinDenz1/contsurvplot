@@ -26,12 +26,36 @@ one_iteration <- function(data, variable, cont_value, group, group_levs,
   return(row)
 }
 
+## get one bootstrap analysis using a recursion call
+curve_cont.boot <- function(i, data, variable, model, horizon,
+                            times, group, cause, cif) {
+  # draw sample
+  indices <- sample(x=rownames(data), size=nrow(data), replace=TRUE)
+  boot_samp <- data[indices, ]
+
+  # update model
+  model <- stats::update(model, data=boot_samp)
+
+  # perform g-computation
+  out_i <- suppressWarnings({
+    curve_cont(data=boot_samp, variable=variable,model=model,
+               horizon=horizon, times=times, group=group,
+               cause=cause, conf_int=FALSE, n_boot=300,
+               n_cores=1, na.action="na.fail")
+    })
+  out_i$boot_id <- i
+
+  return(out_i)
+}
+
 ## A function to calculate g-formula probability estimates over
 ## a horizon of continuous values at multiple points in time
 #' @importFrom foreach %dopar%
 #' @export
 curve_cont <- function(data, variable, model, horizon,
-                       times, group=NULL, cause=1, cif=FALSE, n_cores=1,
+                       times, group=NULL, cause=1, cif=FALSE,
+                       conf_int=FALSE, conf_level=0.95,
+                       n_boot=300, n_cores=1,
                        na.action=options()$na.action, ...) {
 
   data <- use_data.frame(data)
@@ -51,8 +75,79 @@ curve_cont <- function(data, variable, model, horizon,
   }
 
   ## calculate the needed data
-  # using single core
-  if (n_cores <= 1) {
+  if (conf_int) {
+
+    # get overall estimates
+    plotdata <- curve_cont(data=data, variable=variable, model=model,
+                           horizon=horizon, times=times, group=group,
+                           cause=cause, cif=cif, conf_int=FALSE,
+                           n_cores=1, na.action=na.action)
+
+    # perform bootstrapping (with or without multicore processing)
+    if (n_cores > 1) {
+      requireNamespace("parallel")
+      requireNamespace("doParallel")
+
+      # silence devtools::check()
+      time <- cont <- est <- NULL
+
+      cl <- parallel::makeCluster(n_cores, outfile="")
+      doParallel::registerDoParallel(cl)
+      pkgs <- (.packages())
+      parallel::clusterCall(cl, function(pkgs){
+        (invisible(lapply(pkgs, FUN=library, character.only=TRUE)))},
+        pkgs=pkgs)
+
+      bootdata <- parallel::parLapply(X=seq(1, n_boot), fun=curve_cont.boot,
+                                      data=data, variable=variable, model=model,
+                                      horizon=horizon, times=times, group=group,
+                                      cause=cause, cif=cif, cl=cl)
+      parallel::stopCluster(cl)
+
+    } else {
+      bootdata <- lapply(X=seq(1, n_boot), FUN=curve_cont.boot,
+                         data=data, variable=variable, model=model,
+                         horizon=horizon, times=times, group=group,
+                         cause=cause, cif=cif)
+    }
+    bootdata <- dplyr::bind_rows(bootdata)
+
+    if (!is.null(group)) {
+      bootdata <- bootdata %>%
+        dplyr::group_by(time, cont, group)
+    } else {
+      bootdata <- bootdata %>%
+        dplyr::group_by(time, cont)
+    }
+
+    # get bootstrapped confidence intervals
+    bootdata <- bootdata %>%
+      dplyr::summarise(se=stats::sd(est, na.rm=TRUE),
+                       ci_lower=stats::quantile(est,
+                                                probs=(1-conf_level)/2,
+                                                na.rm=TRUE),
+                       ci_upper=stats::quantile(est,
+                                                probs=1-((1-conf_level)/2),
+                                                na.rm=TRUE),
+                       .groups="drop_last")
+
+    # put together
+    if (!is.null(group)) {
+      plotdata <- plotdata[order(plotdata$time, plotdata$cont,
+                                 plotdata$group), ]
+      bootdata <- bootdata[order(bootdata$time, bootdata$cont,
+                                 bootdata$group), ]
+    } else {
+      plotdata <- plotdata[order(plotdata$time, plotdata$cont), ]
+      bootdata <- bootdata[order(bootdata$time, bootdata$cont), ]
+    }
+    plotdata$se <- bootdata$se
+    plotdata$ci_lower <- bootdata$ci_lower
+    plotdata$ci_upper <- bootdata$ci_upper
+
+
+  # using a single core
+  } else if (n_cores <= 1) {
     plotdata <- vector(mode="list", length=length(horizon)*length(group_levs))
     count <- 1
     for (i in seq_len(length(horizon))) {

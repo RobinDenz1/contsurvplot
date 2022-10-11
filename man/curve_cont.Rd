@@ -9,7 +9,9 @@ This function can be utilized to calculate survival curves or cumulative inciden
 }
 \usage{
 curve_cont(data, variable, model, horizon,
-           times, group=NULL, cause=1, cif=FALSE, n_cores=1,
+           times, group=NULL, cause=1, cif=FALSE,
+           conf_int=FALSE, conf_level=0.95,
+           n_boot=300, n_cores=1,
            na.action=options()$na.action, ...)
 }
 \arguments{
@@ -37,6 +39,15 @@ The cause of interest. In standard survival data with only one event type, this 
   \item{cif}{
 Whether to calculate the cumulative incidence (CIF) instead of the survival probability. If multiple failure types are present, the survival probability cannot be estimated in an unbiased way. In those cases, this argument should always be set to \code{TRUE}.
   }
+  \item{conf_int}{
+Whether to calculate point-wise confidence intervals or not. If \code{TRUE}, \code{n_boot} bootstrap samples are drawn, the g-compuation step is performed on each bootstrap sample and the confidence intervals are calculated using the percentile method from these results. Can get very slow if the dataset is large or there are many values in \code{horizon} or \code{times}. Using \code{n_cores} can speed up the process a lot.
+  }
+  \item{conf_level}{
+A number specifying the confidence level of the bootstrap confidence intervals. Ignored if \code{conf_int=FALSE}.
+  }
+  \item{n_boot}{
+A single integer specifying how many bootstrap repetitions should be performed. Ignored if  \code{conf_int=FALSE}.
+  }
   \item{n_cores}{
 The number of processor cores to use when performing the calculations. If \code{n_cores=1} (default), single threaded processing is used. If \code{n_cores > 1} the \pkg{foreach} package and the \pkg{doParallel} package are used to run the calculations on \code{n_cores} in parallel. This might speed up the runtime considerably when it is initially slow.
   }
@@ -57,7 +68,7 @@ It relies on the \code{\link[=riskRegression]{predictRisk}} function from the \p
 If \code{group} is not \code{NULL}, the whole estimation will be performed once for each of the factor levels of \code{group}. This means that in addition to fixing the level of the continuous covariate at a certain value for the entire dataset, the grouping variable is fixed as well. The results can be interpreted similarly to the usual estimate, only that they are also conditional on the level of \code{group} used. All plots that support this argument will be facetted according to the \code{group} variable. To obtain useful estimates, it is crucial to include the \code{group} variable in the \code{model}.
 }
 \value{
-Returns a \code{data.frame} containing the columns \code{time} (the point in time), \code{surv} (the estimated survival probability) and \code{cont} (the specific value of \code{variable} used). If \code{group} was used, it includes the additional \code{group} column, specifying the level of the grouping variable.
+Returns a \code{data.frame} containing the columns \code{time} (the point in time), \code{est} (the estimated survival probability or CIF) and \code{cont} (the specific value of \code{variable} used). If \code{group} was used, it includes the additional \code{group} column, specifying the level of the grouping variable. If \code{conf_int=TRUE} was used, it additionally includes the columns \code{se} (bootstrap standard error of the estimate), \code{ci_lower} (lower limit of the bootstrap confidence interval) and \code{ci_upper} (upper limit of the bootstrap confidence interval).
 }
 \references{
 Brice Ozenne, Anne Lyngholm Sorensen, Thomas Scheike, Christian Torp-Pedersen and Thomas Alexander Gerds. riskRegression: Predicting the Risk of an Event using Cox Regression Models. The R Journal (2017) 9:2, pages 440-460.

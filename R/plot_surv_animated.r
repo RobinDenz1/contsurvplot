@@ -4,14 +4,15 @@
 #' @importFrom rlang .data
 #' @export
 plot_surv_animated <- function(time, status, variable, group=NULL, data, model,
-                               cif=FALSE, na.action=options()$na.action,
+                               cif=FALSE, conf_int=FALSE, conf_level=0.95,
+                               n_boot=300, na.action=options()$na.action,
                                horizon=NULL, fixed_t=NULL, max_t=Inf,
                                slider=TRUE,
                                size=1, color="black", linetype="solid", alpha=1,
                                xlab="Time", ylab="Survival Probability",
                                title=NULL, subtitle=NULL,
                                gg_theme=ggplot2::theme_bw(),
-                               facet_args=list(), ...) {
+                               facet_args=list(), ci_alpha=0.4, ...) {
 
   data <- use_data.frame(data)
 
@@ -44,6 +45,9 @@ plot_surv_animated <- function(time, status, variable, group=NULL, data, model,
                          times=fixed_t,
                          na.action="na.fail",
                          cif=cif,
+                         conf_int=conf_int,
+                         conf_level=conf_level,
+                         n_boot=n_boot,
                          ...)
 
   # correct label
@@ -57,6 +61,20 @@ plot_surv_animated <- function(time, status, variable, group=NULL, data, model,
                                                 frame=.data$cont))
   } else {
     p <- ggplot2::ggplot(plotdata, ggplot2::aes(x=.data$time, y=.data$est))
+  }
+
+  if (conf_int & slider) {
+    stop("Showing confidence intervals is currently not supported when using",
+         " slider=TRUE.")
+  } else if (conf_int) {
+    requireNamespace("pammtools")
+
+    p <- p + pammtools::geom_stepribbon(ggplot2::aes(x=.data$time,
+                                                     y=.data$est,
+                                                     ymin=.data$ci_lower,
+                                                     ymax=.data$ci_upper),
+                                        alpha=ci_alpha, inherit.aes=FALSE,
+                                        fill=color)
   }
 
   p <- p + ggplot2::geom_step(size=size, color=color, linetype=linetype,
@@ -83,8 +101,8 @@ plot_surv_animated <- function(time, status, variable, group=NULL, data, model,
       title <- variable
     }
 
-    p <- p + gganimate::transition_time(.data$cont) +
-      ggplot2::labs(title=paste0(title, ": {frame_time}"))
+    p <- p + gganimate::transition_manual(frames=.data$cont) +
+      ggplot2::labs(title=paste0(title, ": {frame}"))
   }
 
   return(p)

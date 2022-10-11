@@ -8,11 +8,29 @@ sim_dat$group <- factor(sim_dat$group)
 model <- survival::coxph(survival::Surv(time, event) ~ x3 + group,
                          data=sim_dat, x=TRUE)
 
+set.seed(34)
+
 test_that("plot, defaults", {
   plt <- plot_surv_at_t(time="time", status="event", variable="x3",
                         data=sim_dat, model=model, t=20)
   expect_s3_class(plt, "ggplot")
   vdiffr::expect_doppelganger("plot, defaults", fig=plt)
+})
+
+test_that("plot, with ci, one t", {
+  plt <- plot_surv_at_t(time="time", status="event", variable="x3",
+                        data=sim_dat, model=model, t=20, conf_int=TRUE,
+                        n_boot=3)
+  expect_s3_class(plt, "ggplot")
+  vdiffr::expect_doppelganger("plot, with ci, one t", fig=plt)
+})
+
+test_that("plot, with ci, multiple t", {
+  plt <- plot_surv_at_t(time="time", status="event", variable="x3",
+                        data=sim_dat, model=model, t=c(20, 25), conf_int=TRUE,
+                        n_boot=3)
+  expect_s3_class(plt, "ggplot")
+  vdiffr::expect_doppelganger("plot, with ci, multiple t", fig=plt)
 })
 
 test_that("plot, cif", {

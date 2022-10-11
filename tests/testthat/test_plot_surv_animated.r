@@ -46,6 +46,13 @@ test_that("plot, no slider", {
   expect_s3_class(plt, "gganim")
 })
 
+test_that("plot, no slider, with ci", {
+  plt <- plot_surv_animated(time="time", status="event", variable="x3",
+                            data=sim_dat, model=model, color="red",
+                            slider=FALSE, conf_int=TRUE, n_boot=3)
+  expect_s3_class(plt, "gganim")
+})
+
 test_that("plot, with group", {
   plt <- plot_surv_animated(time="time", status="event", variable="x3",
                             group="group", data=sim_dat, model=model)
@@ -59,4 +66,12 @@ test_that("plot, lots of stuff", {
                             subtitle="Subtitle", xlab="x", ylab="y",
                             gg_theme=ggplot2::theme_classic())
   expect_s3_class(plt, "plotly")
+})
+
+test_that("error when trying conf_int with slider", {
+  expect_error(plot_surv_animated(time="time", status="event", variable="x3",
+                                  group="group", data=sim_dat, model=model,
+                                  conf_int=TRUE, n_boot=2),
+               paste0("Showing confidence intervals is currently not ",
+                      "supported when using slider=TRUE."))
 })

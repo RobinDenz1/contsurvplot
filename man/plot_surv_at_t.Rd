@@ -9,14 +9,15 @@ Using a previously fit time-to-event model, this function plots the survival pro
 }
 \usage{
 plot_surv_at_t(time, status, variable, group=NULL,
-               data, model, cif=FALSE,
+               data, model, cif=FALSE, conf_int=FALSE,
+               conf_level=0.95, n_boot=300,
                na.action=options()$na.action, t, horizon=NULL,
                size=1, linetype="solid", alpha=1,
                xlab=variable, ylab="Survival Probability at t",
                title=NULL, subtitle=NULL,
                legend.title="t", legend.position="right",
                gg_theme=ggplot2::theme_bw(),
-               facet_args=list(), ...)
+               facet_args=list(), ci_alpha=0.4, ...)
 }
 \arguments{
   \item{time}{
@@ -39,6 +40,15 @@ A model describing the time-to-event process (such as an \code{coxph} model). Ne
   }
   \item{cif}{
 Whether to plot the cumulative incidence (CIF) instead of the survival probability. If multiple failure types are present, the survival probability cannot be estimated in an unbiased way. This function will always return CIF estimates in that case.
+  }
+  \item{conf_int}{
+Whether to plot point-wise bootstrap confidence intervals or not.
+  }
+  \item{conf_level}{
+A number specifying the confidence level of the bootstrap confidence intervals. Ignored if \code{conf_int=FALSE}.
+  }
+  \item{n_boot}{
+A single integer specifying how many bootstrap repetitions should be performed. Ignored if  \code{conf_int=FALSE}.
   }
   \item{na.action}{
 How missing values should be handled. Can be one of: \code{na.fail}, \code{na.omit}, \code{na.pass}, \code{na.exclude} or a user-defined custom function. Also accepts strings of the function names. See \code{?na.action} for more details. By default it uses the na.action which is set in the global options by the respective user.
@@ -81,6 +91,9 @@ A \pkg{ggplot2} theme which is applied to the plot.
   }
   \item{facet_args}{
 A named list of arguments that are passed to the \code{\link{facet_wrap}} function call when creating a plot separated by groups. Ignored if \code{group=NULL}. Any argument except the \code{facets} argument of the \code{\link{facet_wrap}} function can be used. For example, if the user wants to allow free y-scales, this argument could be set to \code{list(scales="free_y")}.
+  }
+  \item{ci_alpha}{
+A single number defining the transparency level of the confidence interval bands.
   }
   \item{...}{
 Further arguments passed to \code{\link{curve_cont}}.

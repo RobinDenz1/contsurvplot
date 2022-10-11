@@ -15,6 +15,14 @@ test_that("plot, defaults", {
   vdiffr::expect_doppelganger("plot, defaults", fig=plt)
 })
 
+test_that("plot, with ci", {
+  plt <- plot_surv_lines(time="time", status="event", variable="x3",
+                         data=sim_dat, model=model, conf_int=TRUE,
+                         n_boot=3, horizon=c(10, 30))
+  expect_s3_class(plt, "ggplot")
+  vdiffr::expect_doppelganger("plot, with ci", fig=plt)
+})
+
 test_that("plot, with group", {
   plt <- plot_surv_lines(time="time", status="event", variable="x3",
                          group="group", data=sim_dat, model=model)
