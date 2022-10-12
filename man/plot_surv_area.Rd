@@ -21,9 +21,10 @@ plot_surv_area(time, status, variable, group=NULL,
                subtitle=NULL, legend.title=variable,
                legend.position="right",
                gg_theme=ggplot2::theme_bw(),
-               facet_args=list(),
-               label_digits=NULL,
-               ...)
+               facet_args=list(), label_digits=NULL,
+               kaplan_meier=FALSE, km_size=0.5,
+               km_linetype="solid", km_alpha=1,
+               km_color="black", ...)
 }
 \arguments{
   \item{time}{
@@ -115,6 +116,21 @@ A named list of arguments that are passed to the \code{\link{facet_wrap}} functi
   }
   \item{label_digits}{
 A single number specifying to how many digits the labels of the plot should be rounded or \code{NULL} (default). If \code{NULL}, no rounding is performed and the exact values are presented. This argument is only used when \code{discrete=TRUE} is used and ignored otherwise.
+  }
+  \item{kaplan_meier}{
+Whether to add a standard Kaplan-Meier estimator to the plot or not. If \code{group} is defined, the Kaplan-Meier estimator will be stratified by the grouping variable. If \code{cif=TRUE} was used, the cumulative incidence will be displayed instead of the survival curve.
+  }
+  \item{km_size}{
+The size of the Kaplan-Meier line. Ignored if \code{kaplan_meier=FALSE}.
+  }
+  \item{km_linetype}{
+The linetype of the Kaplan-Meier line. Ignored if \code{kaplan_meier=FALSE}.
+  }
+  \item{km_alpha}{
+The transparency level of the Kaplan-Meier line. Ignored if \code{kaplan_meier=FALSE}.
+  }
+  \item{km_color}{
+The color of the Kaplan-Meier line. Ignored if \code{kaplan_meier=FALSE}.
   }
   \item{...}{
 Further arguments passed to \code{\link{curve_cont}}.

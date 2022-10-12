@@ -14,6 +14,14 @@ test_that("plot, defaults", {
   expect_s3_class(plt, "plotly")
 })
 
+test_that("plot, kaplan_meier", {
+  plt <- plot_surv_animated(time="time", status="event", variable="x3",
+                            data=sim_dat, model=model, kaplan_meier=TRUE,
+                            km_size=1, km_alpha=0.8, km_linetype="dashed",
+                            km_color="red")
+  expect_s3_class(plt, "plotly")
+})
+
 test_that("plot, cif", {
   plt <- plot_surv_animated(time="time", status="event", variable="x3",
                             data=sim_dat, model=model, cif=TRUE)
@@ -46,6 +54,16 @@ test_that("plot, no slider", {
   expect_s3_class(plt, "gganim")
 })
 
+test_that("plot, no slider, kaplan_meier", {
+  plt <- plot_surv_animated(time="time", status="event", variable="x3",
+                            data=sim_dat, model=model, color="red",
+                            slider=FALSE, kaplan_meier=TRUE,
+                            km_size=1, km_alpha=0.8, km_linetype="dashed",
+                            km_color="red", km_ci=TRUE, km_ci_type="log",
+                            km_ci_level=0.9, km_ci_alpha=0.3)
+  expect_s3_class(plt, "gganim")
+})
+
 test_that("plot, no slider, with ci", {
   plt <- plot_surv_animated(time="time", status="event", variable="x3",
                             data=sim_dat, model=model, color="red",
@@ -72,6 +90,14 @@ test_that("error when trying conf_int with slider", {
   expect_error(plot_surv_animated(time="time", status="event", variable="x3",
                                   group="group", data=sim_dat, model=model,
                                   conf_int=TRUE, n_boot=2),
+               paste0("Showing confidence intervals is currently not ",
+                      "supported when using slider=TRUE."))
+})
+
+test_that("error when trying km_ci with slider", {
+  expect_error(plot_surv_animated(time="time", status="event", variable="x3",
+                                  group="group", data=sim_dat, model=model,
+                                  kaplan_meier=TRUE, km_ci=TRUE),
                paste0("Showing confidence intervals is currently not ",
                       "supported when using slider=TRUE."))
 })

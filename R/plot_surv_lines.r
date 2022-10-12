@@ -13,7 +13,11 @@ plot_surv_lines <- function(time, status, variable, group=NULL, data, model,
                             title=NULL, subtitle=NULL,
                             legend.title=variable, legend.position="right",
                             gg_theme=ggplot2::theme_bw(), facet_args=list(),
-                            ci_alpha=0.4, ...) {
+                            ci_alpha=0.4, kaplan_meier=FALSE, km_size=0.5,
+                            km_linetype="solid", km_alpha=1,
+                            km_color="black", km_ci=FALSE,
+                            km_ci_type="plain", km_ci_level=0.95,
+                            km_ci_alpha=0.4, ...) {
 
   data <- use_data.frame(data)
 
@@ -68,7 +72,7 @@ plot_surv_lines <- function(time, status, variable, group=NULL, data, model,
   p <- ggplot2::ggplot(plotdata, ggplot2::aes(x=.data$time, y=.data$est,
                                               color=.data$cont,
                                               group=as.factor(.data$cont)))
-
+  # add confidence intervals
   if (conf_int) {
     requireNamespace("pammtools")
 
@@ -92,6 +96,29 @@ plot_surv_lines <- function(time, status, variable, group=NULL, data, model,
     p <- p + ggplot2::scale_color_gradient(low=start_color, high=end_color)
   } else if (!is.null(custom_colors)) {
     p <- p + ggplot2::scale_colour_manual(values=custom_colors)
+  }
+  # add kaplan-meier estimates
+  if (kaplan_meier) {
+    km_dat <- get_kaplan_meier(time=time, status=status, group=group,
+                               data=data, conf_int=km_ci,
+                               conf_type=km_ci_type, conf_level=km_ci_level,
+                               cif=cif)
+    if (km_ci) {
+      requireNamespace("pammtools")
+
+      p <- p + pammtools::geom_stepribbon(data=km_dat,
+                                          ggplot2::aes(x=.data$time,
+                                                       y=.data$est,
+                                                       ymin=.data$ci_lower,
+                                                       ymax=.data$ci_upper),
+                                          fill=km_color, alpha=km_ci_alpha,
+                                          inherit.aes=FALSE)
+    }
+    p <- p + ggplot2::geom_step(data=km_dat, ggplot2::aes(x=.data$time,
+                                                          y=.data$est),
+                                size=km_size, color=km_color,
+                                alpha=km_alpha, linetype=km_linetype,
+                                inherit.aes=FALSE)
   }
   # facet plot by factor variable
   if (!is.null(group)) {

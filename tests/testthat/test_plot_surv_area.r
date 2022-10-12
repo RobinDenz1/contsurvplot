@@ -76,6 +76,15 @@ test_that("plot, sep_lines", {
   vdiffr::expect_doppelganger("plot, sep_lines", fig=plt)
 })
 
+test_that("plot, with kaplan_meier", {
+  plt <- plot_surv_area(time="time", status="event", variable="x3",
+                        data=sim_dat, model=model, discrete=TRUE,
+                        kaplan_meier=TRUE, km_size=1, km_color="white",
+                        km_alpha=0.8, km_linetype="dashed")
+  expect_s3_class(plt, "ggplot")
+  vdiffr::expect_doppelganger("plot, with kaplan_meier", fig=plt)
+})
+
 test_that("plot, lots of stuff", {
   plt <- plot_surv_area(time="time", status="event", variable="x3",
                         data=sim_dat, model=model, start_color="grey",

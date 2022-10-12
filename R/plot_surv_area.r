@@ -14,7 +14,10 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
                            title=NULL, subtitle=NULL,
                            legend.title=variable, legend.position="right",
                            gg_theme=ggplot2::theme_bw(), facet_args=list(),
-                           label_digits=NULL, ...) {
+                           label_digits=NULL,
+                           kaplan_meier=FALSE, km_size=0.5,
+                           km_linetype="solid", km_alpha=1, km_color="black",
+                           ...) {
 
   data <- use_data.frame(data)
 
@@ -103,6 +106,7 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
                                                fill=colgrad[i])
     if (!discrete & alpha==1) {
       surv_segment$aes_params$colour <- colgrad[i]
+      surv_segment$aes_params$size <- 0.01
     }
     p <- p + surv_segment
   }
@@ -122,6 +126,14 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
   p  <- p + gg_theme +
     ggplot2::labs(x=xlab, y=ylab, title=title, subtitle=subtitle,
                   color=legend.title, legend.position=legend.position)
+
+  # add kaplan-meier reference line, if specified
+  if (kaplan_meier) {
+    km_dat <- get_kaplan_meier(time=time, status=status, group=group,
+                                data=data, conf_int=FALSE, cif=cif)
+    p <- p + ggplot2::geom_step(data=km_dat, size=km_size, color=km_color,
+                                alpha=km_alpha, linetype=km_linetype)
+  }
 
   # facet plot by factor variable
   if (!is.null(group)) {

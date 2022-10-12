@@ -15,7 +15,18 @@ test_that("plot, defaults", {
   vdiffr::expect_doppelganger("plot, defaults", fig=plt)
 })
 
+test_that("plot, kaplan_meier", {
+  plt <- plot_surv_lines(time="time", status="event", variable="x3",
+                         data=sim_dat, model=model, kaplan_meier=TRUE,
+                         km_color="black", km_size=1, km_linetype="dashed",
+                         km_alpha=0.8, km_ci=TRUE, km_ci_type="log",
+                         km_ci_level=0.9, km_ci_alpha=0.4)
+  expect_s3_class(plt, "ggplot")
+  vdiffr::expect_doppelganger("plot, kaplan_meier", fig=plt)
+})
+
 test_that("plot, with ci", {
+  set.seed(455)
   plt <- plot_surv_lines(time="time", status="event", variable="x3",
                          data=sim_dat, model=model, conf_int=TRUE,
                          n_boot=3, horizon=c(10, 30))

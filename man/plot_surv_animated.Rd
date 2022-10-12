@@ -18,7 +18,12 @@ plot_surv_animated(time, status, variable, group=NULL,
                    xlab="Time", ylab="Survival Probability",
                    title=NULL, subtitle=NULL,
                    gg_theme=ggplot2::theme_bw(),
-                   facet_args=list(), ci_alpha=0.4, ...)
+                   facet_args=list(), ci_alpha=0.4,
+                   kaplan_meier=FALSE, km_size=0.5,
+                   km_linetype="solid", km_alpha=1,
+                   km_color="black", km_ci=FALSE,
+                   km_ci_type="plain", km_ci_level=0.95,
+                   km_ci_alpha=0.4, ...)
 }
 \arguments{
   \item{time}{
@@ -98,6 +103,33 @@ A named list of arguments that are passed to the \code{\link{facet_wrap}} functi
   }
   \item{ci_alpha}{
 A single number defining the transparency level of the confidence interval bands.
+  }
+  \item{kaplan_meier}{
+Whether to add a standard Kaplan-Meier estimator to the plot or not. If \code{group} is defined, the Kaplan-Meier estimator will be stratified by the grouping variable. If \code{cif=TRUE} was used, the cumulative incidence will be displayed instead of the survival curve.
+  }
+  \item{km_size}{
+The size of the Kaplan-Meier line. Ignored if \code{kaplan_meier=FALSE}.
+  }
+  \item{km_linetype}{
+The linetype of the Kaplan-Meier line. Ignored if \code{kaplan_meier=FALSE}.
+  }
+  \item{km_alpha}{
+The transparency level of the Kaplan-Meier line. Ignored if \code{kaplan_meier=FALSE}.
+  }
+  \item{km_color}{
+The color of the Kaplan-Meier line. Ignored if \code{kaplan_meier=FALSE}.
+  }
+  \item{km_ci}{
+Whether to draw a confidence interval around the Kaplan-Meier estimates. Ignored if \code{kaplan_meier=FALSE}.
+  }
+  \item{km_ci_type}{
+Which type of confidence interval to calculate for the Kaplan-Meier estimates. Corresponds to the \code{conf.type} argument in the \code{survfit} function. Ignored if \code{kaplan_meier=FALSE} or \code{km_ci=FALSE}.
+  }
+  \item{km_ci_level}{
+Which confidence level to use for the confidence interval of the Kaplan-Meier estimates. Ignored if \code{kaplan_meier=FALSE} or \code{km_ci=FALSE}.
+  }
+  \item{km_ci_alpha}{
+The transparency level of the confidence interval of the Kaplan-Meier estimates. Ignored if \code{kaplan_meier=FALSE} or \code{km_ci=FALSE}.
   }
   \item{...}{
 Further arguments passed to \code{\link{curve_cont}}.
