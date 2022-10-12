@@ -69,7 +69,12 @@
 <span>                title<span class="op">=</span><span class="cn">NULL</span>, subtitle<span class="op">=</span><span class="cn">NULL</span>,</span>
 <span>                legend.title<span class="op">=</span><span class="va">variable</span>, legend.position<span class="op">=</span><span class="st">"right"</span>,</span>
 <span>                gg_theme<span class="op">=</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>                facet_args<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>, ci_alpha<span class="op">=</span><span class="fl">0.4</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span>                facet_args<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>, ci_alpha<span class="op">=</span><span class="fl">0.4</span>,</span>
+<span>                kaplan_meier<span class="op">=</span><span class="cn">FALSE</span>, km_size<span class="op">=</span><span class="fl">0.5</span>,</span>
+<span>                km_linetype<span class="op">=</span><span class="st">"solid"</span>, km_alpha<span class="op">=</span><span class="fl">1</span>,</span>
+<span>                km_color<span class="op">=</span><span class="st">"black"</span>, km_ci<span class="op">=</span><span class="cn">FALSE</span>,</span>
+<span>                km_ci_type<span class="op">=</span><span class="st">"plain"</span>, km_ci_level<span class="op">=</span><span class="fl">0.95</span>,</span>
+<span>                km_ci_alpha<span class="op">=</span><span class="fl">0.4</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -163,6 +168,33 @@
 
   <dt>ci_alpha</dt>
 <dd><p>A single number defining the transparency level of the confidence interval bands.</p></dd>
+
+  <dt>kaplan_meier</dt>
+<dd><p>Whether to add a standard Kaplan-Meier estimator to the plot or not. If <code>group</code> is defined, the Kaplan-Meier estimator will be stratified by the grouping variable. If <code>cif=TRUE</code> was used, the cumulative incidence will be displayed instead of the survival curve.</p></dd>
+
+  <dt>km_size</dt>
+<dd><p>The size of the Kaplan-Meier line. Ignored if <code>kaplan_meier=FALSE</code>.</p></dd>
+
+  <dt>km_linetype</dt>
+<dd><p>The linetype of the Kaplan-Meier line. Ignored if <code>kaplan_meier=FALSE</code>.</p></dd>
+
+  <dt>km_alpha</dt>
+<dd><p>The transparency level of the Kaplan-Meier line. Ignored if <code>kaplan_meier=FALSE</code>.</p></dd>
+
+  <dt>km_color</dt>
+<dd><p>The color of the Kaplan-Meier line. Ignored if <code>kaplan_meier=FALSE</code>.</p></dd>
+
+  <dt>km_ci</dt>
+<dd><p>Whether to draw a confidence interval around the Kaplan-Meier estimates. Ignored if <code>kaplan_meier=FALSE</code>.</p></dd>
+
+  <dt>km_ci_type</dt>
+<dd><p>Which type of confidence interval to calculate for the Kaplan-Meier estimates. Corresponds to the <code>conf.type</code> argument in the <code>survfit</code> function. Ignored if <code>kaplan_meier=FALSE</code> or <code>km_ci=FALSE</code>.</p></dd>
+
+  <dt>km_ci_level</dt>
+<dd><p>Which confidence level to use for the confidence interval of the Kaplan-Meier estimates. Ignored if <code>kaplan_meier=FALSE</code> or <code>km_ci=FALSE</code>.</p></dd>
+
+  <dt>km_ci_alpha</dt>
+<dd><p>The transparency level of the confidence interval of the Kaplan-Meier estimates. Ignored if <code>kaplan_meier=FALSE</code> or <code>km_ci=FALSE</code>.</p></dd>
 
   <dt>...</dt>
 <dd><p>Further arguments passed to <code><a href="curve_cont.html">curve_cont</a></code>.</p></dd>
