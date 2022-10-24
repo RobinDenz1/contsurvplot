@@ -59,9 +59,12 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">curve_cont</span><span class="op">(</span><span class="va">data</span>, <span class="va">variable</span>, <span class="va">model</span>, <span class="va">horizon</span>,</span>
 <span>           <span class="va">times</span>, group<span class="op">=</span><span class="cn">NULL</span>, cause<span class="op">=</span><span class="fl">1</span>, cif<span class="op">=</span><span class="cn">FALSE</span>,</span>
+<span>           contrast<span class="op">=</span><span class="st">"none"</span>, reference<span class="op">=</span><span class="st">"km"</span>, ref_value<span class="op">=</span><span class="cn">NULL</span>,</span>
+<span>           event_time<span class="op">=</span><span class="cn">NULL</span>, event_status<span class="op">=</span><span class="cn">NULL</span>,</span>
 <span>           conf_int<span class="op">=</span><span class="cn">FALSE</span>, conf_level<span class="op">=</span><span class="fl">0.95</span>,</span>
 <span>           n_boot<span class="op">=</span><span class="fl">300</span>, n_cores<span class="op">=</span><span class="fl">1</span>,</span>
-<span>           na.action<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">na.action</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span>           na.action<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">na.action</span>,</span>
+<span>           return_boot<span class="op">=</span><span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -90,6 +93,21 @@
   <dt>cif</dt>
 <dd><p>Whether to calculate the cumulative incidence (CIF) instead of the survival probability. If multiple failure types are present, the survival probability cannot be estimated in an unbiased way. In those cases, this argument should always be set to <code>TRUE</code>.</p></dd>
 
+  <dt>contrast</dt>
+<dd><p>Defines what kind of estimate should be returned. Can be either <code>"none"</code> (default), <code>"diff"</code> or <code>"ratio"</code>. When <code>"none"</code> is used, it simply returns the counterfactual survival probabilities (or CIF if <code>cif=TRUE</code>) without any further calculations. If <code>"diff"</code> or <code>"ratio"</code> is used instead, the difference or ratio to some reference value will be returned. See argument below.</p></dd>
+
+  <dt>reference</dt>
+<dd><p>Defines what kind of reference value to use when estimating causal contrasts. Only used if <code>contrast!="none"</code>, ignored otherwise. Can be either <code>"km"</code> (using standard Kaplan-Meier estimates as reference) or <code>"value"</code> (using the g-computation estimates of a specific value of the <code>variable</code> as reference). To specify which value to use when using <code>reference="value"</code>, the <code>ref_value</code> argument should be used. See details for more information.</p></dd>
+
+  <dt>ref_value</dt>
+<dd><p>A single number corresponding to the reference value used when estimating causal contrasts using <code>reference="value"</code>. See details.</p></dd>
+
+  <dt>event_time</dt>
+<dd><p>A single character string specifying the time until the occurence of the event of interest or <code>NULL</code> (default). Only used when estimating causal contrasts with <code>reference="km"</code>, ignored otherwise. If specified, this variable has to be contained in the <code>data.frame</code> that is supplied to the <code>data</code> argument.</p></dd>
+
+  <dt>event_status</dt>
+<dd><p>A single character string specifying the status of the event of interest or <code>NULL</code> (default). Only used when estimating causal contrasts with <code>reference="km"</code>, ignored otherwise. If specified, this variable has to be contained in the <code>data.frame</code> that is supplied to the <code>data</code> argument.</p></dd>
+
   <dt>conf_int</dt>
 <dd><p>Whether to calculate point-wise confidence intervals or not. If <code>TRUE</code>, <code>n_boot</code> bootstrap samples are drawn, the g-compuation step is performed on each bootstrap sample and the confidence intervals are calculated using the percentile method from these results. Can get very slow if the dataset is large or there are many values in <code>horizon</code> or <code>times</code>. Using <code>n_cores</code> can speed up the process a lot.</p></dd>
 
@@ -104,6 +122,9 @@
 
   <dt>na.action</dt>
 <dd><p>How missing values should be handled. Can be one of: <code>na.fail</code>, <code>na.omit</code>, <code>na.pass</code>, <code>na.exclude</code> or a user-defined custom function. Also accepts strings of the function names. See <code><a href="https://rdrr.io/r/stats/na.action.html" class="external-link">?na.action</a></code> for more details. By default it uses the na.action which is set in the global options by the respective user.</p></dd>
+
+  <dt>return_boot</dt>
+<dd><p>Either <code>TRUE</code> or <code>FALSE</code> (default). If <code>TRUE</code> (and <code>conf_int=TRUE</code>) this function will return the individual bootstrap estimates instead of the usual estimates. This may be useful to perform tests or calculate other type of bootstrap confidence intervals manually.</p></dd>
 
   <dt>...</dt>
 <dd><p>Further arguments passed to <code><a href="https://rdrr.io/pkg/riskRegression/man/riskRegression.html" class="external-link">predictRisk</a></code>.</p></dd>
