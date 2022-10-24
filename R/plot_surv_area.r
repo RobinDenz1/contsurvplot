@@ -14,7 +14,7 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
                            title=NULL, subtitle=NULL,
                            legend.title=variable, legend.position="right",
                            gg_theme=ggplot2::theme_bw(), facet_args=list(),
-                           label_digits=NULL,
+                           label_digits=NULL, transition_size=0.01,
                            kaplan_meier=FALSE, km_size=0.5,
                            km_linetype="solid", km_alpha=1, km_color="black",
                            ...) {
@@ -106,7 +106,7 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
                                                fill=colgrad[i])
     if (!discrete & alpha==1) {
       surv_segment$aes_params$colour <- colgrad[i]
-      surv_segment$aes_params$size <- 0.01
+      surv_segment$aes_params$size <- transition_size
     }
     p <- p + surv_segment
   }

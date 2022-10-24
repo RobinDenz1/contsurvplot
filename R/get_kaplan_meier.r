@@ -2,8 +2,7 @@
 ## wrapper function to get an overall kaplan-meier estimate
 get_kaplan_meier <- function(time, status, group=NULL, data, conf_int=FALSE,
                              conf_type="plain", conf_level=0.95,
-                             cif=FALSE, ...) {
-
+                             cif=FALSE, fixed_t=NULL, ...) {
   # get formula
   if (is.null(group)) {
     form <- stats::as.formula(paste0("survival::Surv(", time, ", ",
@@ -49,14 +48,55 @@ get_kaplan_meier <- function(time, status, group=NULL, data, conf_int=FALSE,
   }
   km_dat <- rbind(row_0, km_dat)
 
+  # read at specific points in time
+  # NOTE: this ignores confidence intervals and se, because those are never
+  #       used when using fixed_t
+  if (!is.null(fixed_t)) {
+    km_dat <- km_at_t(data=km_dat, times=fixed_t, group=group)
+  }
+
   # turn to cif
   if (cif) {
     km_dat$est <- 1 - km_dat$est
-    if (conf_int) {
+    if ("ci_lower" %in% colnames(km_dat)) {
       km_dat$ci_lower <- 1 - km_dat$ci_lower
       km_dat$ci_upper <- 1 - km_dat$ci_upper
     }
   }
 
   return(km_dat)
+}
+
+## function to get kaplan-meier estimates at t using interpolation
+km_at_t <- function(data, times, group) {
+
+  d_ref <- data[, c("time", "est")]
+
+  if (is.null(group)) {
+    d_ref <- d_ref[order(d_ref$time), ]
+    d_ref <- data.frame(time=times,
+                        est=vapply(X=times,
+                                   FUN=read_from_step_function,
+                                   FUN.VALUE=numeric(1),
+                                   data=d_ref,
+                                   est="est"))
+  } else {
+    levs <- unique(data$group)
+    out <- vector(mode="list", length=length(levs))
+    for (i in seq_len(length(levs))) {
+      d_temp <- d_ref[data$group==levs[i], ]
+      d_temp <- d_temp[order(d_temp$time), ]
+      d_temp <- data.frame(time=times,
+                           est=vapply(X=times,
+                                      FUN=read_from_step_function,
+                                      FUN.VALUE=numeric(1),
+                                      data=d_temp,
+                                      est="est"))
+      d_temp$group <- levs[i]
+      out[[i]] <- d_temp
+    }
+    d_ref <- dplyr::bind_rows(out)
+  }
+
+  return(d_ref)
 }

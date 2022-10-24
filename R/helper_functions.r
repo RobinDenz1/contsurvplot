@@ -2,7 +2,8 @@
 ## keep only the covariates needed for the analysis
 ## this has to be done in order to correctly use na.action
 remove_unnecessary_covars <- function(data, time, status, variable,
-                                      group, model) {
+                                      group, event_time, event_status,
+                                      model) {
 
   # extract variables from outcome model
   if (inherits(model, c("coxph", "mexhaz"))) {
@@ -26,7 +27,8 @@ remove_unnecessary_covars <- function(data, time, status, variable,
   }
 
   # covariates that are always needed
-  needed_covars <- c(time, status, variable, model_vars, group)
+  needed_covars <- c(time, status, variable, model_vars, group, event_time,
+                     event_status)
 
   # remove duplicates
   needed_covars <- unique(needed_covars)
@@ -38,12 +40,14 @@ remove_unnecessary_covars <- function(data, time, status, variable,
 }
 
 ## composite function to prepare the data for further use
-prepare_inputdata <- function(data, time, status, variable, group, model,
+prepare_inputdata <- function(data, time, status, variable, group,
+                              event_time=NULL, event_status=NULL, model,
                               na.action) {
 
   # keep only needed columns
   data <- remove_unnecessary_covars(data=data, time=time, status=status,
-                                    variable=variable, model=model,
+                                    variable=variable, event_time=event_time,
+                                    event_status=event_status, model=model,
                                     group=group)
 
   # perform na.action

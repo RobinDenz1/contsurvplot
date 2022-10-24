@@ -86,7 +86,8 @@ plot_surv_matrix <- function(time, status, variable, group=NULL, data, model,
                        xmax=max(time),
                        ymin=min(cont),
                        ymax=max(cont),
-                       est=mean(est))
+                       est=mean(est),
+                       .groups="drop_last")
   } else {
     plotdata <- plotdata %>%
       dplyr::group_by(rect_id, group) %>%
@@ -94,7 +95,8 @@ plot_surv_matrix <- function(time, status, variable, group=NULL, data, model,
                        xmax=max(time),
                        ymin=min(cont),
                        ymax=max(cont),
-                       est=mean(est))
+                       est=mean(est),
+                       .groups="drop_last")
   }
 
   # close gap between tiles

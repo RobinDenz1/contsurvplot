@@ -10,9 +10,12 @@ This function can be utilized to calculate survival curves or cumulative inciden
 \usage{
 curve_cont(data, variable, model, horizon,
            times, group=NULL, cause=1, cif=FALSE,
+           contrast="none", reference="km", ref_value=NULL,
+           event_time=NULL, event_status=NULL,
            conf_int=FALSE, conf_level=0.95,
            n_boot=300, n_cores=1,
-           na.action=options()$na.action, ...)
+           na.action=options()$na.action,
+           return_boot=FALSE, ...)
 }
 \arguments{
   \item{data}{
@@ -39,6 +42,21 @@ The cause of interest. In standard survival data with only one event type, this 
   \item{cif}{
 Whether to calculate the cumulative incidence (CIF) instead of the survival probability. If multiple failure types are present, the survival probability cannot be estimated in an unbiased way. In those cases, this argument should always be set to \code{TRUE}.
   }
+  \item{contrast}{
+Defines what kind of estimate should be returned. Can be either \code{"none"} (default), \code{"diff"} or \code{"ratio"}. When \code{"none"} is used, it simply returns the counterfactual survival probabilities (or CIF if \code{cif=TRUE}) without any further calculations. If \code{"diff"} or \code{"ratio"} is used instead, the difference or ratio to some reference value will be returned. See argument below.
+  }
+  \item{reference}{
+Defines what kind of reference value to use when estimating causal contrasts. Only used if \code{contrast!="none"}, ignored otherwise. Can be either \code{"km"} (using standard Kaplan-Meier estimates as reference) or \code{"value"} (using the g-computation estimates of a specific value of the \code{variable} as reference). To specify which value to use when using \code{reference="value"}, the \code{ref_value} argument should be used. See details for more information.
+  }
+  \item{ref_value}{
+A single number corresponding to the reference value used when estimating causal contrasts using \code{reference="value"}. See details.
+  }
+  \item{event_time}{
+A single character string specifying the time until the occurence of the event of interest or \code{NULL} (default). Only used when estimating causal contrasts with \code{reference="km"}, ignored otherwise. If specified, this variable has to be contained in the \code{data.frame} that is supplied to the \code{data} argument.
+  }
+  \item{event_status}{
+A single character string specifying the status of the event of interest or \code{NULL} (default). Only used when estimating causal contrasts with \code{reference="km"}, ignored otherwise. If specified, this variable has to be contained in the \code{data.frame} that is supplied to the \code{data} argument.
+  }
   \item{conf_int}{
 Whether to calculate point-wise confidence intervals or not. If \code{TRUE}, \code{n_boot} bootstrap samples are drawn, the g-compuation step is performed on each bootstrap sample and the confidence intervals are calculated using the percentile method from these results. Can get very slow if the dataset is large or there are many values in \code{horizon} or \code{times}. Using \code{n_cores} can speed up the process a lot.
   }
@@ -53,6 +71,9 @@ The number of processor cores to use when performing the calculations. If \code{
   }
   \item{na.action}{
 How missing values should be handled. Can be one of: \code{na.fail}, \code{na.omit}, \code{na.pass}, \code{na.exclude} or a user-defined custom function. Also accepts strings of the function names. See \code{?na.action} for more details. By default it uses the na.action which is set in the global options by the respective user.
+  }
+  \item{return_boot}{
+Either \code{TRUE} or \code{FALSE} (default). If \code{TRUE} (and \code{conf_int=TRUE}) this function will return the individual bootstrap estimates instead of the usual estimates. This may be useful to perform tests or calculate other type of bootstrap confidence intervals manually.
   }
   \item{...}{
 Further arguments passed to \code{\link[=riskRegression]{predictRisk}}.

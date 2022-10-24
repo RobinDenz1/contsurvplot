@@ -22,8 +22,8 @@ plot_surv_area(time, status, variable, group=NULL,
                legend.position="right",
                gg_theme=ggplot2::theme_bw(),
                facet_args=list(), label_digits=NULL,
-               kaplan_meier=FALSE, km_size=0.5,
-               km_linetype="solid", km_alpha=1,
+               transition_size=0.01, kaplan_meier=FALSE,
+               km_size=0.5, km_linetype="solid", km_alpha=1,
                km_color="black", ...)
 }
 \arguments{
@@ -117,6 +117,9 @@ A named list of arguments that are passed to the \code{\link{facet_wrap}} functi
   \item{label_digits}{
 A single number specifying to how many digits the labels of the plot should be rounded or \code{NULL} (default). If \code{NULL}, no rounding is performed and the exact values are presented. This argument is only used when \code{discrete=TRUE} is used and ignored otherwise.
   }
+  \item{transition_size}{
+A single number > 0 specifying the \code{size} parameter in the \code{pammtools::geom_stepribbon()} calls whenever \code{discrete=FALSE} is used. This size parameter defines the size of the outline of each individual element of the plot. Can usually be left as is. Sometimes when saving these graphics to \code{.png} or \code{.jpg} files it may be useful to increase this value to avoid weird looking lines between the areas.
+  }
   \item{kaplan_meier}{
 Whether to add a standard Kaplan-Meier estimator to the plot or not. If \code{group} is defined, the Kaplan-Meier estimator will be stratified by the grouping variable. If \code{cif=TRUE} was used, the cumulative incidence will be displayed instead of the survival curve.
   }
@@ -145,6 +148,9 @@ The major downside of this plotting method is that it only works if the effect o
 }
 \value{
 Returns a \code{ggplot2} object.
+}
+\note{
+When saving this graphic to \code{.png} or \code{.jpg} files while using \code{discrete=FALSE}, they may sometimes contain some barely visible (but very annoying) lines. Those are the divisions between the areas the plot is made off. This only happens when saving this plot to non-vector graphics, which is why we recommend saving it to \code{.pdf} or similar file types only. If other file types are neccessary, one can set the \code{transition_size} argument to higher values (such as 0.5 or 1) to remove this problem as well.
 }
 \author{
 Robin Denz

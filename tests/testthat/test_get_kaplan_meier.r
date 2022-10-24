@@ -41,3 +41,17 @@ test_that("with conf_int and cif", {
   expect_true(is.data.frame(out))
   expect_true(ncol(out)==4 & nrow(out)==151)
 })
+
+test_that("fixed_t", {
+  out <- get_kaplan_meier(time="time", status="event", data=sim_dat,
+                          fixed_t=c(22, 40))
+  expect_true(is.data.frame(out))
+  expect_true(ncol(out)==2 & nrow(out)==2 & all(out$time==c(22, 40)))
+})
+
+test_that("fixed_t, with group", {
+  out <- get_kaplan_meier(time="time", status="event", data=sim_dat,
+                          group="group", fixed_t=c(22, 40))
+  expect_true(is.data.frame(out))
+  expect_true(ncol(out)==3 & nrow(out)==4 & all(out$time==c(22, 40, 22, 40)))
+})

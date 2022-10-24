@@ -120,7 +120,9 @@ check_inputs_plots <- function(time, status, variable, group, data, model,
 
 ## Check inputs for the curve_cont function
 check_inputs_curve_cont <- function(data, variable, model, horizon,
-                                    times, cause, cif, na.action, group) {
+                                    times, cause, cif, na.action, group,
+                                    contrast, reference, ref_value,
+                                    event_time, event_status) {
   # correct variable
   if (!(length(variable)==1 && is.character(variable))) {
     stop("'variable' must be a single character string specifying a",
@@ -139,6 +141,43 @@ check_inputs_curve_cont <- function(data, variable, model, horizon,
   } else if (!is.null(group) && !is.factor(data[, group])) {
     stop("The column specified by the 'group' argument must be a factor.")
   }
+  # correct event_time
+  if (!is.null(event_time) & !(length(event_time)==1 &&
+                               is.character(event_time))) {
+    stop("'event_time' must be a single character string specifying a",
+         " variable in 'data'.")
+  } else if (!is.null(event_time) && !event_time %in% colnames(data)) {
+    stop(event_time, " is not a valid column name in 'data'.")
+  } else if (!is.null(event_time) && !is.numeric(data[, event_time])) {
+    stop("The column specified by the 'event_time' argument must be numeric.")
+  }
+  # correct event_status
+  if (!is.null(event_status) & !(length(event_status)==1 &&
+                               is.character(event_status))) {
+    stop("'event_status' must be a single character string specifying a",
+         " variable in 'data'.")
+  } else if (!is.null(event_status) && !event_status %in% colnames(data)) {
+    stop(event_status, " is not a valid column name in 'data'.")
+  } else if (!is.null(event_status) && !is.numeric(data[, event_status])) {
+    stop("The column specified by the 'event_status' argument must be numeric.")
+  }
+
+  # correct contrast
+  if (!(length(contrast)==1 && is.character(contrast) &&
+        contrast %in% c("none", "diff", "ratio"))) {
+    stop("'contrast' must be one of c('none', 'diff', 'ratio').")
+  }
+
+  # correct reference
+  if (!(length(reference)==1 && is.character(reference) &&
+        reference %in% c("km", "value"))) {
+    stop("'reference' must be one of c('km', 'value').")
+  }
+
+  # correct ref_value
+  if (!is.null(ref_value) & !(length(ref_value)==1 && is.numeric(ref_value))) {
+    stop("'ref_value' must be a single number or NULL.")
+  }
 
   # horizon
   check_horizon(horizon, data, variable)
@@ -150,6 +189,18 @@ check_inputs_curve_cont <- function(data, variable, model, horizon,
     stop("Missing values in 'times' are not allowed.")
   } else if (min(times) < 0) {
     stop("Some values in 'times' are smaller than 0, which is not allowed.")
+  }
+
+  # if reference="value", ref_value needs to be specified
+  if (!is.null(reference) && reference=="value" & is.null(ref_value)) {
+    stop("'ref_value' needs to be specified when using reference='value'.")
+  }
+
+  # if reference="km", event_time and event_status need to be specified
+  if (contrast!="none" && reference=="km" & (is.null(event_status) |
+                                             is.null(event_time))) {
+    stop("Both 'event_time' and 'event_status' must be specified when",
+         " using reference='km'.")
   }
 
   # a few more checks for the most popular case: coxph
