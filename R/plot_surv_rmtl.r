@@ -41,6 +41,8 @@ plot_surv_rmtl <- function(time, status, variable, group=NULL,
                          times=fixed_t,
                          na.action="na.fail",
                          cif=TRUE,
+                         event_time=time,
+                         event_status=status,
                          ...)
 
   # calculate RMTL values

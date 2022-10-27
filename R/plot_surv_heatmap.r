@@ -48,6 +48,8 @@ plot_surv_heatmap <- function(time, status, variable, group=NULL, data, model,
                          times=fixed_t,
                          na.action="na.fail",
                          cif=cif,
+                         event_time=time,
+                         event_status=status,
                          ...)
 
   # correct label

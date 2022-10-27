@@ -8,6 +8,7 @@
 Enhancements:
 
 * Installation instructions in vignette and README were updated to include CRAN
+* Re-worked the documentation page of the `curve_cont` function 
 
 Bug fixes:
 
@@ -18,6 +19,7 @@ New Features:
 
 * Added plot_surv_matrix function
 * Added support for bootstrap standard error and confidence interval calculation in the curve_cont function
+* Added support for causal contrasts in curve_cont function, which also makes it possible to use those directly in all plot functions
 * Added support for bootstrap confidence intervals in the plot_surv_at_t, plot_surv_lines and plot_surv_animated functions
 * Added support for plotting Kaplan-Meier curves as reference in plot_surv_area, plot_surv_animated, plot_surv_lines
 * Vignette now includes plot_surv_matrix function

@@ -2,10 +2,10 @@
 \alias{curve_cont}
 
 \title{
-Calculate Causal Survival or Failure Probabilities for Levels of a Continuous Variable
+Estimate Counterfactual Survival or Failure Probabilities for Levels of a Continuous Variable
 }
 \description{
-This function can be utilized to calculate survival curves or cumulative incidence functions (CIF) for specific values of a continuous covariate.
+This function can be utilized to estimate counterfactual survival curves or cumulative incidence functions (CIF) for specific values of a continuous covariate.
 }
 \usage{
 curve_cont(data, variable, model, horizon,
@@ -80,18 +80,58 @@ Further arguments passed to \code{\link[=riskRegression]{predictRisk}}.
   }
 }
 \details{
-This function uses \emph{Direct Standardization}, also known as the \emph{Corrected Group Prognosis} method, \emph{G-Computation} or \emph{G-Formula}, to calculate the causal survival probability or CIF for values of a continuous variable. The resulting estimates can be interpreted as the average survival probability (or failure probability) that would have been observed if the value of \code{variable} had been set to a specific value for all individuals in \code{data}.
 
-If the model supplied to \code{model} is correct, the resulting estimates will be unbiased. By including relevant confounders as independent covariates in the \code{model}, the resulting estimates are adjusted for the confounders as well. This function is used internally in all plot functions included in this R-package and generally does not need to be called directly by the user. It can however be used to get specific values or as a basis to create custom plots not included in this package.
+This function is used internally in all plot functions included in this R-package and generally does not need to be called directly by the user. It can however be used to get specific values or as a basis to create custom plots not included in this package. Below we give a small introduction to what this function does. A more detailed description of the underlying methdology can be found in our article on this subject (Denz & Timmesfeld 2022).
 
-It relies on the \code{\link[=riskRegression]{predictRisk}} function from the \pkg{riskRegression} package to create the covariate and time specific estimates of the probabilities. If there are multiple failure types in the status variable of the time-to-event outcome, this should be directly modeled using a suitable model, such as a Cause-Specific-Cox model or a Fine & Gray model. In this case, only the cause-specific CIF can be estimated and \code{cif=TRUE} should always be used accordingly.
+\strong{\emph{Target Estimand (default)}}
 
-If \code{group} is not \code{NULL}, the whole estimation will be performed once for each of the factor levels of \code{group}. This means that in addition to fixing the level of the continuous covariate at a certain value for the entire dataset, the grouping variable is fixed as well. The results can be interpreted similarly to the usual estimate, only that they are also conditional on the level of \code{group} used. All plots that support this argument will be facetted according to the \code{group} variable. To obtain useful estimates, it is crucial to include the \code{group} variable in the \code{model}.
+By default (\code{contrast="none"}) this function tries to estimate the survival probability at \code{times} that would have been observed if every individual in the sample had received a value of \code{horizon} in the \code{variable}. Let \eqn{Z} be the continuous variable we are interested in. Let \eqn{T} be the time until the occurence of the event of interest. Under the potential outcome framework, there is an uncountably infinite amount of potential survival times \eqn{T^{(Z=z)}}, one for each possible value of \eqn{Z}. The target estimand is then defined as:
+
+\deqn{S_{z}(t) = E(I(T^{(Z=z)} > t))}
+
+If we additionally consider a categorical \code{group} variable \eqn{D}, the target estimand is similarly defined as:
+
+\deqn{S_{zd}(t) = E(I(T^{(Z=z, D=d)} > t))}
+
+where \eqn{T^{(Z=z, D=d)}} is the survival time that would have been observed if the individual had received both \eqn{Z = z} and \eqn{D = d}.
+
+\strong{\emph{Target Estimand (using contrasts)}}
+
+If contrasts are used (\code{contrast!="none"}), target estimands based on \eqn{S_{z}(t)} or \eqn{S_{zd}(t)} are used instead. When using \code{contrast="diff"} and \code{reference="km"}, the target estimand is simply the difference between the observed survival probability in the entire sample (denoted by \eqn{S(t)}, estimated using a Kaplan-Meier estimator) and the counterfactual survival probability:
+
+\deqn{\Delta_{KM}(t, z) = S(t) - S_z(t)}
+
+If \code{contrast="ratio"} is used instead, the substraction sign is simply replace by a division. If \code{group} was specified, \eqn{S(t)} is replaced by \eqn{S_d(t)} (a stratified Kaplan-Meier estimator) and \eqn{S_z(t)} is replace by \eqn{S_{zd}(t)}. Instead of using a Kaplan-Meier estimator as \code{reference}, one may also use a specific \eqn{S_z(t)} as reference using \code{reference="value"} and setting \code{ref_value} to the \eqn{Z} that should be used. All of these causal contrasts and their implications are described in detail in the appendix of our article on this topic (Denz & Timmesfeld 2022).
+
+\strong{\emph{Estimation Methodology}}
+
+\emph{G-Computations}, also known as the \emph{Corrected Group Prognosis} method, \emph{Direct-Standardization} or \emph{G-Formula}, is used internally to estimate the counterfactual survival probability or CIF for values of a continuous variable. This is done by setting the \code{variable} to a specific value for all rows in \code{data} first. Afterwards, the \code{model} is used to predict the survival probability of each individual at all \code{times}, given the value of \code{variable} and their other observed covariates (which are included in the model as independent variables). These estimates are then averaged for each time point. This procedure is repeated for every value in \code{horizon}. If a \code{group} is supplied, these calculations are repeated for every posisble value in \code{group}, with the estimated individual survival probabilities also being conditional on that value.
+
+To obtain valid estimates of the target estimand using this function, the fundamental causal identifiability assumptions have to be met. Those are described in detail in our article on this topic (Denz & Timmesfeld 2022). If those assumptions are not met, the estimates may only be used to showcase simple associations. They cannot be endowed with a counterfactual interpretation in this case.
+
+\strong{\emph{Supported Models}}
+
+This function relies on the \code{\link[=riskRegression]{predictRisk}} function from the \pkg{riskRegression} package to create the covariate and time specific estimates of the probabilities. All models with an associated \code{predictRisk} method may be used in this function. This includes a variety of models, such as the Cox proportional hazards regression model and the aalen additive hazards model. If the model that should be used has no \code{predictRisk} method, the user either needs to write their own \code{predictRisk} method or contact the maintainers of the \pkg{riskRegression} package.
+
+\strong{\emph{Bootstrap Confidence Intervals}}
+
+By using \code{conf_int=TRUE}, bootstrap confidence intervals may be estimated. This will draw \code{n_boot} samples of size \code{nrow(data)} with replacement from \code{data} in the first step. Afterwards, the \code{model} is fit to each of those bootstrap samples and the \code{curve_cont} function is recursively called to obtain the estimates of interests for each sample. Using the percentile approach, the bootstrap confidence intervals are calculated. This requires that the \code{model} object contains a \code{call} parameter, because the \code{update()} function is used internally.
+
+\strong{\emph{Computational Complexity}}
+
+If many values are included in \code{times}, \code{horizon} or both and/or \code{data} has a lot of rows, this function may become very slow. Since bootstrapping relies on sampling with replacement from the original \code{data} and repeating the entire procedure \code{n_boot} times, this also dramatically increases the runtime. Parallel processing may be used to speed up the computations. This can be done by simply setting \code{n_cores} to values higher than 1.
+
+\strong{\emph{Missing Data}}
+
+Currently, this function does not support advanced handling of missing data. The \code{data.frame} supplied to \code{data} should contain no missing data in the relevant columns. To achieve this, the \code{na.action} argument can be set to \code{"na.omit"}, which will remove all rows that do contain missing data.
+
 }
 \value{
 Returns a \code{data.frame} containing the columns \code{time} (the point in time), \code{est} (the estimated survival probability or CIF) and \code{cont} (the specific value of \code{variable} used). If \code{group} was used, it includes the additional \code{group} column, specifying the level of the grouping variable. If \code{conf_int=TRUE} was used, it additionally includes the columns \code{se} (bootstrap standard error of the estimate), \code{ci_lower} (lower limit of the bootstrap confidence interval) and \code{ci_upper} (upper limit of the bootstrap confidence interval).
 }
 \references{
+Robin Denz, Nina Timmesfeld (2022). Visualizing the Causal Effect of a Continuous Variable on a Time-To-Event Outcome. arXiv:2208.04644v1
+
 Brice Ozenne, Anne Lyngholm Sorensen, Thomas Scheike, Christian Torp-Pedersen and Thomas Alexander Gerds. riskRegression: Predicting the Risk of an Event using Cox Regression Models. The R Journal (2017) 9:2, pages 440-460.
 
 I-Ming Chang, Rebecca Gelman, and Marcello Pagano. Corrected Group Prognostic Curves and Summary Statistics. Journal of Chronic Diseases (1982) 35, pages 669-674

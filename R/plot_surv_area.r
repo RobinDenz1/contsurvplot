@@ -53,6 +53,8 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
                          times=fixed_t,
                          na.action="na.fail",
                          cif=cif,
+                         event_time=time,
+                         event_status=status,
                          ...)
 
   # create enough colors
@@ -69,14 +71,14 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
     levels(fake_horizon) <- get_bin_labels(horizon, digits=label_digits)
 
     fake_dat <- data.frame(x=horizon[1],
-                           y=ifelse(cif, 0.01, 0.99),
+                           y=min(plotdata$est, na.rm=TRUE),
                            col=fake_horizon)
     p <- p + ggplot2::geom_tile(data=fake_dat,
                                 ggplot2::aes(x=.data$x,
                                              y=.data$y,
                                              fill=.data$col),
                                 inherit.aes=FALSE,
-                                height=0.01,
+                                height=0.0001,
                                 alpha=0) +
       ggplot2::scale_fill_manual(values=colgrad, name=legend.title) +
       ggplot2::guides(

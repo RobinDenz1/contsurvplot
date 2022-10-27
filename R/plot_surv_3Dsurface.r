@@ -43,6 +43,8 @@ plot_surv_3Dsurface <- function(time, status, variable, data, model,
                          times=fixed_t,
                          na.action="na.fail",
                          cif=cif,
+                         event_time=time,
+                         event_status=status,
                          ...)
   # transform
   plot_matrix <- t(reshape2::acast(plotdata, cont~time, value.var="est"))

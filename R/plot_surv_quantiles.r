@@ -65,6 +65,8 @@ plot_surv_quantiles <- function(time, status, variable, group=NULL, data, model,
                          horizon=horizon,
                          times=fixed_t,
                          na.action="na.fail",
+                         event_time=time,
+                         event_status=status,
                          ...)
 
   # use the adjustedCurves package to calculate survival time quantiles

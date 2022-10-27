@@ -75,9 +75,8 @@ curve_cont <- function(data, variable, model, horizon,
                           ref_value=ref_value, event_time=event_time,
                           event_status=event_status)
 
-  data <- prepare_inputdata(data=data, time=variable, status=variable,
+  data <- prepare_inputdata(data=data, time=event_time, status=event_status,
                             variable=variable, group=group,
-                            event_time=event_time, event_status=event_status,
                             model=model, na.action=na.action)
 
   if (is.null(group)) {

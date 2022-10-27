@@ -72,6 +72,8 @@ plot_surv_matrix <- function(time, status, variable, group=NULL, data, model,
                          times=fixed_t,
                          na.action="na.fail",
                          cif=cif,
+                         event_time=time,
+                         event_status=status,
                          ...)
 
   # transform plotdata
@@ -112,7 +114,8 @@ plot_surv_matrix <- function(time, status, variable, group=NULL, data, model,
     plotdata$y_text <- rowMeans(plotdata[, c("ymax", "ymin")])
 
     # round the numbers
-    plotdata$label <- round(plotdata$est, number_digits)
+    plotdata$label <- format(round(plotdata$est, number_digits),
+                             nsmall=number_digits)
   }
 
   # correct label

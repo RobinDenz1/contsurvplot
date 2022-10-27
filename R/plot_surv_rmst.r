@@ -83,6 +83,8 @@ plot_surv_rmst <- function(time, status, variable, group=NULL,
                          horizon=horizon,
                          times=fixed_t,
                          na.action="na.fail",
+                         event_time=time,
+                         event_status=status,
                          ...)
 
   # calculate RMST values

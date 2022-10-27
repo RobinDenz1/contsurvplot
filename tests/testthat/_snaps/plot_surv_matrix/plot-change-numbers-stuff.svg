@@ -144,16 +144,16 @@
 <rect x='100.97' y='491.15' width='68.17' height='53.96' style='stroke-width: 1.07; stroke: #FFFFFF; stroke-linecap: square; stroke-linejoin: miter; fill: #7400E0;' />
 <rect x='100.97' y='59.44' width='68.17' height='53.96' style='stroke-width: 1.07; stroke: #FFFFFF; stroke-linecap: square; stroke-linejoin: miter; fill: #5C00EC;' />
 <rect x='100.97' y='5.48' width='68.17' height='53.96' style='stroke-width: 1.07; stroke: #FFFFFF; stroke-linecap: square; stroke-linejoin: miter; fill: #5900ED;' />
-<text x='66.88' y='469.06' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='7.91px' lengthAdjust='spacingAndGlyphs'>1</text>
-<text x='66.88' y='415.10' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='7.91px' lengthAdjust='spacingAndGlyphs'>1</text>
-<text x='66.88' y='361.14' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='7.91px' lengthAdjust='spacingAndGlyphs'>1</text>
-<text x='66.88' y='307.17' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='7.91px' lengthAdjust='spacingAndGlyphs'>1</text>
-<text x='66.88' y='253.21' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='7.91px' lengthAdjust='spacingAndGlyphs'>1</text>
-<text x='66.88' y='199.25' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='7.91px' lengthAdjust='spacingAndGlyphs'>1</text>
-<text x='66.88' y='145.28' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='7.91px' lengthAdjust='spacingAndGlyphs'>1</text>
-<text x='66.88' y='523.03' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='7.91px' lengthAdjust='spacingAndGlyphs'>1</text>
-<text x='66.88' y='91.32' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='7.91px' lengthAdjust='spacingAndGlyphs'>1</text>
-<text x='66.88' y='37.36' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='7.91px' lengthAdjust='spacingAndGlyphs'>1</text>
+<text x='66.88' y='469.06' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='19.78px' lengthAdjust='spacingAndGlyphs'>1.0</text>
+<text x='66.88' y='415.10' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='19.78px' lengthAdjust='spacingAndGlyphs'>1.0</text>
+<text x='66.88' y='361.14' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='19.78px' lengthAdjust='spacingAndGlyphs'>1.0</text>
+<text x='66.88' y='307.17' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='19.78px' lengthAdjust='spacingAndGlyphs'>1.0</text>
+<text x='66.88' y='253.21' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='19.78px' lengthAdjust='spacingAndGlyphs'>1.0</text>
+<text x='66.88' y='199.25' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='19.78px' lengthAdjust='spacingAndGlyphs'>1.0</text>
+<text x='66.88' y='145.28' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='19.78px' lengthAdjust='spacingAndGlyphs'>1.0</text>
+<text x='66.88' y='523.03' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='19.78px' lengthAdjust='spacingAndGlyphs'>1.0</text>
+<text x='66.88' y='91.32' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='19.78px' lengthAdjust='spacingAndGlyphs'>1.0</text>
+<text x='66.88' y='37.36' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='19.78px' lengthAdjust='spacingAndGlyphs'>1.0</text>
 <text x='203.23' y='469.06' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='19.78px' lengthAdjust='spacingAndGlyphs'>0.7</text>
 <text x='203.23' y='415.10' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='19.78px' lengthAdjust='spacingAndGlyphs'>0.7</text>
 <text x='203.23' y='361.14' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='19.78px' lengthAdjust='spacingAndGlyphs'>0.8</text>
@@ -231,7 +231,7 @@
 <text x='680.43' y='253.21' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='19.78px' lengthAdjust='spacingAndGlyphs'>0.1</text>
 <text x='680.43' y='199.25' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='19.78px' lengthAdjust='spacingAndGlyphs'>0.1</text>
 <text x='680.43' y='145.28' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='19.78px' lengthAdjust='spacingAndGlyphs'>0.1</text>
-<text x='680.43' y='523.03' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='7.91px' lengthAdjust='spacingAndGlyphs'>0</text>
+<text x='680.43' y='523.03' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='19.78px' lengthAdjust='spacingAndGlyphs'>0.0</text>
 <text x='680.43' y='91.32' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='19.78px' lengthAdjust='spacingAndGlyphs'>0.1</text>
 <text x='680.43' y='37.36' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='19.78px' lengthAdjust='spacingAndGlyphs'>0.1</text>
 <text x='135.05' y='469.06' text-anchor='middle' style='font-size: 14.23px; font-style: italic; font-family: sans;' textLength='19.78px' lengthAdjust='spacingAndGlyphs'>0.9</text>
