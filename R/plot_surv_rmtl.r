@@ -66,10 +66,11 @@ plot_surv_rmtl <- function(time, status, variable, group=NULL,
 
   if (length(tau)==1) {
     p$mapping$colour <- NULL
-    gg_line <- ggplot2::geom_line(size=size, linetype=linetype, alpha=alpha,
-                                  color=color)
+    gg_line <- ggplot2::geom_line(linewidth=size, linetype=linetype,
+                                  alpha=alpha, color=color)
   } else {
-    gg_line <- ggplot2::geom_line(size=size, linetype=linetype, alpha=alpha)
+    gg_line <- ggplot2::geom_line(linewidth=size, linetype=linetype,
+                                  alpha=alpha)
   }
 
   p <- p + gg_line +

@@ -24,7 +24,7 @@ plot_surv_area(time, status, variable, group=NULL,
                facet_args=list(), label_digits=NULL,
                transition_size=0.01, kaplan_meier=FALSE,
                km_size=0.5, km_linetype="solid", km_alpha=1,
-               km_color="black", ...)
+               km_color="black", monotonic=TRUE, ...)
 }
 \arguments{
   \item{time}{
@@ -135,6 +135,9 @@ The transparency level of the Kaplan-Meier line. Ignored if \code{kaplan_meier=F
   \item{km_color}{
 The color of the Kaplan-Meier line. Ignored if \code{kaplan_meier=FALSE}.
   }
+  \item{monotonic}{
+A single logical value specifying whether the relationship between the \code{variable} and the survival probability is monotonic or not. If there are non-monotonic effects, the areas will be drawn on top of each other when using \code{monotonic=TRUE} (default). By setting this argument to \code{FALSE}, the plot will be divided into multiple facets. Each facet contains the plot for a certain range of values of the \code{variable}, in which the effect is monotonic. The \code{group} argument may not be used with \code{monotonic=FALSE}.
+  }
   \item{...}{
 Further arguments passed to \code{\link{curve_cont}}.
   }
@@ -144,7 +147,7 @@ This function is very similar to a contour plot (see \code{\link{plot_surv_conto
 
 This is achieved by estimating value-specific curves over the whole range of the continuous covariate using direct standardization and a previously fitted time-to-event model (see \code{\link{curve_cont}}). The area between those curves is then simply filled in (using the \code{geom_stepribbon} function from the \pkg{pammtools} package). By using a big number of individual curves, the appearance of a continuously shaded area is created. This is done by default when using the argument \code{discrete=FALSE}. By using \code{discrete=TRUE}, only a small number of value-specific curves are estimated, resulting in only a few discrete bins. When using only a few bins, the output is therefore even closer to a contour plot.
 
-The major downside of this plotting method is that it only works if the effect of the continuous covariate was modeled as a monotone effect, meaning that it either only increases or only decreases with higher values. Curved relationships between the variable and the survival time cannot be represented using this function, because the areas would be plotted on top of each other in that case. However, the \code{\link{plot_surv_contour}} and \code{\link{plot_surv_heatmap}} functions may be used instead in this case.
+The major downside of this plotting method is that it has problems handling non-monotone effects. Curved relationships between the variable and the survival time result in the areas being plotted on top of each other in a standard survival area plot. By using \code{monotonic=FALSE}, the user may still use this function for nonlinear effects. This strategy is not optimal when the relationship is very complex, resulting in lots of facets in the plot. We recommend using either the \code{\link{plot_surv_contour}}, \code{\link{plot_surv_heatmap}} or \code{\link{plot_surv_matrix}} functions in this case.
 }
 \value{
 Returns a \code{ggplot2} object.

@@ -64,17 +64,18 @@ plot_surv_at_t <- function(time, status, variable, group=NULL, data, model,
   if (conf_int & length(t)==1) {
     p <- p + ggplot2::geom_ribbon(ggplot2::aes(ymin=.data$ci_lower,
                                                ymax=.data$ci_upper),
-                                  fill="grey", alpha=ci_alpha, size=0)
+                                  fill="grey", alpha=ci_alpha, linewidth=0)
   } else if (conf_int) {
     p <- p + ggplot2::geom_ribbon(ggplot2::aes(x=.data$cont,
                                                y=.data$est,
                                                ymin=.data$ci_lower,
                                                ymax=.data$ci_upper,
                                                fill=.data$time),
-                                  alpha=ci_alpha, size=0, inherit.aes=FALSE)
+                                  alpha=ci_alpha, linewidth=0,
+                                  inherit.aes=FALSE)
   }
 
-  p <- p + ggplot2::geom_line(size=size, linetype=linetype, alpha=alpha) +
+  p <- p + ggplot2::geom_line(linewidth=size, linetype=linetype, alpha=alpha) +
     ggplot2::labs(x=xlab, y=ylab, title=title, subtitle=subtitle,
                   fill=legend.title, color=legend.title) +
     gg_theme +

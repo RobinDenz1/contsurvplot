@@ -81,7 +81,7 @@ Further arguments passed to \code{\link[=riskRegression]{predictRisk}}.
 }
 \details{
 
-This function is used internally in all plot functions included in this R-package and generally does not need to be called directly by the user. It can however be used to get specific values or as a basis to create custom plots not included in this package. Below we give a small introduction to what this function does. A more detailed description of the underlying methdology can be found in our article on this subject (Denz & Timmesfeld 2022).
+This function is used internally in all plot functions included in this R-package and generally does not need to be called directly by the user. It can however be used to get specific values or as a basis to create custom plots not included in this package. Below we give a small introduction to what this function does. A more detailed description of the underlying methodology can be found in our article on this subject (Denz & Timmesfeld 2022).
 
 \strong{\emph{Target Estimand (default)}}
 
@@ -101,11 +101,11 @@ If contrasts are used (\code{contrast!="none"}), target estimands based on \eqn{
 
 \deqn{\Delta_{KM}(t, z) = S(t) - S_z(t)}
 
-If \code{contrast="ratio"} is used instead, the substraction sign is simply replace by a division. If \code{group} was specified, \eqn{S(t)} is replaced by \eqn{S_d(t)} (a stratified Kaplan-Meier estimator) and \eqn{S_z(t)} is replace by \eqn{S_{zd}(t)}. Instead of using a Kaplan-Meier estimator as \code{reference}, one may also use a specific \eqn{S_z(t)} as reference using \code{reference="value"} and setting \code{ref_value} to the \eqn{Z} that should be used. All of these causal contrasts and their implications are described in detail in the appendix of our article on this topic (Denz & Timmesfeld 2022).
+If \code{contrast="ratio"} is used instead, the substraction sign is simply replace by a division. If \code{group} was specified, \eqn{S(t)} is replaced by \eqn{S_d(t)} (a stratified Kaplan-Meier estimator) and \eqn{S_z(t)} is replaced by \eqn{S_{zd}(t)}. Instead of using a Kaplan-Meier estimator as \code{reference}, one may also use a specific \eqn{S_z(t)} as reference using \code{reference="value"} and setting \code{ref_value} to the \eqn{Z} that should be used. All of these causal contrasts and their implications are described in detail in the appendix of our article on this topic (Denz & Timmesfeld 2022).
 
 \strong{\emph{Estimation Methodology}}
 
-\emph{G-Computations}, also known as the \emph{Corrected Group Prognosis} method, \emph{Direct-Standardization} or \emph{G-Formula}, is used internally to estimate the counterfactual survival probability or CIF for values of a continuous variable. This is done by setting the \code{variable} to a specific value for all rows in \code{data} first. Afterwards, the \code{model} is used to predict the survival probability of each individual at all \code{times}, given the value of \code{variable} and their other observed covariates (which are included in the model as independent variables). These estimates are then averaged for each time point. This procedure is repeated for every value in \code{horizon}. If a \code{group} is supplied, these calculations are repeated for every posisble value in \code{group}, with the estimated individual survival probabilities also being conditional on that value.
+\emph{G-Computation}, also known as the \emph{Corrected Group Prognosis} method, \emph{Direct-Standardization} or \emph{G-Formula}, is used internally to estimate the counterfactual survival probability or CIF for values of a continuous variable. This is done by setting the \code{variable} to a specific value for all rows in \code{data} first. Afterwards, the \code{model} is used to predict the survival probability of each individual at all \code{times}, given the value of \code{variable} and their other observed covariates (which are included in the model as independent variables). These estimates are then averaged for each time point. This procedure is repeated for every value in \code{horizon}. If a \code{group} is supplied, these calculations are repeated for every posisble value in \code{group}, with the estimated individual survival probabilities also being conditional on that value.
 
 To obtain valid estimates of the target estimand using this function, the fundamental causal identifiability assumptions have to be met. Those are described in detail in our article on this topic (Denz & Timmesfeld 2022). If those assumptions are not met, the estimates may only be used to showcase simple associations. They cannot be endowed with a counterfactual interpretation in this case.
 
@@ -124,6 +124,10 @@ If many values are included in \code{times}, \code{horizon} or both and/or \code
 \strong{\emph{Missing Data}}
 
 Currently, this function does not support advanced handling of missing data. The \code{data.frame} supplied to \code{data} should contain no missing data in the relevant columns. To achieve this, the \code{na.action} argument can be set to \code{"na.omit"}, which will remove all rows that do contain missing data.
+
+\strong{\emph{Competing Events}}
+
+By supplying a \code{model} that directly takes into account competing events and using the \code{cause} argument, the user may also use the functionality offered in this package to create plots in this setting. Internally, the \code{predictRisk} method will then be used to estimate the conditional cause-specific cumulative incidence function, which will then be used to carry out the g-computation step explained above. \strong{However} the underlying target estimand of this procedure is dependent on which kind of model was supplied. It is therefore not possible to define it here concisely. Future research is necessary to clarify this point. This feature should only be used with great caution.
 
 }
 \value{

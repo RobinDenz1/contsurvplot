@@ -75,11 +75,14 @@ plot_surv_heatmap <- function(time, status, variable, group=NULL, data, model,
     p <- p + ggplot2::theme(panel.border=ggplot2::element_blank())
   }
   if (contour_lines) {
-    p <- p + ggplot2::geom_contour(ggplot2::aes(z=.data$est),
+    p <- p + ggplot2::geom_contour(ggplot2::aes(x=.data$time,
+                                                y=.data$cont,
+                                                z=.data$est),
                                    colour=contour_color,
-                                   size=contour_size,
+                                   linewidth=contour_size,
                                    linetype=contour_linetype,
-                                   alpha=alpha)
+                                   alpha=alpha,
+                                   inherit.aes=FALSE)
   }
   # facet plot by factor variable
   if (!is.null(group)) {

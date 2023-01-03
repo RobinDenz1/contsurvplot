@@ -127,7 +127,7 @@ plot_surv_matrix <- function(time, status, variable, group=NULL, data, model,
   p <- ggplot2::ggplot(plotdata, ggplot2::aes(fill=.data$est, xmin=.data$xmin,
                                               xmax=.data$xmax, ymin=.data$ymin,
                                               ymax=.data$ymax)) +
-    ggplot2::geom_rect(color=border_color, alpha=alpha, size=border_size) +
+    ggplot2::geom_rect(color=border_color, alpha=alpha, linewidth=border_size) +
     ggplot2::labs(x=xlab, y=ylab, title=title, subtitle=subtitle,
                   fill=legend.title) +
     gg_theme +

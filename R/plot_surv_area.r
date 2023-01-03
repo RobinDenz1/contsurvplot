@@ -17,7 +17,7 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
                            label_digits=NULL, transition_size=0.01,
                            kaplan_meier=FALSE, km_size=0.5,
                            km_linetype="solid", km_alpha=1, km_color="black",
-                           ...) {
+                           monotonic=TRUE, ...) {
 
   data <- use_data.frame(data)
 
@@ -41,6 +41,10 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
     horizon <- sort(horizon)
   }
 
+  if (!is.null(group) & !monotonic) {
+    stop("The 'group' argument cannot be used with monotonic=FALSE.")
+  }
+
   # only show up to max_t
   fixed_t <- fixed_t[fixed_t <= max_t]
 
@@ -56,6 +60,18 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
                          event_time=time,
                          event_status=status,
                          ...)
+
+  # partition into piecewise non-increasing/non-decreasing segments
+  if (!monotonic) {
+    plotdata_one_t <- subset(plotdata, time==fixed_t[2])
+    plotdata_one_t <- plotdata_one_t[order(plotdata_one_t$cont),]
+
+    turn_points <- plotdata_one_t$cont[find_turns(plotdata_one_t$est)]
+    cut_points <- sort(unique(c(horizon[1], turn_points, max(horizon))))
+
+    plotdata$partition <- cut(plotdata$cont, breaks=cut_points,
+                              include.lowest=TRUE)
+  }
 
   # create enough colors
   colgrad_fun <- grDevices::colorRampPalette(c(start_color, end_color))
@@ -98,6 +114,9 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
     if (!is.null(group)) {
       plotdata_temp$group <- plotdata$group[plotdata$cont==horizon[i]]
     }
+    if (!monotonic) {
+      plotdata_temp$partition <- plotdata$partition[plotdata$cont==horizon[i]]
+    }
 
     surv_segment <- pammtools::geom_stepribbon(data=plotdata_temp,
                                                ggplot2::aes(ymin=.data$ymin,
@@ -115,7 +134,7 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
 
   if (sep_lines) {
     p <- p + ggplot2::geom_step(ggplot2::aes(group=as.factor(.data$cont)),
-                                size=sep_size, color=sep_color,
+                                linewidth=sep_size, color=sep_color,
                                 linetype=sep_linetype, alpha=sep_alpha)
   }
 
@@ -132,14 +151,21 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
   # add kaplan-meier reference line, if specified
   if (kaplan_meier) {
     km_dat <- get_kaplan_meier(time=time, status=status, group=group,
-                                data=data, conf_int=FALSE, cif=cif)
-    p <- p + ggplot2::geom_step(data=km_dat, size=km_size, color=km_color,
+                               data=data, conf_int=FALSE, cif=cif,
+                               fixed_t=fixed_t)
+    p <- p + ggplot2::geom_step(data=km_dat, linewidth=km_size, color=km_color,
                                 alpha=km_alpha, linetype=km_linetype)
   }
 
-  # facet plot by factor variable
-  if (!is.null(group)) {
-    facet_args$facets <- stats::as.formula("~ group")
+  # facet plot by factor / partition variable
+  if (!is.null(group) & monotonic) {
+    form <- "~ group"
+  } else if (is.null(group) & !monotonic) {
+    form <- "~ partition"
+  }
+
+  if (!is.null(group) | !monotonic) {
+    facet_args$facets <- stats::as.formula(form)
     facet_obj <- do.call(ggplot2::facet_wrap, facet_args)
     p <- p + facet_obj
   }
@@ -160,4 +186,41 @@ get_bin_labels <- function(vec, digits) {
     bins[i] <- label
   }
   return(bins)
+}
+
+## identify points at which a one-dimensional vector changes from being
+## non-increasing to being non-decreasing
+## requires x to be sorted by the variable of interest
+find_turns <- function(x) {
+
+  # loop over it once to identify monotonic segments
+  monoto <- logical((length(x)-1))
+  for (i in seq(2, length(x))) {
+    prev <- x[i - 1]
+    current <- x[i]
+
+    if (current <= prev) {
+      monoto[i] <- TRUE
+    } else {
+      monoto[i] <- FALSE
+    }
+  }
+
+  # make vector always start with TRUE
+  if (!monoto[1]) {
+    monoto <- !monoto
+  }
+
+  # identify the turning points
+  turn_points <- c()
+  for (i in seq(2, length(monoto))) {
+    prev <- monoto[i - 1]
+    current <- monoto[i]
+
+    if (prev != current) {
+      turn_points <- c(turn_points, i-1)
+    }
+  }
+
+  return(turn_points)
 }

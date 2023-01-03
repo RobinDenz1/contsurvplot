@@ -84,7 +84,7 @@ plot_surv_animated <- function(time, status, variable, group=NULL, data, model,
                                         fill=color)
   }
 
-  p <- p + ggplot2::geom_step(size=size, color=color, linetype=linetype,
+  p <- p + ggplot2::geom_step(linewidth=size, color=color, linetype=linetype,
                               alpha=alpha) +
     ggplot2::labs(x=xlab, y=ylab, title=title, subtitle=subtitle) +
     gg_theme
@@ -111,7 +111,7 @@ plot_surv_animated <- function(time, status, variable, group=NULL, data, model,
     }
     p <- p + ggplot2::geom_step(data=km_dat, ggplot2::aes(x=.data$time,
                                                           y=.data$est),
-                                size=km_size, color=km_color,
+                                linewidth=km_size, color=km_color,
                                 alpha=km_alpha, linetype=km_linetype,
                                 inherit.aes=FALSE)
   }
