@@ -52,13 +52,13 @@ Defines what kind of reference value to use when estimating causal contrasts. On
 A single number corresponding to the reference value used when estimating causal contrasts using \code{reference="value"}. See details.
   }
   \item{event_time}{
-A single character string specifying the time until the occurence of the event of interest or \code{NULL} (default). Only used when estimating causal contrasts with \code{reference="km"}, ignored otherwise. If specified, this variable has to be contained in the \code{data.frame} that is supplied to the \code{data} argument.
+A single character string specifying the time until the occurrence of the event of interest or \code{NULL} (default). Only used when estimating causal contrasts with \code{reference="km"}, ignored otherwise. If specified, this variable has to be contained in the \code{data.frame} that is supplied to the \code{data} argument.
   }
   \item{event_status}{
 A single character string specifying the status of the event of interest or \code{NULL} (default). Only used when estimating causal contrasts with \code{reference="km"}, ignored otherwise. If specified, this variable has to be contained in the \code{data.frame} that is supplied to the \code{data} argument.
   }
   \item{conf_int}{
-Whether to calculate point-wise confidence intervals or not. If \code{TRUE}, \code{n_boot} bootstrap samples are drawn, the g-compuation step is performed on each bootstrap sample and the confidence intervals are calculated using the percentile method from these results. Can get very slow if the dataset is large or there are many values in \code{horizon} or \code{times}. Using \code{n_cores} can speed up the process a lot.
+Whether to calculate point-wise confidence intervals or not. If \code{TRUE}, \code{n_boot} bootstrap samples are drawn, the g-computation step is performed on each bootstrap sample and the confidence intervals are calculated using the percentile method from these results. Can get very slow if the dataset is large or there are many values in \code{horizon} or \code{times}. Using \code{n_cores} can speed up the process a lot.
   }
   \item{conf_level}{
 A number specifying the confidence level of the bootstrap confidence intervals. Ignored if \code{conf_int=FALSE}.
@@ -85,7 +85,7 @@ This function is used internally in all plot functions included in this R-packag
 
 \strong{\emph{Target Estimand (default)}}
 
-By default (\code{contrast="none"}) this function tries to estimate the survival probability at \code{times} that would have been observed if every individual in the sample had received a value of \code{horizon} in the \code{variable}. Let \eqn{Z} be the continuous variable we are interested in. Let \eqn{T} be the time until the occurence of the event of interest. Under the potential outcome framework, there is an uncountably infinite amount of potential survival times \eqn{T^{(Z=z)}}, one for each possible value of \eqn{Z}. The target estimand is then defined as:
+By default (\code{contrast="none"}) this function tries to estimate the survival probability at \code{times} that would have been observed if every individual in the sample had received a value of \code{horizon} in the \code{variable}. Let \eqn{Z} be the continuous variable we are interested in. Let \eqn{T} be the time until the occurrence of the event of interest. Under the potential outcome framework, there is an uncountably infinite amount of potential survival times \eqn{T^{(Z=z)}}, one for each possible value of \eqn{Z}. The target estimand is then defined as:
 
 \deqn{S_{z}(t) = E(I(T^{(Z=z)} > t))}
 
@@ -105,7 +105,7 @@ If \code{contrast="ratio"} is used instead, the substraction sign is simply repl
 
 \strong{\emph{Estimation Methodology}}
 
-\emph{G-Computation}, also known as the \emph{Corrected Group Prognosis} method, \emph{Direct-Standardization} or \emph{G-Formula}, is used internally to estimate the counterfactual survival probability or CIF for values of a continuous variable. This is done by setting the \code{variable} to a specific value for all rows in \code{data} first. Afterwards, the \code{model} is used to predict the survival probability of each individual at all \code{times}, given the value of \code{variable} and their other observed covariates (which are included in the model as independent variables). These estimates are then averaged for each time point. This procedure is repeated for every value in \code{horizon}. If a \code{group} is supplied, these calculations are repeated for every posisble value in \code{group}, with the estimated individual survival probabilities also being conditional on that value.
+\emph{G-Computation}, also known as the \emph{Corrected Group Prognosis} method, \emph{Direct-Standardization} or \emph{G-Formula}, is used internally to estimate the counterfactual survival probability or CIF for values of a continuous variable. This is done by setting the \code{variable} to a specific value for all rows in \code{data} first. Afterwards, the \code{model} is used to predict the survival probability of each individual at all \code{times}, given the value of \code{variable} and their other observed covariates (which are included in the model as independent variables). These estimates are then averaged for each time point. This procedure is repeated for every value in \code{horizon}. If a \code{group} is supplied, these calculations are repeated for every possible value in \code{group}, with the estimated individual survival probabilities also being conditional on that value.
 
 To obtain valid estimates of the target estimand using this function, the fundamental causal identifiability assumptions have to be met. Those are described in detail in our article on this topic (Denz & Timmesfeld 2022). If those assumptions are not met, the estimates may only be used to showcase simple associations. They cannot be endowed with a counterfactual interpretation in this case.
 

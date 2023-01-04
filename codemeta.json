@@ -2,19 +2,25 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "contsurvplot",
-  "description": "Graphically display the causal effect of a continuous variable on a time-to-event outcome using multiple different types of plots based on g-computation. Those functions include, among others, survival area plots, survival contour plots, survival quantile plots and 3D surface plots. Due to the use of g-computation, all plot allow confounder-adjustment naturally. For details, see Robin Denz, Nina Timmesfeld (2022) <arXiv:2208.04644v1>.",
+  "description": "Graphically display the (causal) effect of a continuous variable on a time-to-event outcome using multiple different types of plots based on g-computation. Those functions include, among others, survival area plots, survival contour plots, survival quantile plots and 3D surface plots. Due to the use of g-computation, all plot allow confounder-adjustment naturally. For details, see Robin Denz, Nina Timmesfeld (2022) <arXiv:2208.04644v1>.",
   "name": "contsurvplot: Visualize the Effect of a Continuous Variable on a Time-to-Event Outcome",
   "relatedLink": "https://robindenz1.github.io/contsurvplot/",
   "codeRepository": "https://github.com/RobinDenz1/contsurvplot",
   "issueTracker": "https://github.com/RobinDenz1/contsurvplot/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
   "runtimePlatform": "R version 4.2.1 (2022-06-23 ucrt)",
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  },
   "author": [
     {
       "@type": "Person",
@@ -184,7 +190,7 @@
       "@type": "SoftwareApplication",
       "identifier": "ggplot2",
       "name": "ggplot2",
-      "version": ">= 3.0.0",
+      "version": ">= 3.4.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -243,7 +249,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "10044.63KB",
+  "fileSize": "12127.977KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
@@ -261,7 +267,7 @@
         }
       ],
       "name": "Visualizing the Causal Effect of a Continuous Variable on a Time-To-Event Outcome",
-      "description": "R package version 0.1.0",
+      "description": "R package version 0.2.0",
       "isPartOf": {
         "@type": "PublicationIssue",
         "datePublished": "2022",
@@ -275,5 +281,5 @@
   "releaseNotes": "https://github.com/RobinDenz1/contsurvplot/blob/master/NEWS.md",
   "readme": "https://github.com/RobinDenz1/contsurvplot/blob/main/README.md",
   "contIntegration": ["https://github.com/RobinDenz1/contsurvplot/actions", "https://app.codecov.io/gh/RobinDenz1/contsurvplot?branch=main"],
-  "developmentStatus": "https://www.repostatus.org/#wip"
+  "developmentStatus": "https://www.repostatus.org/#active"
 }

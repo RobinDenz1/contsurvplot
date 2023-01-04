@@ -115,3 +115,11 @@ test_that("using group with monotonic=FALSE", {
                               data=sim_dat, model=model),
                "The 'group' argument cannot be used with monotonic=FALSE.")
 })
+
+test_that("using discrete with monotonic=FALSE", {
+  expect_warning(plot_surv_area(time="time", status="event", variable="x3",
+                                monotonic=FALSE, discrete=TRUE,
+                                data=sim_dat, model=model),
+               paste0("To obtain valid results when using monotonic=FALSE, the",
+                      " 'horizon' should contain at least 40 distinct values."))
+})

@@ -136,7 +136,7 @@ The transparency level of the Kaplan-Meier line. Ignored if \code{kaplan_meier=F
 The color of the Kaplan-Meier line. Ignored if \code{kaplan_meier=FALSE}.
   }
   \item{monotonic}{
-A single logical value specifying whether the relationship between the \code{variable} and the survival probability is monotonic or not. If there are non-monotonic effects, the areas will be drawn on top of each other when using \code{monotonic=TRUE} (default). By setting this argument to \code{FALSE}, the plot will be divided into multiple facets. Each facet contains the plot for a certain range of values of the \code{variable}, in which the effect is monotonic. The \code{group} argument may not be used with \code{monotonic=FALSE}.
+A single logical value specifying whether the relationship between the \code{variable} and the survival probability is monotonic or not. If there are non-monotonic effects, the areas will be drawn on top of each other when using \code{monotonic=TRUE} (default). By setting this argument to \code{FALSE}, the plot will be divided into multiple facets. Each facet contains the plot for a certain range of values of the \code{variable}, in which the effect is monotonic. The \code{group} argument may not be used with \code{monotonic=FALSE}. This also only works for continuously shaded ares, e.g. with horizons containing at least 40 distinct values.
   }
   \item{...}{
 Further arguments passed to \code{\link{curve_cont}}.
@@ -153,7 +153,7 @@ The major downside of this plotting method is that it has problems handling non-
 Returns a \code{ggplot2} object.
 }
 \note{
-When saving this graphic to \code{.png} or \code{.jpg} files while using \code{discrete=FALSE}, they may sometimes contain some barely visible (but very annoying) lines. Those are the divisions between the areas the plot is made off. This only happens when saving this plot to non-vector graphics, which is why we recommend saving it to \code{.pdf} or similar file types only. If other file types are neccessary, one can set the \code{transition_size} argument to higher values (such as 0.5 or 1) to remove this problem as well.
+When saving this graphic to \code{.png} or \code{.jpg} files while using \code{discrete=FALSE}, they may sometimes contain some barely visible (but very annoying) lines. Those are the divisions between the areas the plot is made off. This only happens when saving this plot to non-vector graphics, which is why we recommend saving it to \code{.pdf} or similar file types only. If other file types are necessary, one can set the \code{transition_size} argument to higher values (such as 0.5 or 1) to remove this problem as well.
 }
 \author{
 Robin Denz

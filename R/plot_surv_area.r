@@ -43,6 +43,9 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
 
   if (!is.null(group) & !monotonic) {
     stop("The 'group' argument cannot be used with monotonic=FALSE.")
+  } else if (!monotonic & length(horizon) < 40) {
+    warning("To obtain valid results when using monotonic=FALSE, the",
+            " 'horizon' should contain at least 40 distinct values.")
   }
 
   # only show up to max_t
