@@ -1,6 +1,6 @@
 Package: contsurvplot
 Title: Visualize the Effect of a Continuous Variable on a Time-to-Event Outcome
-Version: 0.2.0
+Version: 0.2.0.9000
 Authors@R: 
     person("Robin", "Denz", , "robin.denz@rub.de", role = c("aut", "cre"))
 Maintainer: Robin Denz <robin.denz@rub.de>
@@ -11,7 +11,7 @@ Description: Graphically display the (causal) effect of a continuous variable on
 	For details, see Robin Denz, Nina Timmesfeld (2022) <arXiv:2208.04644v1>.
 License: GPL (>= 3)
 URL: https://github.com/RobinDenz1/contsurvplot,
-	https://robindenz1.github.io/contsurvplot/
+    https://robindenz1.github.io/contsurvplot/
 BugReports: https://github.com/RobinDenz1/contsurvplot/issues
 Imports:
 	ggplot2 (>= 3.4.0),
