@@ -6,7 +6,7 @@
 plot_surv_area <- function(time, status, variable, group=NULL, data, model,
                            cif=FALSE, na.action=options()$na.action,
                            horizon=NULL, fixed_t=NULL, max_t=Inf,
-                           start_color="blue", end_color="red", alpha=1,
+                           start_color="blue",mid_color="white" ,end_color="red", alpha=1,
                            discrete=FALSE, bins=ifelse(discrete, 10, 40),
                            sep_lines=FALSE, sep_color="black", sep_size=0.1,
                            sep_linetype="solid", sep_alpha=alpha,
@@ -105,7 +105,7 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
 
   } else {
     p <- p + ggplot2::geom_step(alpha=0) +
-      ggplot2::scale_color_gradient(low=start_color, high=end_color)
+      ggplot2::scale_color_gradient2(low=start_color, mid =mid_color,high=end_color)
   }
 
   # one-by-one add area between curves
