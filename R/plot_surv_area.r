@@ -77,7 +77,7 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
   }
 
   # create enough colors
-  colgrad_fun <- grDevices::colorRampPalette(c(start_color, end_color))
+  colgrad_fun <- grDevices::colorRampPalette(c(start_color, mid_color, end_color))
   colgrad <- colgrad_fun(length(horizon)-1)
 
   # initialize plot
