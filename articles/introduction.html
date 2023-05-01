@@ -99,7 +99,7 @@ confounders exist that need to be accounted for. In this case, methods
 that explicitly remove the influence of confounders need to be used to
 estimate the curves. Luckily, there are quite a few of those methods and
 also associated R-packages that implement them directly, such as the
-<code>adjustedCurves</code> package (Denz et al. 2022).</p>
+<code>adjustedCurves</code> package (Denz et al. 2023).</p>
 <p>In many cases however, we are not interested in the effect of a
 categorical variable. Instead we want to show the effect of a
 <em>continuous</em> variable, for example when studying a new biomarker
@@ -110,7 +110,7 @@ practically non-existent.</p>
 <p>The <code>contsurvplot</code> package tries to fill this gap by
 providing multiple types of plots to visualize the causal effect of a
 continuous variable on a time-to-event outcome (Denz &amp; Timmesfeld
-2022). All plots included rely on a previously fit model that describes
+2023). All plots included rely on a previously fit model that describes
 the effect of the target variable on the time-to-event outcome. This
 model is then used to perform <em>G-Computation</em> (Robins 1986) to
 estimate covariate-level-specific survival curves or cumulative
@@ -118,7 +118,7 @@ incidence functions (CIF). By including confounders in the model, all
 plots are naturally adjusted for these confounders. In this vignette, we
 will showcase the usage of these methods. More details and discussion of
 the plots presented here can be found in the paper associated with this
-package (Denz &amp; Timmesfeld 2022).</p>
+package (Denz &amp; Timmesfeld 2023).</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -485,7 +485,9 @@ using the <code>plot_surv_heatmap</code> function:</p>
 <span>                  status<span class="op">=</span><span class="st">"status"</span>,</span>
 <span>                  variable<span class="op">=</span><span class="st">"nodes"</span>,</span>
 <span>                  data<span class="op">=</span><span class="va">colon</span>,</span>
-<span>                  model<span class="op">=</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
+<span>                  model<span class="op">=</span><span class="va">model</span>,</span>
+<span>                  start_color<span class="op">=</span><span class="st">"blue"</span>,</span>
+<span>                  end_color<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_files/figure-html/unnamed-chunk-19-1.png" width="672"></p>
 <p>In this plot the survival time is still on the x-axis, but the
 continuous variable (here the lymph nodes) is on the y-axis and the
@@ -501,7 +503,9 @@ using the <code>contour_lines</code> argument:</p>
 <span>                  variable<span class="op">=</span><span class="st">"nodes"</span>,</span>
 <span>                  data<span class="op">=</span><span class="va">colon</span>,</span>
 <span>                  model<span class="op">=</span><span class="va">model</span>,</span>
-<span>                  contour_lines<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span>                  contour_lines<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>                  start_color<span class="op">=</span><span class="st">"blue"</span>,</span>
+<span>                  end_color<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction_files/figure-html/unnamed-chunk-20-1.png" width="672"></p>
 </div>
 <div class="section level3">
@@ -686,11 +690,12 @@ the same way:</p>
 <div class="section level2">
 <h2 id="literature">Literature<a class="anchor" aria-label="anchor" href="#literature"></a>
 </h2>
-<p>Robin Denz, Nina Timmesfeld (2022). Visualizing the Causal Effect of
-a Continuous Variable on a Time-To-Event Outcome. arXiv:2208.04644v1</p>
-<p>Robin Denz, Renate Klaaßen-Mielke, and Nina Timmesfeld (2022). A
-Comparison of Different Methods to Adjust Survival Curves for
-Confounders. arXiv:2203.10002v1</p>
+<p>Robin Denz, Nina Timmesfeld (2023). Visualizing the (Causal) Effect
+of a Continuous Variable on a Time-To-Event Outcome. arXiv:2208.04644v1
+(accepted for publication in Epidemiology)</p>
+<p>Robin Denz, Renate Klaaßen-Mielke, and Nina Timmesfeld. A Comparison
+of Different Methods to Adjust Survival Curves for Confounders.
+Statistics in Medicine (2023) 42:10, pages 1461-1479.</p>
 <p>Brice Ozenne, Anne Lyngholm Sorensen, Thomas Scheike, Christian
 Torp-Pedersen and Thomas Alexander Gerds. riskRegression: Predicting the
 Risk of an Event using Cox Regression Models. The R Journal (2017) 9:2,
