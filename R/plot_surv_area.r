@@ -104,9 +104,9 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
         fill=ggplot2::guide_legend(override.aes=list(alpha=alpha)))
 
   } else {
+    mid = mean(data[[variable]])
     p <- p + ggplot2::geom_step(alpha=0) +
-      ggplot2::scale_color_gradient2(low=start_color, mid =mid_color,high=end_color, guide = "colourbar")
-      
+      ggplot2::scale_color_gradient2(midpoint = mid,low=start_color, mid =mid_color,high=end_color, guide = "colourbar")
   }
 
   # one-by-one add area between curves
