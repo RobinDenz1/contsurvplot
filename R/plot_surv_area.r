@@ -80,8 +80,12 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
   colgrad <- colgrad_fun(length(horizon)-1)
 
   # initialize plot
-  mid = median(plotdata$cont)
+  #mid = median(plotdata$cont)
+  mid = 5.8
   print(mid)
+  print(summary(plotdata$cont))
+  print(summary(data[[variable]]))
+
   p <- ggplot2::ggplot(plotdata, ggplot2::aes(x=.data$time, y=.data$est,
                                               color=.data$cont))
 
