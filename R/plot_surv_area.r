@@ -75,6 +75,7 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
     plotdata$partition <- cut(plotdata$cont, breaks=cut_points,
                               include.lowest=TRUE)
   }
+  print(plotdata)
 
   # create enough colors
   colgrad_fun <- grDevices::colorRampPalette(c(start_color, mid_color, end_color))
