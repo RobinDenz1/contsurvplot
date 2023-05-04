@@ -133,8 +133,7 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
       surv_segment$aes_params$colour <- colgrad[i]
       surv_segment$aes_params$size <- transition_size
     }
-    p <- p + surv_segment +
-    ggplot2::scale_colour_gradient2()
+    p <- p + surv_segment 
   }
 
   if (sep_lines) {
