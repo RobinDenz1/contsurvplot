@@ -75,16 +75,15 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
     plotdata$partition <- cut(plotdata$cont, breaks=cut_points,
                               include.lowest=TRUE)
   }
-  print(plotdata)
-
   # create enough colors
   colgrad_fun <- grDevices::colorRampPalette(c(start_color, mid_color, end_color))
   colgrad <- colgrad_fun(length(horizon)-1)
 
   # initialize plot
-  mid = median(data[[variable]])
+  mid = median(plotdata$cont)
+  print(mid)
   p <- ggplot2::ggplot(plotdata, ggplot2::aes(x=.data$time, y=.data$est,
-                                              color=.data[[variable]]))
+                                              color=.data$cont))
 
   # # NOTE: Invisible lines/tiles are added here just to get the correct legend
   if (discrete) {
@@ -107,7 +106,7 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
 
   } else {
     p <- p + ggplot2::geom_step(alpha=0) +
-      ggplot2::scale_color_gradient2(midpoint = mid,low=start_color, mid =mid_color,high=end_color, guide = "colourbar")
+      ggplot2::scale_color_gradient2(midpoint = mid,low=start_color, mid =mid_color,high=end_color, guide = "colourbar", aesthetics = c("fill", "colour"))
   }
 
   # one-by-one add area between curves
