@@ -80,6 +80,10 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
   colgrad_fun <- grDevices::colorRampPalette(c(start_color, mid_color, end_color))
   colgrad <- colgrad_fun(length(horizon)-1)
 
+  # scale the data to cover a wider range of values ##! fix for legend value skipping
+  plotdata$cont <- scale(plotdata$cont)
+  summary(plotdata$cont) ##!test for legend_value skipping
+
   # initialize plot
   p <- ggplot2::ggplot(plotdata, ggplot2::aes(x=.data$time, y=.data$est,
                                               color=.data$cont))
