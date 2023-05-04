@@ -105,7 +105,7 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
 
   } else {
     p <- p + ggplot2::geom_step(alpha=0) +
-      ggplot2::scale_color_gradient2(low=start_color, mid =mid_color,high=end_color, guide = "colorbar")
+      ggplot2::scale_color_gradient2(low=start_color, mid =mid_color,high=end_color, guide = "colourbar")
       
   }
 
