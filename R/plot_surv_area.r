@@ -81,9 +81,9 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
   colgrad <- colgrad_fun(length(horizon)-1)
 
   # initialize plot
-  mid = median(plotdata$cont)
+  mid = median(data[[variable]])
   p <- ggplot2::ggplot(plotdata, ggplot2::aes(x=.data$time, y=.data$est,
-                                              color=.data$cont))
+                                              color=.data[[variable]]))
 
   # # NOTE: Invisible lines/tiles are added here just to get the correct legend
   if (discrete) {
