@@ -81,6 +81,7 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
   colgrad <- colgrad_fun(length(horizon)-1)
 
   # initialize plot
+  mid = median(plotdata$cont)
   p <- ggplot2::ggplot(plotdata, ggplot2::aes(x=.data$time, y=.data$est,
                                               color=.data$cont))
 
@@ -104,7 +105,6 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
         fill=ggplot2::guide_legend(override.aes=list(alpha=alpha)))
 
   } else {
-    mid = median(data[[variable]])
     p <- p + ggplot2::geom_step(alpha=0) +
       ggplot2::scale_color_gradient2(midpoint = mid,low=start_color, mid =mid_color,high=end_color, guide = "colourbar")
   }
