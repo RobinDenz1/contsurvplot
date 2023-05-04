@@ -80,9 +80,7 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
   colgrad_fun <- grDevices::colorRampPalette(c(start_color, mid_color, end_color))
   colgrad <- colgrad_fun(length(horizon)-1)
 
-  # scale the data to cover a wider range of values ##! fix for legend value skipping
-  plotdata$cont <- scale(plotdata$cont)
-  summary(plotdata$cont) ##!test for legend_value skipping
+  print(summary(plotdata$cont)) ##!test for legend_value skipping
 
   # initialize plot
   p <- ggplot2::ggplot(plotdata, ggplot2::aes(x=.data$time, y=.data$est,
@@ -109,7 +107,8 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
 
   } else {
     p <- p + ggplot2::geom_step(alpha=0) +
-      ggplot2::scale_color_gradient2(low=start_color, mid =mid_color,high=end_color)
+      ggplot2::scale_color_gradient2(low=start_color, mid =mid_color,high=end_color)+
+      ggplot2::labs(color = "cont")
   }
 
   # one-by-one add area between curves
