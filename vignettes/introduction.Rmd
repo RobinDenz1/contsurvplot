@@ -17,11 +17,11 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-Stratified survival curves are a great way to visualize the effect of a categorical variable, such as treatment status, on the survival time. They are easy to produce, easy to understand and (if done correctly) visually appealing. The situation is slightly more complicated when confounders exist that need to be accounted for. In this case, methods that explicitly remove the influence of confounders need to be used to estimate the curves. Luckily, there are quite a few of those methods and also associated R-packages that implement them directly, such as the `adjustedCurves` package (Denz et al. 2022).
+Stratified survival curves are a great way to visualize the effect of a categorical variable, such as treatment status, on the survival time. They are easy to produce, easy to understand and (if done correctly) visually appealing. The situation is slightly more complicated when confounders exist that need to be accounted for. In this case, methods that explicitly remove the influence of confounders need to be used to estimate the curves. Luckily, there are quite a few of those methods and also associated R-packages that implement them directly, such as the `adjustedCurves` package (Denz et al. 2023).
 
 In many cases however, we are not interested in the effect of a categorical variable. Instead we want to show the effect of a *continuous* variable, for example when studying a new biomarker to predict a certain disease. Currently, there is only a small amount of research on this topic and even less publicly available code. When confounder-adjustment is required, the available code and literature is practically non-existent.
 
-The `contsurvplot` package tries to fill this gap by providing multiple types of plots to visualize the causal effect of a continuous variable on a time-to-event outcome (Denz & Timmesfeld 2022). All plots included rely on a previously fit model that describes the effect of the target variable on the time-to-event outcome. This model is then used to perform *G-Computation* (Robins 1986) to estimate covariate-level-specific survival curves or cumulative incidence functions (CIF). By including confounders in the model, all plots are naturally adjusted for these confounders. In this vignette, we will showcase the usage of these methods. More details and discussion of the plots presented here can be found in the paper associated with this package (Denz & Timmesfeld 2022).
+The `contsurvplot` package tries to fill this gap by providing multiple types of plots to visualize the causal effect of a continuous variable on a time-to-event outcome (Denz & Timmesfeld 2023). All plots included rely on a previously fit model that describes the effect of the target variable on the time-to-event outcome. This model is then used to perform *G-Computation* (Robins 1986) to estimate covariate-level-specific survival curves or cumulative incidence functions (CIF). By including confounders in the model, all plots are naturally adjusted for these confounders. In this vignette, we will showcase the usage of these methods. More details and discussion of the plots presented here can be found in the paper associated with this package (Denz & Timmesfeld 2023).
 
 # Installation
 
@@ -267,7 +267,9 @@ plot_surv_heatmap(time="time",
                   status="status",
                   variable="nodes",
                   data=colon,
-                  model=model)
+                  model=model,
+                  start_color="blue",
+                  end_color="red")
 ```
 
 In this plot the survival time is still on the x-axis, but the continuous variable (here the lymph nodes) is on the y-axis and the survival probability at each point is shown using a continuous color scale. This works well if the variable has a big effect on the survival, as is the case here. It does however tend to obscure small causal effects.
@@ -280,7 +282,9 @@ plot_surv_heatmap(time="time",
                   variable="nodes",
                   data=colon,
                   model=model,
-                  contour_lines=TRUE)
+                  contour_lines=TRUE,
+                  start_color="blue",
+                  end_color="red")
 ```
 
 ## Survival Contours
@@ -428,9 +432,9 @@ In this case, the differences are not extremely big because `sex` does not have 
 
 # Literature
 
-Robin Denz, Nina Timmesfeld (2022). Visualizing the Causal Effect of a Continuous Variable on a Time-To-Event Outcome. arXiv:2208.04644v1
+Robin Denz, Nina Timmesfeld (2023). Visualizing the (Causal) Effect of a Continuous Variable on a Time-To-Event Outcome. arXiv:2208.04644v1 (accepted for publication in Epidemiology)
 
-Robin Denz, Renate Klaaßen-Mielke, and Nina Timmesfeld (2022). A Comparison of Different Methods to Adjust Survival Curves for Confounders. arXiv:2203.10002v1
+Robin Denz, Renate Klaaßen-Mielke, and Nina Timmesfeld. A Comparison of Different Methods to Adjust Survival Curves for Confounders. Statistics in Medicine (2023) 42:10, pages 1461-1479.
 
 Brice Ozenne, Anne Lyngholm Sorensen, Thomas Scheike, Christian Torp-Pedersen and Thomas Alexander Gerds. riskRegression: Predicting the Risk of an Event using Cox Regression Models. The R Journal (2017) 9:2, pages 440-460.
 
