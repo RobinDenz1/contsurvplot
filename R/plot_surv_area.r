@@ -6,7 +6,7 @@
 plot_surv_area <- function(time, status, variable, group=NULL, data, model,
                            cif=FALSE, na.action=options()$na.action,
                            horizon=NULL, fixed_t=NULL, max_t=Inf,
-                           start_color="blue",mid_color=NA ,end_color="red", alpha=1,
+                           start_color="blue",mid_color=NULL ,end_color="red", alpha=1,
                            discrete=FALSE, bins=ifelse(discrete, 10, 40),
                            sep_lines=FALSE, sep_color="black", sep_size=0.1,
                            sep_linetype="solid", sep_alpha=alpha,
@@ -77,12 +77,12 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
   }
   # create enough colors
   # If mid_color is not specified, do not use it.
-  if (is.na(mid_color)) {
+  if (is.null(mid_color)) {
     colgrad_fun <- grDevices::colorRampPalette(c(start_color, end_color))
   } else {
     colgrad_fun <- grDevices::colorRampPalette(c(start_color, mid_color, end_color))
-  colgrad <- colgrad_fun(length(horizon)-1)
   }
+  colgrad <- colgrad_fun(length(horizon)-1)
 
   # initialize plot
   mid = median(plotdata$cont)
@@ -110,7 +110,7 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
 
   } else {
     # If mid_color is not specified, do not use it.
-    if (is.na(mid_color)) {
+    if (is.null(mid_color)) {
       p <- p + ggplot2::geom_step(alpha=0) +
         ggplot2::scale_color_gradient(low=start_color, high=end_color, guide = "colourbar", aesthetics = c("fill", "colour"))
     } else {
