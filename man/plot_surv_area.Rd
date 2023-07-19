@@ -159,7 +159,7 @@ When saving this graphic to \code{.png} or \code{.jpg} files while using \code{d
 Robin Denz
 }
 \references{
-Robin Denz, Nina Timmesfeld (2022). Visualizing the Causal Effect of a Continuous Variable on a Time-To-Event Outcome. arXiv:2208.04644v1
+Robin Denz, Nina Timmesfeld (2023). "Visualizing the (Causal) Effect of a Continuous Variable on a Time-To-Event Outcome". In: Epidemiology 34.5
 }
 \examples{
 library(contsurvplot)

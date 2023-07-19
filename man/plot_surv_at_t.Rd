@@ -114,6 +114,8 @@ Robin Denz
 }
 \references{
 Shen, Y.-M.; Le, L. D.; Wilson, R. & Mansmann, U. Graphical Presentation of Patient-Treatment Interaction Elucidated by Continuous Biomarkers: Current Practice and Scope for Improvement Methods of Information in Medicine, 2017, 56, 13-27
+
+Robin Denz, Nina Timmesfeld (2023). "Visualizing the (Causal) Effect of a Continuous Variable on a Time-To-Event Outcome". In: Epidemiology 34.5
 }
 \examples{
 library(contsurvplot)

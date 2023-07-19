@@ -134,7 +134,7 @@ By supplying a \code{model} that directly takes into account competing events an
 Returns a \code{data.frame} containing the columns \code{time} (the point in time), \code{est} (the estimated survival probability or CIF) and \code{cont} (the specific value of \code{variable} used). If \code{group} was used, it includes the additional \code{group} column, specifying the level of the grouping variable. If \code{conf_int=TRUE} was used, it additionally includes the columns \code{se} (bootstrap standard error of the estimate), \code{ci_lower} (lower limit of the bootstrap confidence interval) and \code{ci_upper} (upper limit of the bootstrap confidence interval).
 }
 \references{
-Robin Denz, Nina Timmesfeld (2022). Visualizing the Causal Effect of a Continuous Variable on a Time-To-Event Outcome. arXiv:2208.04644v1
+Robin Denz, Nina Timmesfeld (2023). "Visualizing the (Causal) Effect of a Continuous Variable on a Time-To-Event Outcome". In: Epidemiology 34.5
 
 Brice Ozenne, Anne Lyngholm Sorensen, Thomas Scheike, Christian Torp-Pedersen and Thomas Alexander Gerds. riskRegression: Predicting the Risk of an Event using Cox Regression Models. The R Journal (2017) 9:2, pages 440-460.
 

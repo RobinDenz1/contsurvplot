@@ -432,7 +432,7 @@ In this case, the differences are not extremely big because `sex` does not have 
 
 # Literature
 
-Robin Denz, Nina Timmesfeld (2023). Visualizing the (Causal) Effect of a Continuous Variable on a Time-To-Event Outcome. arXiv:2208.04644v1 (accepted for publication in Epidemiology)
+Robin Denz, Nina Timmesfeld (2023). "Visualizing the (Causal) Effect of a Continuous Variable on a Time-To-Event Outcome". In: Epidemiology 34.5
 
 Robin Denz, Renate Klaaßen-Mielke, and Nina Timmesfeld. A Comparison of Different Methods to Adjust Survival Curves for Confounders. Statistics in Medicine (2023) 42:10, pages 1461-1479.
 

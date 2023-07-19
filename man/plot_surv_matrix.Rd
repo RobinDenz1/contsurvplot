@@ -143,6 +143,9 @@ Returns a \code{ggplot2} object.
 \author{
 Robin Denz
 }
+\references{
+Robin Denz, Nina Timmesfeld (2023). "Visualizing the (Causal) Effect of a Continuous Variable on a Time-To-Event Outcome". In: Epidemiology 34.5
+}
 \examples{
 library(contsurvplot)
 library(riskRegression)

@@ -2,9 +2,11 @@ year <- sub("-.*", "", meta$Date)
 note <- sprintf("R package version %s", meta$Version)
 
 bibentry(bibtype = "Article",
-         title = "Visualizing the Causal Effect of a Continuous Variable on a Time-To-Event Outcome",
+         title = "Visualizing the (Causal) Effect of a Continuous Variable on a Time-To-Event Outcome",
          author = c(person("Robin", "Denz"),
                     person("Nina", "Timmesfeld")),
-		 journal = "arXiv:2208.04644v1",
-         year = 2022,
-         note = note)
+		 journal = "Epidemiology",
+         year = 2023,
+         volume = 34,
+		 number = 5,
+		 url = "https://doi.org/10.1097/EDE.0000000000001630")
