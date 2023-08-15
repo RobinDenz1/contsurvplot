@@ -24,3 +24,9 @@ New Features:
 * Added support for plotting Kaplan-Meier curves as reference in `plot_surv_area`, `plot_surv_animated`, `plot_surv_lines`
 * Added the `monotonic` argument in the `plot_surv_area` function to allow plotting curved relationships
 * Vignette now includes `plot_surv_matrix` function
+
+# contsurvplot 0.2.1
+
+Documentation:
+
+* Updated citation information to include published manuscript

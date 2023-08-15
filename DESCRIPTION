@@ -1,6 +1,6 @@
 Package: contsurvplot
 Title: Visualize the Effect of a Continuous Variable on a Time-to-Event Outcome
-Version: 0.2.0.9000
+Version: 0.2.1
 Authors@R: 
     person("Robin", "Denz", , "robin.denz@rub.de", role = c("aut", "cre"))
 Maintainer: Robin Denz <robin.denz@rub.de>
