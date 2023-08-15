@@ -4,6 +4,7 @@
 [![](http://cranlogs.r-pkg.org/badges/grand-total/contsurvplot?color=blue)](https://cran.r-project.org/package=contsurvplot)
 [![R-CMD-check](https://github.com/RobinDenz1/contsurvplot/workflows/R-CMD-check/badge.svg)](https://github.com/RobinDenz1/contsurvplot/actions)
 [![Codecov test coverage](https://codecov.io/gh/RobinDenz1/contsurvplot/branch/main/graph/badge.svg)](https://app.codecov.io/gh/RobinDenz1/contsurvplot?branch=main)
+[![](https://img.shields.io/badge/doi-10.1097/EDE.0000000000001630-green.svg)](https://doi.org/10.1097/EDE.0000000000001630)
 <!-- badges: end -->
 
 # contsurvplot <img src="man/figures/logo.png" height="240" align="right" />
