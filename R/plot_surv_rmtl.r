@@ -32,7 +32,7 @@ plot_surv_rmtl <- function(time, status, variable, group=NULL,
   }
 
   # get plotdata
-  fixed_t <- c(0, sort(unique(data[, time][data[, status]==1])))
+  fixed_t <- c(0, sort(unique(data[, time][data[, status] >= 1])))
   plotdata <- curve_cont(data=data,
                          variable=variable,
                          group=group,
@@ -54,14 +54,14 @@ plot_surv_rmtl <- function(time, status, variable, group=NULL,
     for (i in seq_len(length(group_levs))) {
       temp <- plotdata[plotdata$group==group_levs[i], ]
       out_i <- cont_surv_auc(plotdata=temp, tau=tau)
-      out_i$facet_var <- group_levs[i]
+      out_i$group <- group_levs[i]
       out[[i]] <- out_i
     }
     out <- dplyr::bind_rows(out)
   }
 
   # plot them
-  p <- ggplot2::ggplot(out, ggplot2::aes(x=.data$group, y=.data$rmst,
+  p <- ggplot2::ggplot(out, ggplot2::aes(x=.data$cont, y=.data$auc,
                                          color=.data$tau))
 
   if (length(tau)==1) {
@@ -84,7 +84,7 @@ plot_surv_rmtl <- function(time, status, variable, group=NULL,
   }
   # facet plot by factor variable
   if (!is.null(group)) {
-    facet_args$facets <- stats::as.formula("~ facet_var")
+    facet_args$facets <- stats::as.formula("~ group")
     facet_obj <- do.call(ggplot2::facet_wrap, facet_args)
     p <- p + facet_obj
   }
