@@ -98,6 +98,9 @@ plot_surv_lines <- function(time, status, variable, group=NULL, data, model,
     p <- p + ggplot2::scale_color_gradient(low=start_color, high=end_color)
   } else if (!is.null(custom_colors)) {
     p <- p + ggplot2::scale_colour_manual(values=custom_colors)
+    if (conf_int) {
+      p <- p + ggplot2::scale_fill_manual(values=custom_colors)
+    }
   }
   # add kaplan-meier estimates
   if (kaplan_meier) {
