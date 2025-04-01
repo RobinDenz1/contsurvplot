@@ -1,66 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://robindenz1.github.io/contsurvplot/404.html</loc>
-  </url>
-  <url>
-    <loc>https://robindenz1.github.io/contsurvplot/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://robindenz1.github.io/contsurvplot/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://robindenz1.github.io/contsurvplot/articles/introduction.html</loc>
-  </url>
-  <url>
-    <loc>https://robindenz1.github.io/contsurvplot/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://robindenz1.github.io/contsurvplot/index.html</loc>
-  </url>
-  <url>
-    <loc>https://robindenz1.github.io/contsurvplot/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://robindenz1.github.io/contsurvplot/reference/contsurvplot-package.html</loc>
-  </url>
-  <url>
-    <loc>https://robindenz1.github.io/contsurvplot/reference/curve_cont.html</loc>
-  </url>
-  <url>
-    <loc>https://robindenz1.github.io/contsurvplot/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_3Dsurface.html</loc>
-  </url>
-  <url>
-    <loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_animated.html</loc>
-  </url>
-  <url>
-    <loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_area.html</loc>
-  </url>
-  <url>
-    <loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_at_t.html</loc>
-  </url>
-  <url>
-    <loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_contour.html</loc>
-  </url>
-  <url>
-    <loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_heatmap.html</loc>
-  </url>
-  <url>
-    <loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_lines.html</loc>
-  </url>
-  <url>
-    <loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_matrix.html</loc>
-  </url>
-  <url>
-    <loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_quantiles.html</loc>
-  </url>
-  <url>
-    <loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_rmst.html</loc>
-  </url>
-  <url>
-    <loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_rmtl.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://robindenz1.github.io/contsurvplot/404.html</loc></url>
+<url><loc>https://robindenz1.github.io/contsurvplot/LICENSE.html</loc></url>
+<url><loc>https://robindenz1.github.io/contsurvplot/articles/index.html</loc></url>
+<url><loc>https://robindenz1.github.io/contsurvplot/articles/introduction.html</loc></url>
+<url><loc>https://robindenz1.github.io/contsurvplot/authors.html</loc></url>
+<url><loc>https://robindenz1.github.io/contsurvplot/index.html</loc></url>
+<url><loc>https://robindenz1.github.io/contsurvplot/news/index.html</loc></url>
+<url><loc>https://robindenz1.github.io/contsurvplot/reference/contsurvplot-package.html</loc></url>
+<url><loc>https://robindenz1.github.io/contsurvplot/reference/curve_cont.html</loc></url>
+<url><loc>https://robindenz1.github.io/contsurvplot/reference/index.html</loc></url>
+<url><loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_3Dsurface.html</loc></url>
+<url><loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_animated.html</loc></url>
+<url><loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_area.html</loc></url>
+<url><loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_at_t.html</loc></url>
+<url><loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_contour.html</loc></url>
+<url><loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_heatmap.html</loc></url>
+<url><loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_lines.html</loc></url>
+<url><loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_matrix.html</loc></url>
+<url><loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_quantiles.html</loc></url>
+<url><loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_rmst.html</loc></url>
+<url><loc>https://robindenz1.github.io/contsurvplot/reference/plot_surv_rmtl.html</loc></url>
 </urlset>
+
