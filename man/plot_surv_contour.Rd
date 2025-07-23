@@ -39,7 +39,7 @@ An optional single character string specifying a factor variable in \code{data}.
 A \code{data.frame} containing all required variables.
   }
   \item{model}{
-A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{\link[=riskRegression]{predictRisk}} method. See \code{?predictRisk} for more details.
+A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{\link[riskRegression]{predictRisk}} method. See \code{?predictRisk} for more details.
   }
   \item{cif}{
 Whether to plot the cumulative incidence (CIF) instead of the survival probability. If multiple failure types are present, the survival probability cannot be estimated in an unbiased way. This function will always return CIF estimates in that case.
@@ -57,7 +57,7 @@ A numeric vector containing points in time at which the survival probabilities s
 A number indicating the latest survival time which is to be plotted.
   }
   \item{size}{
-The size of the individual lines plotted by the \code{\link[=ggplot2]{geom_contour_filled}} function. Usually this option can be kept at 0.1 (default).
+The size of the individual lines plotted by the \code{\link[ggplot2]{geom_contour_filled}} function. Usually this option can be kept at 0.1 (default).
   }
   \item{linetype}{
 The linetype of the contour lines.
@@ -66,13 +66,13 @@ The linetype of the contour lines.
 The transparency level of the plot.
   }
   \item{bins}{
-A single number specifying how many categories the survival probability or CIF should be divided in, or \code{NULL} (default). If \code{NULL}, the defaults in \code{\link[=ggplot2]{geom_contour_filled}} are used.
+A single number specifying how many categories the survival probability or CIF should be divided in, or \code{NULL} (default). If \code{NULL}, the defaults in \code{\link[ggplot2]{geom_contour_filled}} are used.
   }
   \item{binwidth}{
-A single number specifying the width of the bins of the survival probability or CIF categories, or \code{NULL} (default). If \code{NULL}, the defaults in \code{\link[=ggplot2]{geom_contour_filled}} are used.
+A single number specifying the width of the bins of the survival probability or CIF categories, or \code{NULL} (default). If \code{NULL}, the defaults in \code{\link[ggplot2]{geom_contour_filled}} are used.
   }
   \item{breaks}{
-A vector of specific breaks to create the survival probability or CIF bins, or \code{NULL} (default). If \code{NULL}, the defaults in \code{\link[=ggplot2]{geom_contour_filled}} are used.
+A vector of specific breaks to create the survival probability or CIF bins, or \code{NULL} (default). If \code{NULL}, the defaults in \code{\link[ggplot2]{geom_contour_filled}} are used.
   }
   \item{custom_colors}{
 A character vector of custom colors that should be used for each contour area.
@@ -99,7 +99,7 @@ Where to put the legend. See \code{?theme} for more details.
 A \pkg{ggplot2} theme which is applied to the plot.
   }
   \item{facet_args}{
-A named list of arguments that are passed to the \code{\link{facet_wrap}} function call when creating a plot separated by groups. Ignored if \code{group=NULL}. Any argument except the \code{facets} argument of the \code{\link{facet_wrap}} function can be used. For example, if the user wants to allow free y-scales, this argument could be set to \code{list(scales="free_y")}.
+A named list of arguments that are passed to the \code{\link[ggplot2]{facet_wrap}} function call when creating a plot separated by groups. Ignored if \code{group=NULL}. Any argument except the \code{facets} argument of the \code{\link[ggplot2]{facet_wrap}} function can be used. For example, if the user wants to allow free y-scales, this argument could be set to \code{list(scales="free_y")}.
   }
   \item{panel_border}{
 Whether to draw a border around the heatmap or not. Is set to FALSE by default to mimic standard heatmaps.
@@ -116,7 +116,7 @@ Contour plots are a great way to reduce three dimensions to a two-dimensional pl
 
 This type of plot has been described in Jackson & Cox (2021). However, the authors of that article propose a different method to estimate the needed data for the plot.
 
-Internally, this function uses the \code{\link[=ggplot2]{geom_contour_filled}} function of the \pkg{ggplot2} package to create the plot, after estimating the required probabilities using the \code{\link{curve_cont}} function.
+Internally, this function uses the \code{\link[ggplot2]{geom_contour_filled}} function of the \pkg{ggplot2} package to create the plot, after estimating the required probabilities using the \code{\link{curve_cont}} function.
 }
 \value{
 Returns a \code{ggplot2} object.

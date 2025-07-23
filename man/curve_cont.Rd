@@ -76,7 +76,7 @@ How missing values should be handled. Can be one of: \code{na.fail}, \code{na.om
 Either \code{TRUE} or \code{FALSE} (default). If \code{TRUE} (and \code{conf_int=TRUE}) this function will return the individual bootstrap estimates instead of the usual estimates. This may be useful to perform tests or calculate other type of bootstrap confidence intervals manually.
   }
   \item{...}{
-Further arguments passed to \code{\link[=riskRegression]{predictRisk}}.
+Further arguments passed to \code{\link[riskRegression]{predictRisk}}.
   }
 }
 \details{
@@ -111,7 +111,7 @@ To obtain valid estimates of the target estimand using this function, the fundam
 
 \strong{\emph{Supported Models}}
 
-This function relies on the \code{\link[=riskRegression]{predictRisk}} function from the \pkg{riskRegression} package to create the covariate and time specific estimates of the probabilities. All models with an associated \code{predictRisk} method may be used in this function. This includes a variety of models, such as the Cox proportional hazards regression model and the aalen additive hazards model. If the model that should be used has no \code{predictRisk} method, the user either needs to write their own \code{predictRisk} method or contact the maintainers of the \pkg{riskRegression} package.
+This function relies on the \code{\link[riskRegression]{predictRisk}} function from the \pkg{riskRegression} package to create the covariate and time specific estimates of the probabilities. All models with an associated \code{predictRisk} method may be used in this function. This includes a variety of models, such as the Cox proportional hazards regression model and the aalen additive hazards model. If the model that should be used has no \code{predictRisk} method, the user either needs to write their own \code{predictRisk} method or contact the maintainers of the \pkg{riskRegression} package.
 
 \strong{\emph{Bootstrap Confidence Intervals}}
 
@@ -146,7 +146,7 @@ James Robins. A New Approach to Causal Inference in Mortality Studies with a Sus
 Robin Denz
 }
 \seealso{
-\code{\link[=riskRegression]{predictRisk}}
+\code{\link[riskRegression]{predictRisk}}
 }
 \examples{
 library(contsurvplot)

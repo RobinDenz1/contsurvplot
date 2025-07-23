@@ -76,7 +76,7 @@ plot_surv_lines <- function(time, status, variable, group=NULL, data, model,
                                               group=as.factor(.data$cont)))
   # add confidence intervals
   if (conf_int) {
-    requireNamespace("pammtools")
+    requireNamespace("pammtools", quietly=TRUE)
 
     p <- p + pammtools::geom_stepribbon(ggplot2::aes(x=.data$time,
                                                      y=.data$est,
@@ -106,7 +106,7 @@ plot_surv_lines <- function(time, status, variable, group=NULL, data, model,
                                conf_type=km_ci_type, conf_level=km_ci_level,
                                cif=cif)
     if (km_ci) {
-      requireNamespace("pammtools")
+      requireNamespace("pammtools", quietly=TRUE)
 
       p <- p + pammtools::geom_stepribbon(data=km_dat,
                                           ggplot2::aes(x=.data$time,

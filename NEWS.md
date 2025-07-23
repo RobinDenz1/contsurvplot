@@ -1,7 +1,19 @@
-# contsurvplot 0.1.0
 
-* This is the first release of this package
-* Added a reference to the main paper to the description file
+# contsurvplot 0.2.2
+
+Documentation:
+
+* Updated hyperlinks in documentation to be CRAN compliant
+
+Enhancements:
+
+* Packages are now loaded quietly
+
+# contsurvplot 0.2.1
+
+Documentation:
+
+* Updated citation information to include published manuscript
 
 # contsurvplot 0.2.0
 
@@ -25,8 +37,7 @@ New Features:
 * Added the `monotonic` argument in the `plot_surv_area` function to allow plotting curved relationships
 * Vignette now includes `plot_surv_matrix` function
 
-# contsurvplot 0.2.1
+# contsurvplot 0.1.0
 
-Documentation:
-
-* Updated citation information to include published manuscript
+* This is the first release of this package
+* Added a reference to the main paper to the description file

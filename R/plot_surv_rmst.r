@@ -55,7 +55,7 @@ plot_surv_rmst <- function(time, status, variable, group=NULL,
                            legend.title=variable, legend.position="right",
                            gg_theme=ggplot2::theme_bw(),
                            facet_args=list(), ...) {
-  requireNamespace("dplyr")
+  requireNamespace("dplyr", quietly=TRUE)
 
   data <- use_data.frame(data)
 

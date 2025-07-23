@@ -74,7 +74,7 @@ plot_surv_animated <- function(time, status, variable, group=NULL, data, model,
     stop("Showing confidence intervals is currently not supported when using",
          " slider=TRUE.")
   } else if (conf_int) {
-    requireNamespace("pammtools")
+    requireNamespace("pammtools", quietly=TRUE)
 
     p <- p + pammtools::geom_stepribbon(ggplot2::aes(x=.data$time,
                                                      y=.data$est,
@@ -99,7 +99,7 @@ plot_surv_animated <- function(time, status, variable, group=NULL, data, model,
       stop("Showing confidence intervals is currently not supported when using",
            " slider=TRUE.")
     } else if (km_ci) {
-      requireNamespace("pammtools")
+      requireNamespace("pammtools", quietly=TRUE)
 
       p <- p + pammtools::geom_stepribbon(data=km_dat,
                                           ggplot2::aes(x=.data$time,
@@ -124,12 +124,12 @@ plot_surv_animated <- function(time, status, variable, group=NULL, data, model,
   }
 
   if (slider) {
-    requireNamespace("plotly")
+    requireNamespace("plotly", quietly=TRUE)
 
     return(plotly::ggplotly(p))
   } else {
-    requireNamespace("gganimate")
-    requireNamespace("transformr")
+    requireNamespace("gganimate", quietly=TRUE)
+    requireNamespace("transformr", quietly=TRUE)
 
     if (is.null(title)) {
       title <- variable

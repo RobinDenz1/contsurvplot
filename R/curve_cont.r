@@ -98,8 +98,8 @@ curve_cont <- function(data, variable, model, horizon,
 
     # perform bootstrapping (with or without multicore processing)
     if (n_cores > 1) {
-      requireNamespace("parallel")
-      requireNamespace("doParallel")
+      requireNamespace("parallel", quietly=TRUE)
+      requireNamespace("doParallel", quietly=TRUE)
 
       # silence devtools::check()
       time <- cont <- est <- NULL
@@ -192,9 +192,9 @@ curve_cont <- function(data, variable, model, horizon,
     }
   # using parallel processing
   } else {
-    requireNamespace("parallel")
-    requireNamespace("doParallel")
-    requireNamespace("foreach")
+    requireNamespace("parallel", quietly=TRUE)
+    requireNamespace("doParallel", quietly=TRUE)
+    requireNamespace("foreach", quietly=TRUE)
 
     cl <- parallel::makeCluster(n_cores, outfile="")
     doParallel::registerDoParallel(cl)

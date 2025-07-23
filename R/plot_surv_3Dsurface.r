@@ -10,7 +10,7 @@ plot_surv_3Dsurface <- function(time, status, variable, data, model,
                                 zlab=variable, ticktype="detailed",
                                 theta=120, phi=20, col="green", shade=0.5,
                                 ...) {
-  requireNamespace("reshape2")
+  requireNamespace("reshape2", quietly=TRUE)
 
   data <- use_data.frame(data)
 
@@ -50,7 +50,7 @@ plot_surv_3Dsurface <- function(time, status, variable, data, model,
   plot_matrix <- t(reshape2::acast(plotdata, cont~time, value.var="est"))
 
   if (interactive) {
-    requireNamespace("plotly")
+    requireNamespace("plotly", quietly=TRUE)
 
     p <- plotly::plot_ly(x=as.numeric(colnames(plot_matrix)),
                          y=as.numeric(rownames(plot_matrix)),

@@ -8,13 +8,13 @@
   "codeRepository": "https://github.com/RobinDenz1/contsurvplot",
   "issueTracker": "https://github.com/RobinDenz1/contsurvplot/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.2.1 (2022-06-23 ucrt)",
+  "runtimePlatform": "R version 4.3.3 (2024-02-29 ucrt)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -249,7 +249,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "15256.628KB",
+  "fileSize": "15267.008KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
@@ -283,5 +283,6 @@
   "releaseNotes": "https://github.com/RobinDenz1/contsurvplot/blob/master/NEWS.md",
   "readme": "https://github.com/RobinDenz1/contsurvplot/blob/main/README.md",
   "contIntegration": ["https://github.com/RobinDenz1/contsurvplot/actions", "https://app.codecov.io/gh/RobinDenz1/contsurvplot?branch=main"],
-  "developmentStatus": "https://www.repostatus.org/#active"
+  "developmentStatus": "https://www.repostatus.org/#active",
+  "keywords": ["causal-inference", "continuous", "g-computation", "survival-analysis", "visualization"]
 }
