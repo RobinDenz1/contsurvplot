@@ -1,0 +1,4 @@
+
+- add "plotdata" argument to allow the user to directly supply data himself
+- refactor auc / median survival calculation functions and export them (with man pages + tests)
+- add mid_color option

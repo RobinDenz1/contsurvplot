@@ -1,47 +1,4 @@
 
-## small function to estimate rmtl from plotdata
-cont_surv_auc <- function(plotdata, tau) {
-  plotdata$group <- as.factor(plotdata$cont)
-  plotdata$surv <- plotdata$est
-  plotdata$est <- NULL
-  plotdata$cont <- NULL
-
-  levs <- levels(plotdata$group)
-
-  out <- vector(mode="list", length=length(tau)*length(levs))
-  count <- 0
-  for (i in seq_len(length(tau))) {
-    for (j in seq_len(length(levs))) {
-      count <- count + 1
-
-      data_j <- plotdata[plotdata$group==levs[j], ]
-
-      # constrain function end
-      latest <- read_from_step_function(tau[i], data_j, est="surv", time="time")
-      data_j <- data_j[data_j$time <= tau[i], ]
-      data_j$group <- NULL
-
-      if (!tau[i] %in% data_j$time) {
-        temp <- data.frame(time=tau[i],
-                           surv=latest)
-        data_j <- rbind(data_j, temp)
-      }
-
-      # calculate rmst
-      area <- stepfun_integral(x=data_j$time, y=data_j$surv)
-
-      row <- data.frame(group=as.numeric(as.character(levs[j])),
-                        rmst=area,
-                        tau=tau[i])
-      out[[count]] <- row
-    }
-  }
-  out <- dplyr::bind_rows(out)
-  out$tau <- as.factor(out$tau)
-
-  return(out)
-}
-
 ## function to plot restricted mean survival times as they evolve over values of
 ## the continuous variable
 #' @importFrom rlang .data
@@ -96,14 +53,14 @@ plot_surv_rmst <- function(time, status, variable, group=NULL,
     for (i in seq_len(length(group_levs))) {
       temp <- plotdata[plotdata$group==group_levs[i], ]
       out_i <- cont_surv_auc(plotdata=temp, tau=tau)
-      out_i$facet_var <- group_levs[i]
+      out_i$group <- group_levs[i]
       out[[i]] <- out_i
     }
     out <- dplyr::bind_rows(out)
   }
 
   # plot them
-  p <- ggplot2::ggplot(out, ggplot2::aes(x=.data$group, y=.data$rmst,
+  p <- ggplot2::ggplot(out, ggplot2::aes(x=.data$cont, y=.data$auc,
                                          color=.data$tau))
 
   if (length(tau)==1) {
@@ -126,7 +83,7 @@ plot_surv_rmst <- function(time, status, variable, group=NULL,
   }
   # facet plot by factor variable
   if (!is.null(group)) {
-    facet_args$facets <- stats::as.formula("~ facet_var")
+    facet_args$facets <- stats::as.formula("~ group")
     facet_obj <- do.call(ggplot2::facet_wrap, facet_args)
     p <- p + facet_obj
   }
