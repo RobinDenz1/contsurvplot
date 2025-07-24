@@ -18,7 +18,7 @@
   </clipPath>
 </defs>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
-<rect x='-0.000000000000064' y='0.00' width='720.00' height='576.00' style='stroke-width: 1.07; stroke: #FFFFFF; fill: #FFFFFF;' />
+<rect x='0.000000000000064' y='0.00' width='720.00' height='576.00' style='stroke-width: 1.07; stroke: #FFFFFF; fill: #FFFFFF;' />
 </g>
 <defs>
   <clipPath id='cpNDAuMTN8MjQyLjE0fDIyLjEzfDU0NS4xMQ=='>
@@ -7573,19 +7573,19 @@
 <text x='348.63' y='568.24' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='24.45px' lengthAdjust='spacingAndGlyphs'>Time</text>
 <text transform='translate(13.05,283.62) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='93.55px' lengthAdjust='spacingAndGlyphs'>Survival Probability</text>
 <rect x='668.08' y='227.27' width='46.44' height='112.69' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
+<text x='673.56' y='241.47' style='font-size: 11.00px; font-family: sans;' textLength='11.62px' lengthAdjust='spacingAndGlyphs'>x4</text>
 <image width='17.28' height='86.40' x='673.56' y='248.09' preserveAspectRatio='none' xlink:href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAEsCAYAAAACUNnVAAAApUlEQVQ4ja2S2w4DIQhED/T/f7dJL0ofdmtrBWU3fTE4ZxgwEQNTUNRQtmo/Lr0m7SqRJqj19FsLrgnLqoN1ANO8eUBI+at5lRI+wUvJTht9/qDZs8JNE8MTvXPtkPmMltveDgeEG3g/wge0qFlywjxoY0eonQS2Xig0Z0F1wYzWPq9GHdXpqL/gTWtPQ1AaKL1WEPS5VezV53gg6B1Bb4BeEQCzF/afs1+LssM0AAAAAElFTkSuQmCC'/>
+<polyline points='687.39,317.15 690.84,317.15 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='687.39,295.41 690.84,295.41 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='687.39,273.67 690.84,273.67 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='687.39,251.93 690.84,251.93 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='677.02,317.15 673.56,317.15 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='677.02,295.41 673.56,295.41 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='677.02,273.67 673.56,273.67 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='677.02,251.93 673.56,251.93 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
 <text x='696.32' y='320.18' style='font-size: 8.80px; font-family: sans;' textLength='12.72px' lengthAdjust='spacingAndGlyphs'>-50</text>
 <text x='696.32' y='298.44' style='font-size: 8.80px; font-family: sans;' textLength='12.72px' lengthAdjust='spacingAndGlyphs'>-25</text>
 <text x='696.32' y='276.70' style='font-size: 8.80px; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>0</text>
 <text x='696.32' y='254.95' style='font-size: 8.80px; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>25</text>
-<text x='673.56' y='241.47' style='font-size: 11.00px; font-family: sans;' textLength='11.62px' lengthAdjust='spacingAndGlyphs'>x4</text>
-<line x1='673.56' y1='317.15' x2='677.02' y2='317.15' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='673.56' y1='295.41' x2='677.02' y2='295.41' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='673.56' y1='273.67' x2='677.02' y2='273.67' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='673.56' y1='251.93' x2='677.02' y2='251.93' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='687.39' y1='317.15' x2='690.84' y2='317.15' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='687.39' y1='295.41' x2='690.84' y2='295.41' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='687.39' y1='273.67' x2='690.84' y2='273.67' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='687.39' y1='251.93' x2='690.84' y2='251.93' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
 </g>
 </svg>

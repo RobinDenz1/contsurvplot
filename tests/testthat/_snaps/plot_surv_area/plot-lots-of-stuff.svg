@@ -72,9 +72,13 @@
 <text transform='translate(13.05,291.61) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='5.50px' lengthAdjust='spacingAndGlyphs'>y</text>
 <rect x='521.26' y='243.91' width='193.26' height='95.41' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
 <text x='526.74' y='258.10' style='font-size: 11.00px; font-family: sans;' textLength='33.03px' lengthAdjust='spacingAndGlyphs'>legend</text>
+<rect x='526.74' y='264.72' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
 <rect x='526.88' y='264.86' width='17.00' height='17.00' style='stroke-width: 0.21; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #BEBEBE;' />
+<rect x='526.74' y='282.00' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
 <rect x='526.88' y='282.14' width='17.00' height='17.00' style='stroke-width: 0.21; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #7E7E7E;' />
+<rect x='526.74' y='299.28' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
 <rect x='526.88' y='299.42' width='17.00' height='17.00' style='stroke-width: 0.21; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #3F3F3F;' />
+<rect x='526.74' y='316.56' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
 <rect x='526.88' y='316.70' width='17.00' height='17.00' style='stroke-width: 0.21; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #000000;' />
 <text x='549.50' y='276.39' style='font-size: 8.80px; font-family: sans;' textLength='154.65px' lengthAdjust='spacingAndGlyphs'>5.52287048194557 - 20.370064964518</text>
 <text x='549.50' y='293.67' style='font-size: 8.80px; font-family: sans;' textLength='154.65px' lengthAdjust='spacingAndGlyphs'>20.370064964518 - 35.2172594470903</text>

@@ -7480,16 +7480,16 @@
 <text x='350.09' y='568.24' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='24.45px' lengthAdjust='spacingAndGlyphs'>Time</text>
 <text transform='translate(13.05,275.30) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='93.55px' lengthAdjust='spacingAndGlyphs'>Survival Probability</text>
 <rect x='671.01' y='218.95' width='43.51' height='112.69' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
+<text x='676.49' y='233.14' style='font-size: 11.00px; font-family: sans;' textLength='11.62px' lengthAdjust='spacingAndGlyphs'>x3</text>
 <image width='17.28' height='86.40' x='676.49' y='239.76' preserveAspectRatio='none' xlink:href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAEsCAYAAAACUNnVAAAApUlEQVQ4ja2S2w4DIQhED/T/f7dJL0ofdmtrBWU3fTE4ZxgwEQNTUNRQtmo/Lr0m7SqRJqj19FsLrgnLqoN1ANO8eUBI+at5lRI+wUvJTht9/qDZs8JNE8MTvXPtkPmMltveDgeEG3g/wge0qFlywjxoY0eonQS2Xig0Z0F1wYzWPq9GHdXpqL/gTWtPQ1AaKL1WEPS5VezV53gg6B1Bb4BeEQCzF/afs1+LssM0AAAAAElFTkSuQmCC'/>
+<polyline points='690.32,305.03 693.77,305.03 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='690.32,276.03 693.77,276.03 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='690.32,247.03 693.77,247.03 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='679.95,305.03 676.49,305.03 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='679.95,276.03 676.49,276.03 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
+<polyline points='679.95,247.03 676.49,247.03 ' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
 <text x='699.25' y='308.06' style='font-size: 8.80px; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>20</text>
 <text x='699.25' y='279.06' style='font-size: 8.80px; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>40</text>
 <text x='699.25' y='250.06' style='font-size: 8.80px; font-family: sans;' textLength='9.79px' lengthAdjust='spacingAndGlyphs'>60</text>
-<text x='676.49' y='233.14' style='font-size: 11.00px; font-family: sans;' textLength='11.62px' lengthAdjust='spacingAndGlyphs'>x3</text>
-<line x1='676.49' y1='305.03' x2='679.95' y2='305.03' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='676.49' y1='276.03' x2='679.95' y2='276.03' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='676.49' y1='247.03' x2='679.95' y2='247.03' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='690.32' y1='305.03' x2='693.77' y2='305.03' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='690.32' y1='276.03' x2='693.77' y2='276.03' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
-<line x1='690.32' y1='247.03' x2='693.77' y2='247.03' style='stroke-width: 0.38; stroke: #FFFFFF; stroke-linecap: butt;' />
 </g>
 </svg>

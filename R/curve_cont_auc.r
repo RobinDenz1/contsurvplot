@@ -43,7 +43,7 @@ cont_surv_auc <- function(plotdata, tau) {
   return(out)
 }
 
-curve_cont_auc <- function(data, variable, model, horizon=NULL,
+curve_cont_auc <- function(data, variable, model, time, status, horizon=NULL,
                            group=NULL, cause=1, cif=FALSE,
                            tau, ...) {
 
