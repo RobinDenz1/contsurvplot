@@ -4,14 +4,15 @@
 #' @importFrom rlang .data
 #' @export
 plot_surv_rmst <- function(time, status, variable, group=NULL,
-                           data, model, na.action=options()$na.action,
+                           data, model, conf_int=FALSE, conf_level=0.95,
+                           n_boot=300, na.action=options()$na.action,
                            tau, horizon=NULL, custom_colors=NULL,
                            size=1, linetype="solid", alpha=1, color="black",
                            xlab=variable, ylab="Restricted Mean Survival Time",
                            title=NULL, subtitle=NULL,
-                           legend.title=variable, legend.position="right",
+                           legend.title="tau", legend.position="right",
                            gg_theme=ggplot2::theme_bw(),
-                           facet_args=list(), ...) {
+                           facet_args=list(), ci_alpha=0.4, ...) {
   requireNamespace("dplyr", quietly=TRUE)
 
   data <- use_data.frame(data)
@@ -26,42 +27,44 @@ plot_surv_rmst <- function(time, status, variable, group=NULL,
                             variable=variable, model=model,
                             group=group, na.action=na.action)
 
-  if (is.null(horizon)) {
-    horizon <- seq(min(data[, variable]), max(data[, variable]),
-                   length.out=100)
-  }
-
   # get plotdata
-  fixed_t <- c(0, sort(unique(data[, time][data[, status]==1])))
-  plotdata <- curve_cont(data=data,
-                         variable=variable,
-                         group=group,
-                         model=model,
-                         horizon=horizon,
-                         times=fixed_t,
-                         na.action="na.fail",
-                         event_time=time,
-                         event_status=status,
-                         ...)
-
-  # calculate RMST values
-  if (is.null(group)) {
-    out <- cont_surv_auc(plotdata=plotdata, tau=tau)
-  } else {
-    group_levs <- levels(plotdata$group)
-    out <- vector(mode="list", length=length(group_levs))
-    for (i in seq_len(length(group_levs))) {
-      temp <- plotdata[plotdata$group==group_levs[i], ]
-      out_i <- cont_surv_auc(plotdata=temp, tau=tau)
-      out_i$group <- group_levs[i]
-      out[[i]] <- out_i
-    }
-    out <- dplyr::bind_rows(out)
-  }
+  out <- curve_cont_auc(
+    data=data,
+    variable=variable,
+    model=model,
+    time=time,
+    status=status,
+    horizon=horizon,
+    group=group,
+    cause=1,
+    cif=FALSE,
+    conf_int=conf_int,
+    conf_level=conf_level,
+    n_boot=n_boot,
+    tau=tau,
+    ...
+  )
 
   # plot them
   p <- ggplot2::ggplot(out, ggplot2::aes(x=.data$cont, y=.data$auc,
                                          color=.data$tau))
+
+  # add confidence intervals
+  if (conf_int & length(tau)==1) {
+    p <- p + ggplot2::geom_ribbon(ggplot2::aes(x=.data$cont,
+                                      y=.data$auc,
+                                      ymin=.data$ci_lower,
+                                      ymax=.data$ci_upper),
+                         alpha=ci_alpha, inherit.aes=FALSE,
+                         fill=color)
+  } else if (conf_int) {
+    p <- p + ggplot2::geom_ribbon(ggplot2::aes(x=.data$cont,
+                                      y=.data$auc,
+                                      ymin=.data$ci_lower,
+                                      ymax=.data$ci_upper,
+                                      fill=.data$tau),
+                         alpha=ci_alpha, inherit.aes=FALSE)
+  }
 
   if (length(tau)==1) {
     p$mapping$colour <- NULL
@@ -74,7 +77,7 @@ plot_surv_rmst <- function(time, status, variable, group=NULL,
 
   p <- p + gg_line +
     ggplot2::labs(x=xlab, y=ylab, title=title, subtitle=subtitle,
-                  fill=legend.title) +
+                  fill=legend.title, color=legend.title) +
     gg_theme +
     ggplot2::theme(legend.position=legend.position)
 

@@ -1,4 +1,10 @@
 
+# contsurvplot 0.2.3
+
+New Features:
+
+* Added the `conf_int` argument to `plot_surv_rmst()` and `plot_surv_rmtl()`
+
 # contsurvplot 0.2.2
 
 Documentation:

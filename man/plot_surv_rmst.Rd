@@ -9,14 +9,15 @@ Using a previously fit time-to-event model, this function plots the restricted m
 }
 \usage{
 plot_surv_rmst(time, status, variable, group=NULL,
-               data, model, na.action=options()$na.action,
+               data, model, conf_int=FALSE, conf_level=0.95,
+               n_boot=300, na.action=options()$na.action,
                tau, horizon=NULL, custom_colors=NULL,
                size=1, linetype="solid", alpha=1, color="black",
                xlab=variable, ylab="Restricted Mean Survival Time",
                title=NULL, subtitle=NULL,
-               legend.title=variable, legend.position="right",
+               legend.title="tau", legend.position="right",
                gg_theme=ggplot2::theme_bw(),
-               facet_args=list(), ...)
+               facet_args=list(), ci_alpha=0.4, ...)
 }
 \arguments{
   \item{time}{
@@ -36,6 +37,15 @@ A \code{data.frame} containing all required variables.
   }
   \item{model}{
 A model describing the time-to-event process (such as an \code{coxph} model). Needs to include \code{variable} as an independent variable. It also has to have an associated \code{\link[riskRegression]{predictRisk}} method. See \code{?predictRisk} for more details.
+  }
+  \item{conf_int}{
+Whether to plot point-wise bootstrap confidence intervals or not.
+  }
+  \item{conf_level}{
+A number specifying the confidence level of the bootstrap confidence intervals. Ignored if \code{conf_int=FALSE}.
+  }
+  \item{n_boot}{
+A single integer specifying how many bootstrap repetitions should be performed. Ignored if  \code{conf_int=FALSE}.
   }
   \item{na.action}{
 How missing values should be handled. Can be one of: \code{na.fail}, \code{na.omit}, \code{na.pass}, \code{na.exclude} or a user-defined custom function. Also accepts strings of the function names. See \code{?na.action} for more details. By default it uses the na.action which is set in the global options by the respective user.
@@ -84,6 +94,9 @@ A \pkg{ggplot2} theme which is applied to the plot.
   }
   \item{facet_args}{
 A named list of arguments that are passed to the \code{\link[ggplot2]{facet_wrap}} function call when creating a plot separated by groups. Ignored if \code{group=NULL}. Any argument except the \code{facets} argument of the \code{\link[ggplot2]{facet_wrap}} function can be used. For example, if the user wants to allow free y-scales, this argument could be set to \code{list(scales="free_y")}.
+  }
+  \item{ci_alpha}{
+A single number defining the transparency level of the confidence interval bands.
   }
   \item{...}{
 Further arguments passed to \code{\link{curve_cont}}.
