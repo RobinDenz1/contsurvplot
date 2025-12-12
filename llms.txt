@@ -1,0 +1,172 @@
+# contsurvplot
+
+Author: Robin Denz
+
+## Description
+
+`contsurvplot` is an R-Package which can be used to visualize the causal
+effect of a continuous variable on a time-to-event outcome. It includes
+multiple different plot types, such as survival area plots, contour
+plots, heatmaps, survival quantile plots and more. All of them can be
+adjusted for confounders and all of them have a lot of build in options
+to customize them according to the users needs. Also, most of the plot
+functions are based on the `ggplot2` package, allowing the user to use
+the standard `ggplot2` syntax to customize the plots further.
+
+## Installation
+
+The stable release version can be installed directly from CRAN using:
+
+``` r
+install.packages("contsurvplot")
+```
+
+Alternatively, the development version can be installed using the
+`devtools` R-Package:
+
+``` r
+library(devtools)
+
+devtools::install_github("RobinDenz1/contsurvplot")
+```
+
+or the `remotes` R-Package:
+
+``` r
+library(remotes)
+
+remotes::install_github("RobinDenz1/contsurvplot")
+```
+
+## Bug Reports and Feature Requests
+
+If you encounter any bugs or have any specific feature requests, please
+file an [Issue](https://github.com/RobinDenz1/contsurvplot/issues).
+
+## Examples
+
+Here are two quick examples using the `colon` dataset from the
+`survival` R-Package. Suppose we want to visualize the effect of the
+number of lymph nodes with detectable cancer (column `nodes`) on the
+survival time. A survival area plot can be produced using the following
+code:
+
+``` r
+library(contsurvplot)
+library(ggplot2)
+library(survival)
+library(riskRegression)
+
+# load colon data
+data(cancer)
+
+# fit cox model, adjusting for age and sex
+model <- coxph(Surv(time, status) ~ age + sex + nodes, data=colon, x=TRUE)
+
+# plot survival area
+plot_surv_area(time="time",
+        status="status",
+        variable="nodes",
+        data=colon,
+        model=model)
+```
+
+![](reference/figures/example_area.png)
+
+Alternatively, we can plot a contour plot to visualize the effect:
+
+``` r
+plot_surv_contour(time="time",
+          status="status",
+          variable="nodes",
+          data=colon,
+          model=model)
+```
+
+![](reference/figures/example_contour.png)
+
+Or we can use a simple plot of the median survival time as a function of
+`nodes`:
+
+``` r
+plot_surv_quantiles(time="time",
+           status="status",
+           variable="nodes",
+           data=colon,
+           model=model,
+           p=0.5)
+```
+
+![](reference/figures/example_quantiles.png)
+
+More examples can be found in the documentation and the vignette.
+
+## Citation
+
+The main paper associated with this R-Package is:
+
+Robin Denz, Nina Timmesfeld (2023). *Visualizing the (causal) effect of
+a continuous variable on a time-to-event outcome*. Epidemiology. 34.5
+<doi:10.1097/EDE.0000000000001630>
+
+In addition, some relevant literature can be found in the documentation
+pages.
+
+## License
+
+© 2022 Robin Denz
+
+The contents of this repository are distributed under the GNU General
+Public License. You can find the full text of this License in this
+github repository. Alternatively, see <http://www.gnu.org/licenses/>.
+
+# Package index
+
+## All functions
+
+- [`contsurvplot-package`](https://robindenz1.github.io/contsurvplot/reference/contsurvplot-package.md)
+  : Visualize the Effect of a Continuous Variable on a Time-To-Event
+  Outcome
+- [`curve_cont()`](https://robindenz1.github.io/contsurvplot/reference/curve_cont.md)
+  : Estimate Counterfactual Survival or Failure Probabilities for Levels
+  of a Continuous Variable
+- [`plot_surv_3Dsurface()`](https://robindenz1.github.io/contsurvplot/reference/plot_surv_3Dsurface.md)
+  : Plot the Survival Curve or CIF Dependent on a Continuous Variable as
+  a 3D Surface
+- [`plot_surv_animated()`](https://robindenz1.github.io/contsurvplot/reference/plot_surv_animated.md)
+  : Create an Animated Plot of Survival Curves of CIFs as a Function of
+  a Continuous Variable
+- [`plot_surv_area()`](https://robindenz1.github.io/contsurvplot/reference/plot_surv_area.md)
+  : Plot a Survival Area Plot for the Effect of a Continuous Variable on
+  a Time-To-Event Outcome
+- [`plot_surv_at_t()`](https://robindenz1.github.io/contsurvplot/reference/plot_surv_at_t.md)
+  : Plot the Survival Probability or CIF at a Fixed Point in Time as a
+  Function of a Continuous Variable
+- [`plot_surv_contour()`](https://robindenz1.github.io/contsurvplot/reference/plot_surv_contour.md)
+  : Create a Contour Plot of the Effect of a Continuous Covariate on the
+  Survival Probability
+- [`plot_surv_heatmap()`](https://robindenz1.github.io/contsurvplot/reference/plot_surv_heatmap.md)
+  : Plot a Heatmap of the Effect of a Continuous Covariate on a
+  Time-To-Event Outcome
+- [`plot_surv_lines()`](https://robindenz1.github.io/contsurvplot/reference/plot_surv_lines.md)
+  : Plot Individual Survival Curves or CIFs for Specific Values of a
+  Continuous Covariate
+- [`plot_surv_matrix()`](https://robindenz1.github.io/contsurvplot/reference/plot_surv_matrix.md)
+  : Plot a Discretized Heatmap of the Effect of a Continuous Covariate
+  on a Time-To-Event Outcome
+- [`plot_surv_quantiles()`](https://robindenz1.github.io/contsurvplot/reference/plot_surv_quantiles.md)
+  : Plot Survival Time Quantiles as a Function of a Continuous Variable
+- [`plot_surv_rmst()`](https://robindenz1.github.io/contsurvplot/reference/plot_surv_rmst.md)
+  : Plot the Effect of a Continuous Variable on the Restricted Mean
+  Survival Time
+- [`plot_surv_rmtl()`](https://robindenz1.github.io/contsurvplot/reference/plot_surv_rmtl.md)
+  : Plot the Effect of a Continuous Variable on the Restricted Mean Time
+  Lost
+
+# Articles
+
+### All vignettes
+
+- [Visualizing the Causal Effect of a Continuous Variable on a
+  Time-To-Event
+  Outcome](https://robindenz1.github.io/contsurvplot/articles/introduction.md):

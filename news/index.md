@@ -1,0 +1,76 @@
+# Changelog
+
+## contsurvplot 0.2.3
+
+Enhancements:
+
+- Added the `range_x`, `range_y` and `range_z` arguments to the
+  `plot_surv_3D_surface()` function to allow changes of the axis ranges.
+
+New Features:
+
+- Added the `conf_int` argument to
+  [`plot_surv_rmst()`](https://robindenz1.github.io/contsurvplot/reference/plot_surv_rmst.md)
+  and
+  [`plot_surv_rmtl()`](https://robindenz1.github.io/contsurvplot/reference/plot_surv_rmtl.md)
+
+## contsurvplot 0.2.2
+
+CRAN release: 2025-07-24
+
+Documentation:
+
+- Updated hyperlinks in documentation to be CRAN compliant
+
+Enhancements:
+
+- Packages are now loaded quietly
+
+## contsurvplot 0.2.1
+
+CRAN release: 2023-08-15
+
+Documentation:
+
+- Updated citation information to include published manuscript
+
+## contsurvplot 0.2.0
+
+CRAN release: 2023-01-05
+
+Enhancements:
+
+- Installation instructions in vignette and README were updated to
+  include CRAN
+- Re-worked the documentation page of the `curve_cont` function
+
+Bug fixes:
+
+- plot_surv_animated now uses
+  [`gganimate::transition_manual()`](https://gganimate.com/reference/transition_manual.html)
+  internally, ruling out interpolation errors
+- There are no slight differences in the outlines of the areas when
+  using `plot_surv_area` with `discrete=TRUE` and `discrete=FALSE`
+  anymore
+
+New Features:
+
+- Added `plot_surv_matrix` function
+- Added support for bootstrap standard error and confidence interval
+  calculation in the `curve_cont` function
+- Added support for causal contrasts in `curve_cont` function, which
+  also makes it possible to use those directly in all plot functions
+- Added support for bootstrap confidence intervals in the
+  `plot_surv_at_t`, `plot_surv_lines` and `plot_surv_animated` functions
+- Added support for plotting Kaplan-Meier curves as reference in
+  `plot_surv_area`, `plot_surv_animated`, `plot_surv_lines`
+- Added the `monotonic` argument in the `plot_surv_area` function to
+  allow plotting curved relationships
+- Vignette now includes `plot_surv_matrix` function
+
+## contsurvplot 0.1.0
+
+CRAN release: 2022-08-16
+
+- This is the first release of this package
+- Added a reference to the main paper to the description file
