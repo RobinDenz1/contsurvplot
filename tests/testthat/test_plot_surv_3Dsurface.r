@@ -57,3 +57,11 @@ test_that("plot, interactive + args", {
                              cif=TRUE)
   expect_s3_class(plt, "plotly")
 })
+
+test_that("plot, interactive, changing axis ranges", {
+  plt <- plot_surv_3Dsurface(time="time", status="event", variable="x3",
+                             data=sim_dat, model=model, color="red",
+                             interactive=TRUE,
+                             range_x=c(0, 100), range_z=c(0, 100))
+  expect_s3_class(plt, "plotly")
+})

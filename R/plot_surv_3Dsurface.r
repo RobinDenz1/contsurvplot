@@ -9,6 +9,7 @@ plot_surv_3Dsurface <- function(time, status, variable, data, model,
                                 xlab="Time", ylab="Survival Probability",
                                 zlab=variable, ticktype="detailed",
                                 theta=120, phi=20, col="green", shade=0.5,
+                                range_x=NULL, range_y=NULL, range_z=NULL,
                                 ...) {
   requireNamespace("reshape2", quietly=TRUE)
 
@@ -58,9 +59,9 @@ plot_surv_3Dsurface <- function(time, status, variable, data, model,
       plotly::add_surface() %>%
       plotly::layout(
         scene=list(
-          xaxis=list(title=zlab),
-          yaxis=list(title=xlab),
-          zaxis=list(title=ylab)
+          xaxis=list(title=zlab, range=range_x),
+          yaxis=list(title=xlab, range=range_y),
+          zaxis=list(title=ylab, range=range_z)
         ))
     return(p)
   } else {

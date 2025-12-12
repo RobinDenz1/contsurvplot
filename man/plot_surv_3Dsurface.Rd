@@ -15,6 +15,7 @@ plot_surv_3Dsurface(time, status, variable, data, model,
                     xlab="Time", ylab="Survival Probability",
                     zlab=variable, ticktype="detailed",
                     theta=120, phi=20, col="green", shade=0.5,
+                    range_x=NULL, range_y=NULL, range_z=NULL,
                     ...)
 }
 \arguments{
@@ -74,6 +75,15 @@ The color(s) of the surface facets. Transparent colours are ignored. This is rec
   }
   \item{shade}{
 The shade at a surface facet is computed as \code{((1+d)/2)^shade}, where d is the dot product of a unit vector normal to the facet and a unit vector in the direction of a light source. Values of shade close to one yield shading similar to a point light source model and values close to zero produce no shading. Values in the range 0.5 to 0.75 provide an approximation to daylight illumination. Passed to the \code{shade} argument in the \code{persp} function. Ignored if \code{interactive=TRUE}.
+  }
+  \item{range_x}{
+Either \code{NULL} or a numeric vector of length 2, specifying the range of the x-axis. Set to \code{NULL} by default, which is equivalent to not changing the values from their default values. Only used when \code{interactive=TRUE}, ignored otherwise.
+  }
+  \item{range_y}{
+Same as \code{range_x}, but for the y-axis.
+  }
+  \item{range_z}{
+Same as \code{range_x}, but for the z-axis.
   }
   \item{...}{
 Further arguments passed to \code{\link{curve_cont}}.

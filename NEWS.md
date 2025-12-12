@@ -1,6 +1,10 @@
 
 # contsurvplot 0.2.3
 
+Enhancements:
+
+* Added the `range_x`, `range_y` and `range_z` arguments to the `plot_surv_3D_surface()` function to allow changes of the axis ranges.
+
 New Features:
 
 * Added the `conf_int` argument to `plot_surv_rmst()` and `plot_surv_rmtl()`
