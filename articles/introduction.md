@@ -219,9 +219,6 @@ plot_surv_at_t(time="time",
                data=colon,
                model=model,
                t=1000)
-#> Ignoring unknown labels:
-#> • fill : "t"
-#> • colour : "t"
 ```
 
 ![](introduction_files/figure-html/unnamed-chunk-8-1.png)
@@ -236,8 +233,6 @@ plot_surv_at_t(time="time",
                data=colon,
                model=model,
                t=c(100, 500, 1000, 1500, 2000))
-#> Ignoring unknown labels:
-#> • fill : "t"
 ```
 
 ![](introduction_files/figure-html/unnamed-chunk-9-1.png)
@@ -261,8 +256,6 @@ plot_surv_quantiles(time="time",
                     data=colon,
                     model=model,
                     p=0.5)
-#> Ignoring unknown labels:
-#> • fill : "nodes"
 ```
 
 ![](introduction_files/figure-html/unnamed-chunk-10-1.png)
@@ -277,8 +270,6 @@ plot_surv_quantiles(time="time",
                     data=colon,
                     model=model,
                     p=c(0.1, 0.25, 0.5, 0.75, 0.9))
-#> Ignoring unknown labels:
-#> • fill : "nodes"
 ```
 
 ![](introduction_files/figure-html/unnamed-chunk-11-1.png)
@@ -308,9 +299,6 @@ plot_surv_rmst(time="time",
                data=colon,
                model=model,
                tau=1000)
-#> Ignoring unknown labels:
-#> • fill : "tau"
-#> • colour : "tau"
 ```
 
 ![](introduction_files/figure-html/unnamed-chunk-12-1.png)
@@ -325,8 +313,6 @@ plot_surv_rmst(time="time",
                data=colon,
                model=model,
                tau=c(500, 1000, 2000))
-#> Ignoring unknown labels:
-#> • fill : "tau"
 ```
 
 ![](introduction_files/figure-html/unnamed-chunk-13-1.png)
@@ -351,8 +337,6 @@ plot_surv_rmtl(time="time",
                data=colon,
                model=model,
                tau=c(500, 1000, 2000))
-#> Ignoring unknown labels:
-#> • fill : "tau"
 ```
 
 ![](introduction_files/figure-html/unnamed-chunk-14-1.png)
@@ -384,8 +368,6 @@ plot_surv_lines(time="time",
                 data=colon,
                 model=model,
                 horizon=c(0, 5, 10, 15, 20, 25, 30))
-#> Ignoring unknown labels:
-#> • fill : "nodes"
 ```
 
 ![](introduction_files/figure-html/unnamed-chunk-15-1.png)
@@ -407,8 +389,6 @@ plot_surv_area(time="time",
                variable="nodes",
                data=colon,
                model=model)
-#> Ignoring unknown labels:
-#> • legend.position : "right"
 ```
 
 ![](introduction_files/figure-html/unnamed-chunk-16-1.png)
@@ -426,9 +406,6 @@ plot_surv_area(time="time",
                data=colon,
                model=model,
                discrete=TRUE)
-#> Ignoring unknown labels:
-#> • colour : "nodes"
-#> • legend.position : "right"
 ```
 
 ![](introduction_files/figure-html/unnamed-chunk-17-1.png)
@@ -449,9 +426,6 @@ plot_surv_area(time="time",
                bins=5,
                start_color="lightgrey",
                end_color="black")
-#> Ignoring unknown labels:
-#> • colour : "nodes"
-#> • legend.position : "right"
 ```
 
 ![](introduction_files/figure-html/unnamed-chunk-18-1.png)
@@ -698,8 +672,6 @@ plot_surv_area(time="time",
                group="sex",
                data=colon,
                model=model)
-#> Ignoring unknown labels:
-#> • legend.position : "right"
 ```
 
 ![](introduction_files/figure-html/unnamed-chunk-30-1.png)

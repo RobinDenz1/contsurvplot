@@ -14,7 +14,7 @@ plot_surv_quantiles(time, status, variable, group=NULL,
                     custom_colors=NULL, single_color=NULL,
                     xlab=variable, ylab="Survival Time Quantile",
                     title=NULL, subtitle=NULL,
-                    legend.title=variable, legend.position="right",
+                    legend.title="p", legend.position="right",
                     gg_theme=ggplot2::theme_bw(),
                     facet_args=list(), ...)
 ```
@@ -212,8 +212,6 @@ plot_surv_quantiles(time="futime",
                     variable="age",
                     data=nafld1,
                     model=model)
-#> Ignoring unknown labels:
-#> • fill : "age"
 #> Warning: Removed 22 rows containing missing values or values outside the scale range
 #> (`geom_step()`).
 
@@ -225,8 +223,6 @@ plot_surv_quantiles(time="futime",
                     data=nafld1,
                     model=model,
                     p=c(0.1, 0.25, 0.5, 0.75, 0.9))
-#> Ignoring unknown labels:
-#> • fill : "age"
 #> Warning: Removed 104 rows containing missing values or values outside the scale range
 #> (`geom_step()`).
 
@@ -245,8 +241,6 @@ plot_surv_quantiles(time="futime",
                     data=nafld1,
                     model=model2,
                     p=c(0.1, 0.25, 0.5, 0.75, 0.9))
-#> Ignoring unknown labels:
-#> • fill : "bmi"
 #> Warning: Removed 107 rows containing missing values or values outside the scale range
 #> (`geom_step()`).
 ```

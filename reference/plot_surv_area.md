@@ -356,8 +356,6 @@ plot_surv_area(time="futime",
                variable="age",
                data=nafld1,
                model=model)
-#> Ignoring unknown labels:
-#> • legend.position : "right"
 
 
 # plot it only for 60 to 80 year old people
@@ -367,8 +365,6 @@ plot_surv_area(time="futime",
                data=nafld1,
                model=model,
                horizon=seq(60, 80, 0.5))
-#> Ignoring unknown labels:
-#> • legend.position : "right"
 
 
 # plot it only for 60 to 60 year old people, using discrete bins
@@ -382,7 +378,4 @@ plot_surv_area(time="futime",
                discrete=TRUE,
                start_color="grey",
                end_color="black")
-#> Ignoring unknown labels:
-#> • colour : "age"
-#> • legend.position : "right"
 ```

@@ -294,8 +294,6 @@ plot_surv_lines(time="futime",
                 variable="age",
                 data=nafld1,
                 model=model)
-#> Ignoring unknown labels:
-#> • fill : "age"
 
 
 # plot it only for some specific user-defined values
@@ -305,8 +303,6 @@ plot_surv_lines(time="futime",
                 data=nafld1,
                 model=model,
                 horizon=c(40, 52, 63, 81))
-#> Ignoring unknown labels:
-#> • fill : "age"
 
 
 ## showing non-linear effects
@@ -323,6 +319,4 @@ plot_surv_lines(time="futime",
                 data=nafld1,
                 model=model2,
                 horizon=c(20, 30, 40))
-#> Ignoring unknown labels:
-#> • fill : "bmi"
 ```

@@ -246,9 +246,6 @@ plot_surv_rmtl(time="futime",
                model=model,
                horizon=seq(50, 80, 1),
                tau=2500)
-#> Ignoring unknown labels:
-#> • fill : "tau"
-#> • colour : "tau"
 
 
 # plot RMST for multiple tau values for ages 50 to 80
@@ -259,8 +256,6 @@ plot_surv_rmtl(time="futime",
                model=model,
                horizon=seq(50, 80, 1),
                tau=c(2000, 3000, 5000))
-#> Ignoring unknown labels:
-#> • fill : "tau"
 
 
 ## showing non-linear effects
@@ -277,6 +272,4 @@ plot_surv_rmtl(time="futime",
                data=nafld1,
                model=model2,
                tau=c(2000, 3000, 5000))
-#> Ignoring unknown labels:
-#> • fill : "tau"
 ```

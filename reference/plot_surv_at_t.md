@@ -234,9 +234,6 @@ plot_surv_at_t(time="futime",
                data=nafld1,
                model=model,
                t=2000)
-#> Ignoring unknown labels:
-#> • fill : "t"
-#> • colour : "t"
 
 
 # plot it for arbitrary multiple values of t
@@ -246,6 +243,4 @@ plot_surv_at_t(time="futime",
                data=nafld1,
                model=model,
                t=c(1000, 2000, 3200, 5643))
-#> Ignoring unknown labels:
-#> • fill : "t"
 ```
