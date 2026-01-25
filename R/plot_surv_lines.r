@@ -84,12 +84,15 @@ plot_surv_lines <- function(time, status, variable, group=NULL, data, model,
                                                      ymax=.data$ci_upper,
                                                      fill=.data$cont),
                                         alpha=ci_alpha, inherit.aes=FALSE)
+    fill_title <- legend.title
+  } else {
+    fill_title <- NULL
   }
 
   p <- p +
     ggplot2::geom_step(linewidth=size, linetype=linetype, alpha=alpha) +
     ggplot2::labs(x=xlab, y=ylab, title=title, subtitle=subtitle,
-                  fill=legend.title, color=legend.title) +
+                  fill=fill_title, color=legend.title) +
     gg_theme +
     ggplot2::theme(legend.position=legend.position)
 

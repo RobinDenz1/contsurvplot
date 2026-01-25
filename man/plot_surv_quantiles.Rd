@@ -15,7 +15,7 @@ plot_surv_quantiles(time, status, variable, group=NULL,
                     custom_colors=NULL, single_color=NULL,
                     xlab=variable, ylab="Survival Time Quantile",
                     title=NULL, subtitle=NULL,
-                    legend.title=variable, legend.position="right",
+                    legend.title="p", legend.position="right",
                     gg_theme=ggplot2::theme_bw(),
                     facet_args=list(), ...)
 }

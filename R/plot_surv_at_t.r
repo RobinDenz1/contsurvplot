@@ -54,6 +54,9 @@ plot_surv_at_t <- function(time, status, variable, group=NULL, data, model,
 
   if (length(t)==1) {
     p$mapping$colour <- NULL
+    color_title <- NULL
+  } else {
+    color_title <- legend.title
   }
 
   # correct label
@@ -65,6 +68,7 @@ plot_surv_at_t <- function(time, status, variable, group=NULL, data, model,
     p <- p + ggplot2::geom_ribbon(ggplot2::aes(ymin=.data$ci_lower,
                                                ymax=.data$ci_upper),
                                   fill="grey", alpha=ci_alpha, linewidth=0)
+    fill_title <- NULL
   } else if (conf_int) {
     p <- p + ggplot2::geom_ribbon(ggplot2::aes(x=.data$cont,
                                                y=.data$est,
@@ -73,11 +77,14 @@ plot_surv_at_t <- function(time, status, variable, group=NULL, data, model,
                                                fill=.data$time),
                                   alpha=ci_alpha, linewidth=0,
                                   inherit.aes=FALSE)
+    fill_title <- legend.title
+  } else {
+    fill_title <- NULL
   }
 
   p <- p + ggplot2::geom_line(linewidth=size, linetype=linetype, alpha=alpha) +
     ggplot2::labs(x=xlab, y=ylab, title=title, subtitle=subtitle,
-                  fill=legend.title, color=legend.title) +
+                  fill=fill_title, color=color_title) +
     gg_theme +
     ggplot2::theme(legend.position=legend.position)
 

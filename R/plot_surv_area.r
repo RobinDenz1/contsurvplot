@@ -102,10 +102,11 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
       ggplot2::scale_fill_manual(values=colgrad, name=legend.title) +
       ggplot2::guides(
         fill=ggplot2::guide_legend(override.aes=list(alpha=alpha)))
-
+      color_title <- NULL
   } else {
     p <- p + ggplot2::geom_step(alpha=0) +
       ggplot2::scale_color_gradient(low=start_color, high=end_color)
+    color_title <- legend.title
   }
 
   # one-by-one add area between curves
@@ -149,7 +150,8 @@ plot_surv_area <- function(time, status, variable, group=NULL, data, model,
   # more stuff for plot
   p  <- p + gg_theme +
     ggplot2::labs(x=xlab, y=ylab, title=title, subtitle=subtitle,
-                  color=legend.title, legend.position=legend.position)
+                  color=color_title) +
+    ggplot2::theme(legend.position=legend.position)
 
   # add kaplan-meier reference line, if specified
   if (kaplan_meier) {

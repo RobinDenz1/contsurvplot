@@ -57,6 +57,7 @@ plot_surv_rmst <- function(time, status, variable, group=NULL,
                                       ymax=.data$ci_upper),
                          alpha=ci_alpha, inherit.aes=FALSE,
                          fill=color)
+    fill_title <- NULL
   } else if (conf_int) {
     p <- p + ggplot2::geom_ribbon(ggplot2::aes(x=.data$cont,
                                       y=.data$auc,
@@ -64,20 +65,25 @@ plot_surv_rmst <- function(time, status, variable, group=NULL,
                                       ymax=.data$ci_upper,
                                       fill=.data$tau),
                          alpha=ci_alpha, inherit.aes=FALSE)
+    fill_title <- legend.title
+  } else {
+    fill_title <- NULL
   }
 
   if (length(tau)==1) {
     p$mapping$colour <- NULL
     gg_line <- ggplot2::geom_line(linewidth=size, linetype=linetype,
                                   alpha=alpha, color=color)
+    color_title <- NULL
   } else {
     gg_line <- ggplot2::geom_line(linewidth=size, linetype=linetype,
                                   alpha=alpha)
+    color_title <- legend.title
   }
 
   p <- p + gg_line +
     ggplot2::labs(x=xlab, y=ylab, title=title, subtitle=subtitle,
-                  fill=legend.title, color=legend.title) +
+                  fill=fill_title, color=color_title) +
     gg_theme +
     ggplot2::theme(legend.position=legend.position)
 

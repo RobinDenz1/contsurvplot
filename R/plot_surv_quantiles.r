@@ -36,7 +36,7 @@ plot_surv_quantiles <- function(time, status, variable, group=NULL, data, model,
                                 custom_colors=NULL, single_color=NULL,
                                 xlab=variable, ylab="Survival Time Quantile",
                                 title=NULL, subtitle=NULL,
-                                legend.title=variable, legend.position="right",
+                                legend.title="p", legend.position="right",
                                 gg_theme=ggplot2::theme_bw(), facet_args=list(),
                                 ...) {
 
@@ -90,11 +90,15 @@ plot_surv_quantiles <- function(time, status, variable, group=NULL, data, model,
 
   if (length(p)==1) {
     plt$mapping$colour <- NULL
+    color_title <- NULL
+  } else {
+    color_title <- legend.title
   }
 
   if (!is.null(single_color)) {
     gg_lines <- ggplot2::geom_step(linewidth=size, linetype=linetype,
                                    alpha=alpha, color=single_color)
+    color_title <- NULL
   } else {
     gg_lines <- ggplot2::geom_step(linewidth=size, linetype=linetype,
                                    alpha=alpha)
@@ -102,7 +106,7 @@ plot_surv_quantiles <- function(time, status, variable, group=NULL, data, model,
 
   plt <- plt + gg_lines +
     ggplot2::labs(x=xlab, y=ylab, title=title, subtitle=subtitle,
-                  fill=legend.title) +
+                  color=color_title) +
     gg_theme +
     ggplot2::theme(legend.position=legend.position)
 

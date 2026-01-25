@@ -1,4 +1,10 @@
 
+# contsurvplot 0.2.4
+
+Bug Fixes
+
+* The `legend.position` argument in `plot_surv_area()` is no longer being ignored.
+
 # contsurvplot 0.2.3
 
 Enhancements:

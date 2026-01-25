@@ -22,7 +22,7 @@ test_that("plot, kaplan_meier", {
                          km_alpha=0.8, km_ci=TRUE, km_ci_type="log",
                          km_ci_level=0.9, km_ci_alpha=0.4)
   expect_s3_class(plt, "ggplot")
-  vdiffr::expect_doppelganger("plot, kaplan_meier", fig=plt)
+  suppressWarnings(vdiffr::expect_doppelganger("plot, kaplan_meier", fig=plt))
 })
 
 test_that("plot, with ci", {
