@@ -1,13 +1,5 @@
 # Changelog
 
-## contsurvplot 0.2.4
-
-Bug Fixes
-
-- The `legend.position` argument in
-  [`plot_surv_area()`](https://robindenz1.github.io/contsurvplot/reference/plot_surv_area.md)
-  is no longer being ignored.
-
 ## contsurvplot 0.2.3
 
 Enhancements:
@@ -21,6 +13,13 @@ New Features:
   [`plot_surv_rmst()`](https://robindenz1.github.io/contsurvplot/reference/plot_surv_rmst.md)
   and
   [`plot_surv_rmtl()`](https://robindenz1.github.io/contsurvplot/reference/plot_surv_rmtl.md)
+
+Bug Fixes
+
+- The `legend.position` argument in
+  [`plot_surv_area()`](https://robindenz1.github.io/contsurvplot/reference/plot_surv_area.md)
+  is no longer being ignored.
+- Fixed annoying messages printed due to new `ggplot2` version.
 
 ## contsurvplot 0.2.2
 
