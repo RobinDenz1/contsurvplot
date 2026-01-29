@@ -2,6 +2,8 @@
 
 ## contsurvplot 0.2.3
 
+CRAN release: 2026-01-29
+
 Enhancements:
 
 - Added the `range_x`, `range_y` and `range_z` arguments to the

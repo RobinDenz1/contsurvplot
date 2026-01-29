@@ -7,7 +7,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/RobinDenz1/contsurvplot/blob/main/inst/CITATION)
+[`inst/CITATION`](https://github.com/RobinDenz1/contsurvplot/blob/v0.2.3/inst/CITATION)
 
 Denz R, Timmesfeld N (2023). “Visualizing the (Causal) Effect of a
 Continuous Variable on a Time-To-Event Outcome.” *Epidemiology*,
