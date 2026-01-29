@@ -2,3 +2,6 @@
 - add "plotdata" argument to allow the user to directly supply data himself
 - refactor auc / median survival calculation functions and export them (with man pages + tests)
 - add mid_color option
+- add function that plots two continuous survival probabilities against each other
+- allow different estimands
+- allow strata instead of interaction in "group" argument
